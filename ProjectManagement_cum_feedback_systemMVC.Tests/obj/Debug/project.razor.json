@@ -1,0 +1,19 @@
+{
+  "FilePath": "c:\\Users\\HP WORLD\\Desktop\\CANNY\\mvcmain\\NetMvcProject\\ProjectManagement_cum_feedback_systemMVC.Tests\\ProjectManagement_cum_feedback_systemMVC.Tests.csproj",
+  "Configuration": {
+    "ConfigurationName": "UnsupportedRazor",
+    "LanguageVersion": "1.0",
+    "Extensions": [
+      {
+        "ExtensionName": "UnsupportedRazorExtension"
+      }
+    ]
+  },
+  "ProjectWorkspaceState": {
+    "TagHelpers": [],
+    "CSharpLanguageVersion": 800
+  },
+  "RootNamespace": null,
+  "Documents": [],
+  "SerializationFormat": "0.2"
+}

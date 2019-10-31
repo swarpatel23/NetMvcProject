@@ -1,0 +1,43 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
+
+namespace ProjectManagement_cum_feedback_systemMVC.Models
+{
+    public class project
+    {
+        [Key]
+        public int Project_Id { get; set; }
+
+        [Required]
+        public string user_Id { get; set; }
+
+        [Required]
+        public string project_title { get; set; }
+
+        public string story_title { get; set; }
+
+        public string story_desc { get; set; }
+
+        public int story_status { get; set; } //0-not written 1-written
+
+        public string srs_title { get; set; }
+
+        public string srs_desc { get; set; }
+
+        public int srs_status { get; set; }//0-rejected 1-accepted
+
+        public ICollection<project_issue> issues { get; set; }
+
+        public ICollection<project_user> members { get; set; }
+
+        public ICollection<user_post> project_posts { get; set; }
+
+        public ICollection<post_comment> project_posts_comments { get; set; }
+
+
+
+    }
+}
