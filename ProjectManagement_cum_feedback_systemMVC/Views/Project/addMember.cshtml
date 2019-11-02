@@ -1,0 +1,195 @@
+﻿@using Microsoft.AspNet.Identity
+@using Microsoft.AspNet.Identity.Owin
+@using ProjectManagement_cum_feedback_systemMVC.Models
+@model ProjectManagement_cum_feedback_systemMVC.Models.project_user
+@{
+    ViewBag.Title = "CreateProject";
+}
+<h2 class="text-center">
+   Project    @ViewBag.project_title
+</h2>
+<h5 class="text-info">Add user in only one role.</h5>
+@using (Html.BeginForm())
+{
+    <h2>Add Teammates</h2>
+    <div>
+        <div class="team">
+            <input type="text" style="margin-top: 4px;" name="mem0">
+            <button style="margin-left: 1px;" class="remove">Remove</button>
+        </div>
+        <button id="add" style="margin-top: 4px; position: relative; right: 0; bottom: 0;" class="text-right">Add more..</button>
+    </div>
+    <h2>Add Customers</h2>
+    <div>
+        <div class="cust">
+            <input type="text" style="margin-top: 4px;" name="cust0">
+            <button style="margin-left: 1px;" class="removecust">Remove</button>
+        </div>
+        <button id="addcust" style="margin-top: 4px;">Add More..</button>
+    </div>
+    <input type="submit" style="margin-top: 4px;" />
+
+    <input type="hidden" name="no_of_customer" id="ncust" value="0" />
+
+    <input type="hidden" name="no_of_teammember" id="nteam" value="0" />
+
+    <input type="hidden" name="projectid" value="@ViewBag.projectid" />
+    <br/><br/>
+    <div class="alert alert-success" id="divSuccessMessage">
+        <strong>Success!</strong> Team members and customers are added.<br/>
+        If any Team member or user is not added than they don't have account they need to signup in our website.
+    </div>
+}
+
+<h2>Project's Team Members</h2>
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Email
+        </th>
+        <th>
+            Phone No
+        </th>
+        <th>
+
+        </th>
+    </tr>
+    </thead>
+  
+        @foreach (project_user item in ViewBag.teammodel)
+        {
+            ApplicationUserManager au = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var x = au.FindById(item.user_Id);
+
+            <tr>
+
+                <td>
+                    @if (x.FirstName != null && x.LastName != null)
+                    {
+                        @x.FirstName
+
+                        @x.LastName
+                    }
+                </td>
+                <td>
+                    @x.Email
+                </td>
+                <td>
+                    @if (x.PhoneNumber != null)
+                    {
+                        @x.PhoneNumber
+                    }
+                </td>
+                <td>
+                    @Html.ActionLink("remove", "removeMember", "Project", new {pid = @ViewBag.projectid, uid = x.Id}, new {@class = "btn btn-danger"})
+
+                </td>
+            </tr>
+        }
+    
+    
+</table>
+
+<h2>Project's Customer</h2>
+
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Email
+        </th>
+        <th>
+            Phone No
+        </th>
+        <th>
+
+        </th>
+    </tr>
+    </thead>
+    
+        @foreach (project_user item in ViewBag.usermodel)
+        {
+            ApplicationUserManager au = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var x = au.FindById(item.user_Id);
+
+            <tr>
+
+                <td>
+                    @if (x.FirstName != null && x.LastName != null)
+                    {
+                        @x.FirstName
+                        @x.LastName
+                    }
+                </td>
+                <td>
+                    @x.Email
+                </td>
+                <td>
+                    @if (x.PhoneNumber != null)
+                    {
+                        @x.PhoneNumber
+                    }
+                </td>
+                <td>
+                    @Html.ActionLink("remove", "removeMember", "Project", new {pid = @ViewBag.projectid, uid = x.Id}, new {@class = "btn btn-danger"})
+                </td>
+            </tr>
+        }
+    
+</table>
+<script>
+
+    if ('@ViewBag.successMessage' != "") {
+        $('#divSuccessMessage').show();
+    }
+    else {
+        $('#divSuccessMessage').hide();
+    }
+
+    var teammember = 0;
+    var customer = 0;
+
+
+    $('#add').on('click', function (e) {
+        teammember++;
+        var id = "mem" + teammember;
+        $('#nteam').val(teammember);
+        e.preventDefault();
+        $('<div/>').addClass('team')
+            .html($('<input type="text" style="margin-top:4px;"/>').attr("name", id))
+            .append($('<button style="margin-left:4px;"/>').addClass('remove').text('Remove'))
+            .insertBefore(this);
+    });
+    $(document).on('click', 'button.remove', function (e) {
+
+        e.preventDefault();
+        $(this).closest('div.team').remove();
+    });
+
+    $('#addcust').on('click', function (e) {
+        customer++;
+        $('#ncust').val(customer);
+
+        var cid = "cust" + customer;
+        e.preventDefault();
+        $('<div/>').addClass('cust')
+            .html($('<input type="text" style="margin-top:4px;"/>').attr("name", cid))
+            .append($('<button style="margin-left:4px;"/>').addClass('removecust').text('Remove'))
+            .insertBefore(this);
+    });
+
+    $(document).on('click', 'button.removecust', function (e) {
+
+        e.preventDefault();
+        $(this).closest('div.cust').remove();
+    });
+
+
+</script>

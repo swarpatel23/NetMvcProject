@@ -15,6 +15,7 @@ namespace ProjectManagement_cum_feedback_systemMVC.Models
         public string user_Id { get; set; }
 
         [Required]
+        [Display(Name = "Project Title")]
         public string project_title { get; set; }
 
         public string story_title { get; set; }

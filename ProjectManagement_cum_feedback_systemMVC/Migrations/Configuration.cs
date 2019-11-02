@@ -5,15 +5,14 @@ namespace ProjectManagement_cum_feedback_systemMVC.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<ProjectManagement_cum_feedback_systemMVC.Models.Model1>
+    internal sealed class Configuration : DbMigrationsConfiguration<ProjectManagement_cum_feedback_systemMVC.Models.ApplicationDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
-            ContextKey = "ProjectManagement_cum_feedback_systemMVC.Models.Model1";
         }
 
-        protected override void Seed(ProjectManagement_cum_feedback_systemMVC.Models.Model1 context)
+        protected override void Seed(ProjectManagement_cum_feedback_systemMVC.Models.ApplicationDbContext context)
         {
             //  This method will be called after migrating to the latest version.
 

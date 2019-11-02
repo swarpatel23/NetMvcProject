@@ -1,0 +1,57 @@
+﻿@model ProjectManagement_cum_feedback_systemMVC.Models.project
+@{
+    ViewBag.Title = "CreateProject";
+}
+
+@*
+    <h2>CreateProject</h2>
+*@
+
+<div class="container">
+    <div class="row">
+
+
+
+
+        <div class="col-sm-6 offset-sm-3 text-center">
+            <h2 class="text-left">CreateProject</h2>
+            <hr />
+            <img src="../../Content/images/createproject1.jpg" width="150" height="150" class="img-fluid" style="border-radius: 50%" alt="">
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div class="form-group">
+                    <h4 class="text-left">@Html.LabelFor(model => model.project_title, htmlAttributes: new { @class = "control-label mb-0"}) </h4>
+                    <div class="">
+                        @Html.EditorFor(model => model.project_title, new { htmlAttributes = new { @class = "form-control input-lg" , onkeypress = "return AvoidSpace(event)" } })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <h4 class="text-left">
+                        <label for="projectlead" class="mb-0">Project Lead</label>
+                    </h4>
+                    <input type="text" class="form-control" id="projectlead" value="@User.Identity.Name" disabled/>
+
+                </div>
+
+                <div class="form-group text-right mr-2">
+                    
+                        <input type="submit" value="Save" class="btn btn-success" />
+                    
+                </div>
+            }
+
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript">
+    function AvoidSpace(event) {
+        var k = event ? event.which : window.event.keyCode;
+        if (k == 32) return false;
+    }
+
+
+</script>

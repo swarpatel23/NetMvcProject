@@ -1,0 +1,22 @@
+﻿@using ProjectManagement_cum_feedback_systemMVC.Models
+@{
+    ViewBag.Title = "allUserProject";
+}
+
+<table class="table table-hover">
+    @foreach (project item in ViewBag.userproject)
+    {
+        <tr>
+
+            <td>
+                @item.project_title
+            </td>
+            <td>
+                @Html.ActionLink("Add Member", "addMember", "Project",new {id=item.Project_Id},null)
+            </td>
+            <td>
+                @Html.ActionLink("Remove Project", "removeProject", "Project",new {id=item.Project_Id},null)
+            </td>
+        </tr>
+    }
+</table>

@@ -54,15 +54,15 @@ namespace ProjectManagement_cum_feedback_systemMVC
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+             app.UseFacebookAuthentication(
+                 appId: "533378617456614",
+                 appSecret: "9f024f13e2b1c10a9ee3102ac3bf214e");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "381739842090-3lhq7jrj8h4050ujf1r9226mekfvshf2.apps.googleusercontent.com",
+                ClientSecret = "XSOv8-sSvvooL43OelS2H9WT"
+            });
         }
     }
 }

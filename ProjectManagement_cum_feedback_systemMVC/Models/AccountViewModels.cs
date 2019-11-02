@@ -79,6 +79,28 @@ namespace ProjectManagement_cum_feedback_systemMVC.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Required(ErrorMessage = "Your must provide a PhoneNumber")]
+
+        [Phone]
+        [Display(Name = "Phone Number")]
+        public string Number { get; set; }
+
+        [Required(ErrorMessage = "Your must provide a Username")]
+
+        [Display(Name = "Username")]
+        public string Uname { get; set; }
+
+        //New properties
+        [Required(ErrorMessage = "Your must provide a First Name")]
+        [Display(Name = "First Name")]
+
+        public string FirstName { get; set; }
+        [Required(ErrorMessage = "Your must provide a Last Name")]
+        [Display(Name = "Last Name")]
+
+        public string LastName { get; set; }
+
     }
 
     public class ResetPasswordViewModel

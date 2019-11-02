@@ -14,6 +14,13 @@ namespace ProjectManagement_cum_feedback_systemMVC.Models
         done
     }
 
+    public enum issue_type
+    {
+        newfeature,
+        bug,
+        improvement
+    }
+
     public class project_issue
     {
         [Key]
@@ -33,6 +40,8 @@ namespace ProjectManagement_cum_feedback_systemMVC.Models
         public int assign_status { get; set; } // 0-unassigned 1-assigned
 
         public issue_stat issue_status { get; set; }
+
+        public issue_type issue_type { get; set; }
 
         [ForeignKey("project_Id")]
         public virtual project Project { get; set; }

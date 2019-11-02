@@ -17,6 +17,7 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
 
         public ActionResult About()
         {
+            
             Model1 m = new Model1();
 
             project p =new project();
@@ -24,8 +25,9 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
             p.project_title = "moneygame";
             m.projects.Add(p);
             m.SaveChanges();
+            
             ViewBag.Message = "Your application description page.";
-
+            
             user_post up = new user_post();
             up.user_Id = User.Identity.GetUserId();
             up.project_Id = 1;
