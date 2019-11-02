@@ -37,7 +37,7 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
             m.user_posts.Add(up);
             m.SaveChanges();
 
-            project_issue pi =new project_issue();
+            project_issue pi = new project_issue();
             pi.project_Id = 1;
             pi.assign_status = 0;
             pi.issue_status = issue_stat.todo;
