@@ -1,0 +1,139 @@
+﻿
+@section Scripts {
+    <link rel="stylesheet" href="../../Content/css/style.css">
+    <link rel="stylesheet" href="../../Content/css/post.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.js"></script>
+}
+@{
+    ViewBag.Title = "profile";
+}
+
+<!-- wrapper class -->
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-lg-3">
+            <div class="row m-2 bg-white wrapper-rounded">
+                <div class="col-0 col-lg-12">
+                    <div class="row mt-3" style="filter:drop-shadow(-1px 6px 3px rgba(50, 50, 0, 0.5));">
+                        <div class="col-12 circle-profile">
+                            <img src="~/Content/images/userpic.png" alt="profile" class="img-fluid">
+                        </div>
+                    </div>
+                    <div class="row nunito mt-2">
+                        <div class="col-12 text-center">
+                            @*
+                            <h5>@User.Identity.Name</h5>
+                            *@
+                            <h5>@Session["username"]</h5>
+                            <h6></h6>
+                            <hr size="30">
+                        </div>
+
+                        <div class="col-12 mt-3">
+                            <nav class="nav flex-column">
+                                <a class="nav-link active" id="profile" href="#">Profile</a>
+                                <a class="nav-link text-muted" id="projects" href="#">Projects</a>
+                                <a class="nav-link text-muted" id="feedback" href="#">Feedbacks</a>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-9">
+            <div class="row m-2 wrapper-rounded" style="background-color: #fafafa;">
+                <div class="col-12">
+                    
+                    <div id="divProcessing" class="text-center">
+                        <p>Processing, please wait . . . <img src="../../Content/images/Spinner.gif"></p>
+                    </div>
+                    <div id="commandiv"></div>
+                    @*<div class="row">
+                        <div class="col-12">
+                            <!--Main content -->
+                           
+                            <div class="row mt-4 mb-4">
+                                <div class="col-12 col-lg-6 mb-lg-5">
+                                    <div class="input-fields">
+                                        <label for="firstname">First Name</label>
+                                        <input type="text" name="firstname" id="firstname"
+                                               value="Bruce" />
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 mb-lg-5">
+                                    <div class="input-fields">
+                                        <label for="lastname">Last Name</label>
+                                        <input type="text" name="lastname" id="lastname"
+                                               value="Wayne" />
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 mb-lg-2">
+                                    <div class="input-fields">
+                                        <label for="username">Username</label>
+                                        <input type="text" name="username" id="username"
+                                               value="BruceLoveAlfred" />
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 mb-lg-2">
+                                    <div class="input-fields">
+                                        <label for="username">Email</label>
+                                        <input type="text" name="Email" id="Email"
+                                               value="priyankpc810@gmail.com" />
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 mt-lg-5 mb-lg-5">
+                                    <div class="input-fields">
+                                        <label for="username">Phone Number</label>
+                                        <input type="text" name="Phone" id="Phone" value="9874563212" />
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 mt-lg-5 mb-lg-5">
+                                    <div class="input-fields">
+                                        <label for="twofactor">Two-Factor</label>
+                                        <select name="twofactor" id="twofactor">
+                                            <option value="Enable">Enable</option>
+                                            <option value="Disable">Disable</option>
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mt-0">
+                                    <div class="col-12 pr-2">
+                                        <div class="btn-wrap">
+                                            <button class="btn nunito confirm-btn" style="margin-left: 15px;">
+                                                <a href="profile.html">Confirm</a>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@if (ViewBag.updateduser == true)
+{
+    <div class="alert alert-success" id="updateduser" style="display: none;">
+        <strong>Success!</strong> User detail updated successfully.
+    </div>
+}
+<script>
+    $('#profile').click(function() {
+        $.ajax({
+            type: "get",
+            url: "@Url.Action("editprofile", "Project")",
+            success: function(d) {
+                /* d is the HTML of the returned response */
+                $("#divProcessing").hide();
+                $("#commandiv").html(d); //replaces previous HTML with action
+            }
+
+        });
+    });
+
+    $("#profile").trigger("click");
+</script>

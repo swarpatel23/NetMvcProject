@@ -1,0 +1,28 @@
+<svg   
+   id="SVGRoot"
+   version="1.1"
+   viewBox="0 0 100 100"
+   height="100px"
+   width="100px">
+  <defs
+     id="defs1414" /> 
+  <g
+     id="layer1">
+    <rect
+       transform="rotate(46.181182)"
+       y="-5.0523429"
+       x="31.97061"
+       height="12.032464"
+       width="80.078125"
+       id="rect1976"
+       style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:20.07262039;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:fill markers stroke" />
+    <rect
+       transform="rotate(-46.171328)"
+       y="65.689659"
+       x="-43.960793"
+       height="12.032464"
+       width="80.078125"
+       id="rect1982"
+       style="opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:20.07262039;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:fill markers stroke" />
+  </g>
+</svg>

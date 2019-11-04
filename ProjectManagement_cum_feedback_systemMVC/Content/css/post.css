@@ -1,0 +1,78 @@
+.circle-profile
+{    
+    clip-path: circle(35% at 50% 50%);
+}
+.wrapper-rounded
+{
+    border-radius: 12px;
+    box-shadow: 0 0 2px rgba(0,0,0,.12), 0 2px 4px rgba(0,0,0,.24);
+}
+
+
+
+.input-fields
+{
+    display: grid;
+    margin:0.3em;
+}
+label
+{
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 1em !important;             
+}
+input,select
+{
+    border: 0px;
+    border-bottom: 2px solid #2e6dff;
+    background-color: #ebebeb !important;
+    padding: 0.3em;
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 1.5rem !important;     
+    font-weight: 800;
+}
+.btn-wrap:hover
+{
+    transition: 0.2s ease-in-out;
+    transform: translateY(-7px);
+}
+.confirm-btn
+{
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.42) !important;
+    border-radius: 30px !important;    
+    background-color: #2e6dff !important;    
+}
+.confirm-btn:hover
+{
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.42) !important;
+    border-radius: 30px !important;
+    background-color: #28a745  !important;
+}
+.confirm-btn a
+{    
+    color:white !important ;
+    text-decoration: none !important;    
+}
+.edit-btn
+{
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.42) !important;
+    border-radius: 30px !important;
+    color:black;
+}
+.edit-btn:hover
+{
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.42) !important;
+    border-radius: 30px !important;
+    background-color: #2e6dff;            
+}
+.edit-btn a
+{    
+    text-decoration: none !important;    
+}
+.edit-btn:hover a
+{    
+    color: white;
+}
+/* .edit-btn a:hover
+{    
+    color: white;
+} */

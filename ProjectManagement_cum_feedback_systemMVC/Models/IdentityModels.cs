@@ -36,5 +36,7 @@ namespace ProjectManagement_cum_feedback_systemMVC.Models
         {
             return new ApplicationDbContext();
         }
+
+        //public System.Data.Entity.DbSet<ProjectManagement_cum_feedback_systemMVC.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
@@ -197,6 +198,36 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
             return RedirectToAction("allUserProject");
         }
 
+        public ActionResult profile()
+        {
+            return View();
+        }
 
+
+        public ActionResult editprofile()
+        {
+            ApplicationUserManager au = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var x = au.FindById(User.Identity.GetUserId());
+            ViewBag.user = x;
+            return PartialView();
+        }
+
+        public ActionResult updateuser(string firstname,string lastname,string username,string Phone)
+        {
+            ApplicationUserManager au = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var x = au.FindById(User.Identity.GetUserId());
+
+            x.FirstName = firstname;
+            x.LastName = lastname;
+            x.UserName = username;
+            x.PhoneNumber = Phone;
+            au.Update(x);
+            ApplicationSignInManager SignInM = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+           
+            SignInM.SignIn(x,true,true);
+            Session["username"] = x.UserName;
+            ViewBag.user = x;
+            return PartialView("editprofile");
+        }
     }
 }

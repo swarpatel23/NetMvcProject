@@ -1,0 +1,91 @@
+﻿@using ProjectManagement_cum_feedback_systemMVC.Models
+@{
+    ApplicationUser u = ViewBag.user;
+}
+<form id="form" method="post">
+    <div class="row">
+        <div class="col-12">
+            <!--Main content -->
+            <div class="row mt-4 mb-4">
+
+                <div class="col-12 col-lg-6 mb-lg-5">
+                    <div class="input-fields">
+                        <label for="firstname">First Name</label>
+                        <input type="text" name="firstname" id="firstname"
+                               value="@u.FirstName" />
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 mb-lg-5">
+                    <div class="input-fields">
+                        <label for="lastname">Last Name</label>
+                        <input type="text" name="lastname" id="lastname"
+                               value="@u.LastName" />
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 mb-lg-2">
+                    <div class="input-fields">
+                        <label for="username">Username</label>
+                        <input type="text" name="username" id="username"
+                               value="@u.UserName" />
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 mb-lg-2">
+                    <div class="input-fields">
+                        <label for="Email">Email</label>
+                        <input type="text" name="Email" id="Email"
+                               value="@u.Email" disabled="" />
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 mt-lg-5 mb-lg-5">
+                    <div class="input-fields">
+                        <label for="Phone">Phone Number</label>
+                        <input type="text" name="Phone" id="Phone" value="@u.PhoneNumber" />
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 mt-lg-5 mb-lg-5">
+                    <div class="input-fields">
+                        <label for="twofactor">Two-Factor</label>
+                        <select name="twofactor" id="twofactor">
+                            <option value="Enable">Enable</option>
+                            <option value="Disable">Disable</option>
+
+                        </select>
+                    </div>
+                </div>
+                <div class="row mt-0">
+                    <div class="col-12 pr-2">
+                        <div class="btn btn-wrap">
+                            <button class="btn nunito confirm-btn" id="edituser" style="margin-left: 15px;">
+                                Confirm
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="alert alert-success" id="success" style="display: none;">
+                <strong>Success!</strong> User Updated Successfully.
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<script>
+    $(document).ready(function() {
+        $('#edituser').click(function() {
+            $.ajax({
+                type: "post",
+                url: "@Url.Action("updateuser", "Project")",
+                data: $('#form').serializeArray(),
+                success: function(d) {
+                    /* d is the HTML of the returned response */
+                   
+                    $("#commandiv").html(d); //replaces previous HTML with action
+                     $('#success').html(data).fadeIn('slow');
+                    $('#success').delay(5000).fadeOut('slow');
+                }
+
+            });
+        });
+    });
+</script>
