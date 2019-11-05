@@ -33,7 +33,7 @@
                         <div class="col-12 mt-3">
                             <nav class="nav flex-column">
                                 <a class="nav-link active" id="profile" href="#">Profile</a>
-                                <a class="nav-link text-muted" id="projects" href="#">Projects</a>
+                                @Html.ActionLink("Projects","allUserProject","Project",null,new {@class= "navbar-link text-muted",@style="padding-left:15px;" })
                                 <a class="nav-link text-muted" id="feedback" href="#">Feedbacks</a>
                             </nav>
                         </div>
@@ -49,6 +49,7 @@
                         <p>Processing, please wait . . . <img src="../../Content/images/Spinner.gif"></p>
                     </div>
                     <div id="commandiv"></div>
+                   
                     @*<div class="row">
                         <div class="col-12">
                             <!--Main content -->
@@ -115,25 +116,26 @@
         </div>
     </div>
 </div>
-@if (ViewBag.updateduser == true)
-{
-    <div class="alert alert-success" id="updateduser" style="display: none;">
-        <strong>Success!</strong> User detail updated successfully.
-    </div>
-}
+
 <script>
-    $('#profile').click(function() {
-        $.ajax({
-            type: "get",
-            url: "@Url.Action("editprofile", "Project")",
-            success: function(d) {
-                /* d is the HTML of the returned response */
-                $("#divProcessing").hide();
-                $("#commandiv").html(d); //replaces previous HTML with action
-            }
+    $(document).ready(function() {
+        $('#profile').click(function() {
+            $.ajax({
+                type: "get",
+                url: "@Url.Action("editprofile", "Project")",
+                success: function(d) {
+                    /* d is the HTML of the returned response */
+                    $("#divProcessing").hide();
+                    $("#commandiv").html(d); //replaces previous HTML with action
+                }
 
+            });
         });
-    });
 
-    $("#profile").trigger("click");
+        $("#profile").trigger("click");
+    });
 </script>
+
+<div class="alert alert-success" id="success" style="display: none;">
+    <strong>Success!</strong> User Updated Successfully.
+</div>

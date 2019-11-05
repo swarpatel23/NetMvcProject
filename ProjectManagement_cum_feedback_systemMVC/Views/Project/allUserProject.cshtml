@@ -1,22 +1,171 @@
 ﻿@using ProjectManagement_cum_feedback_systemMVC.Models
+
+
+@*@using ProjectManagement_cum_feedback_systemMVC.Models
+    @{
+        ViewBag.Title = "allUserProject";
+    }
+
+    <table class="table table-hover">
+        @foreach (project item in ViewBag.userproject)
+        {
+            <tr>
+
+                <td>
+                    @item.project_title
+                </td>
+                <td>
+                    @Html.ActionLink("Add Member", "addMember", "Project",new {id=item.Project_Id},null)
+                </td>
+                <td>
+                    @Html.ActionLink("Remove Project", "removeProject", "Project",new {id=item.Project_Id},null)
+                </td>
+            </tr>
+        }
+    </table>*@
+
+
+
 @{
     ViewBag.Title = "allUserProject";
 }
 
-<table class="table table-hover">
-    @foreach (project item in ViewBag.userproject)
-    {
-        <tr>
+@section Scripts {
+    <link rel="stylesheet" href="../../Content/css/style.css">
+    <link rel="stylesheet" href="../../Content/css/post.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-            <td>
-                @item.project_title
-            </td>
-            <td>
-                @Html.ActionLink("Add Member", "addMember", "Project",new {id=item.Project_Id},null)
-            </td>
-            <td>
-                @Html.ActionLink("Remove Project", "removeProject", "Project",new {id=item.Project_Id},null)
-            </td>
-        </tr>
-    }
-</table>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.js"></script>
+
+}
+
+@{
+    <style scoped>
+        body > div.container-fluid > div > div.col-9 > div > div > div > a {
+            color: black;
+        }
+
+            body > div.container-fluid > div > div.col-9 > div > div > div > a > div:hover {
+                transition: 1s ease-in-out forwards;
+                transform: scale(1.02);
+                box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            }
+    </style>
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-lg-3">
+            <div class="row m-2 bg-white wrapper-rounded">
+                <div class="col-0 col-lg-12">
+                    <div class="row mt-3" style="filter:drop-shadow(-1px 6px 3px rgba(50, 50, 0, 0.5));">
+                        <div class="col-12 circle-profile">
+                            <img src="~/Content/images/userpic.png" alt="profile" class="img-fluid">
+                        </div>
+                    </div>
+                    <div class="row nunito mt-2">
+                        <div class="col-12 text-center">
+                            @*
+                                <h5>@User.Identity.Name</h5>
+                            *@
+                            <h5>@Session["username"]</h5>
+                            <h6></h6>
+                            <hr size="30">
+                        </div>
+
+                        <div class="col-12 mt-3">
+                            <nav class="nav flex-column">
+                                @Html.ActionLink("Profile", "profile", "Project", null, new { @class = "navbar-link text-muted", @style = "padding-left:15px;" })
+
+                                @Html.ActionLink("Projects", "allUserProject", "Project", null, new { @class = "navbar-link active", @style = "padding-left:15px;" })
+                                <a class="nav-link text-muted" id="feedback" href="#">Feedbacks</a>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-9">
+            <div class="row m-2 bg-white wrapper-rounded">
+                <div class="col-12">
+                    <div class="row mt-4">
+                        <div class="col-5 pt-2 pb-2 ml-3">
+                            <div class="btn-wrap">
+                                <button class="btn nunito edit-btn" data-toggle="modal" data-target="#projectModel">
+                                    <a href="#">Create Project</a>
+                                </button>
+                            </div>
+                            
+                                <div class="modal fade" id="projectModel" tabindex="-1" role="dialog" aria-labelledby="projectModel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="projectModel">Create Project</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body m-3">
+                                                <div class="input-fields">
+                                                    <label for="projectname">Project Name</label>
+                                                    <input type="text" name="projectname1" id="projectname1"
+                                                           placeholder="Enter Project Title"/>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary" data-dismiss="modal" id="createproject" onclick="myfunction()">Create</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                            <script>
+                                function myfunction() {
+                                    var project_title = $("#projectname1").val();
+                                    var link = '@Url.Action("CreateProject", "Project", new { title = "-1" })';
+                                    //link = link.replace("-1", project_title);
+                                    $.ajax({
+                                        type: "POST",
+                                        url: link,
+                                        data: { "title": $("#projectname1").val() },
+                                        success: function (data) {
+                                            //alert("finally got data " + data);
+                                            location.reload(true);
+                                        }
+                                    });
+
+
+
+
+                                }
+                            </script>
+                        </div>
+                    </div>
+                    <!-- card collection    -->
+                    <div class="card-deck m-2 p-2">
+                       
+                        
+                        @foreach (project item in ViewBag.userproject)
+                        {
+                            <a href="@Url.Action("addMember","Project",new {id=item.Project_Id})" class="mb-2">
+                                <div class="card" style="width: 15rem;">
+                                    <div style="height: 15rem; background-color: #5CC8FF;" class="text-center">
+                                        <i class="fas fa-dove mt-5" style="font-size: 12rem; color: #ffffff;"></i>
+                                    </div>
+                                    <div class="card-body nunito">
+                                        <p class="card-text">@item.project_title</p>
+                                    </div>
+
+                                </div>
+                            </a>
+
+
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

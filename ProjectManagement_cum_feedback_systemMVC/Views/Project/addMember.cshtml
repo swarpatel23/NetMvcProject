@@ -1,154 +1,342 @@
-﻿@using Microsoft.AspNet.Identity
+﻿@using System.Diagnostics.Eventing
+@using System.Web.UI.HtmlControls
+@using Microsoft.AspNet.Identity
 @using Microsoft.AspNet.Identity.Owin
 @using ProjectManagement_cum_feedback_systemMVC.Models
 @model ProjectManagement_cum_feedback_systemMVC.Models.project_user
 @{
     ViewBag.Title = "CreateProject";
 }
-<h2 class="text-center">
-   Project    @ViewBag.project_title
-</h2>
-<h5 class="text-info">Add user in only one role.</h5>
-@using (Html.BeginForm())
-{
-    <h2>Add Teammates</h2>
-    <div>
-        <div class="team">
-            <input type="text" style="margin-top: 4px;" name="mem0">
-            <button style="margin-left: 1px;" class="remove">Remove</button>
-        </div>
-        <button id="add" style="margin-top: 4px; position: relative; right: 0; bottom: 0;" class="text-right">Add more..</button>
-    </div>
-    <h2>Add Customers</h2>
-    <div>
-        <div class="cust">
-            <input type="text" style="margin-top: 4px;" name="cust0">
-            <button style="margin-left: 1px;" class="removecust">Remove</button>
-        </div>
-        <button id="addcust" style="margin-top: 4px;">Add More..</button>
-    </div>
-    <input type="submit" style="margin-top: 4px;" />
 
-    <input type="hidden" name="no_of_customer" id="ncust" value="0" />
 
-    <input type="hidden" name="no_of_teammember" id="nteam" value="0" />
 
-    <input type="hidden" name="projectid" value="@ViewBag.projectid" />
-    <br/><br/>
-    <div class="alert alert-success" id="divSuccessMessage">
-        <strong>Success!</strong> Team members and customers are added.<br/>
-        If any Team member or user is not added than they don't have account they need to signup in our website.
-    </div>
+@section Scripts {
+    <link rel="stylesheet" href="../../Content/css/style.css">
+    <link rel="stylesheet" href="../../Content/css/post.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.js"></script>
+
 }
 
-<h2>Project's Team Members</h2>
-<table class="table table-hover">
-    <thead>
-    <tr>
-        <th>
-            Name
-        </th>
-        <th>
-            Email
-        </th>
-        <th>
-            Phone No
-        </th>
-        <th>
 
-        </th>
-    </tr>
-    </thead>
-  
-        @foreach (project_user item in ViewBag.teammodel)
-        {
-            ApplicationUserManager au = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            var x = au.FindById(item.user_Id);
+@{
 
-            <tr>
-
-                <td>
-                    @if (x.FirstName != null && x.LastName != null)
-                    {
-                        @x.FirstName
-
-                        @x.LastName
-                    }
-                </td>
-                <td>
-                    @x.Email
-                </td>
-                <td>
-                    @if (x.PhoneNumber != null)
-                    {
-                        @x.PhoneNumber
-                    }
-                </td>
-                <td>
-                    @Html.ActionLink("remove", "removeMember", "Project", new {pid = @ViewBag.projectid, uid = x.Id}, new {@class = "btn btn-danger"})
-
-                </td>
-            </tr>
+    <style>
+        body > div.container-fluid > div > div.col-9 > div > div > div > a {
+            color: black;
         }
-    
-    
-</table>
 
-<h2>Project's Customer</h2>
+            body > div.container-fluid > div > div.col-9 > div > div > div > a > div:hover {
+                transition: 1s ease-in-out forwards;
+                transform: scale(1.02);
+                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            }
 
-<table class="table table-hover">
-    <thead>
-    <tr>
-        <th>
-            Name
-        </th>
-        <th>
-            Email
-        </th>
-        <th>
-            Phone No
-        </th>
-        <th>
-
-        </th>
-    </tr>
-    </thead>
-    
-        @foreach (project_user item in ViewBag.usermodel)
-        {
-            ApplicationUserManager au = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            var x = au.FindById(item.user_Id);
-
-            <tr>
-
-                <td>
-                    @if (x.FirstName != null && x.LastName != null)
-                    {
-                        @x.FirstName
-
-                        @x.LastName
-                    }
-                </td>
-                <td>
-                    @x.Email
-                </td>
-                <td>
-                    @if (x.PhoneNumber != null)
-                    {
-                        @x.PhoneNumber
-                    }
-                </td>
-                <td>
-                    @Html.ActionLink("remove", "removeMember", "Project", new {pid = @ViewBag.projectid, uid = x.Id}, new {@class = "btn btn-danger"})
-                </td>
-            </tr>
+        body > div.container-fluid > div > div.col-2 > div:nth-child(2) > div > a {
+            text-decoration: none;
+            color: #868e96;
         }
-    
-</table>
+
+            body > div.container-fluid > div > div.col-2 > div:nth-child(2) > div > a:hover {
+                color: black;
+            }
+
+        .my-active {
+            color: black;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            border-radius: 12px 0px 0px 12px;
+            background-color: #f8f9fa;
+        }
+
+        .profile-item {
+            padding: 0.8rem;
+        }
+
+        body > div.container-fluid > div > div.col-10.bg-white > div > div.row > div.col-3.nunito.text-center > div:nth-child(4) > div > img {
+            max-height: 30px;
+        }
+    </style>
+}
+
+
+
+
+
+<div class="container-fluid">
+    <div class="row m-1">
+        <div class="col-2 wrapper-rounded" style="background-color: #f8f9fa;">
+            <!--Navigation wrapper-->
+            <div class="row">
+                <div class="col-12">
+                    <img src="~/Content/images/userpic.png" alt="project profile" class="img-fluid">
+                </div>
+                <div class="col-12 text-center">
+                    <h6>@ViewBag.project_title</h6>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 m-3 " style="font-size: 1.1rem;">
+                    <a href="#" class="nunito my-active">
+                        <div class="row my-active p-2">
+                            <div class="col-2">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="col-10">
+                                Team
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" class="nunito">
+                        <div class="row p-2 ">
+                            <div class="col-2">
+                                <i class="far fa-map"></i>
+                            </div>
+                            <div class="col-10">
+                                Roadmap
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" class="nunito">
+                        <div class="row p-2">
+                            <div class="col-2">
+                                <i class="fas fa-clipboard-list"></i>
+                            </div>
+                            <div class="col-10">
+                                Board
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" class="nunito">
+                        <div class="row p-2">
+                            <div class="col-2 text-center">
+                                <i class="fas fa-plus"></i>
+                            </div>
+                            <div class="col-10">
+                                Add Issue
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-10 ">
+            <div class="container-flex p-4 bg-white wrapper-rounded">
+                <h3 class="nunito mb-3">Team</h3>
+                <!-- wrapper for add member -->
+                <div>
+                    <button class="btn btn-outline-primary align-items-center" data-toggle="modal"
+                            data-target="#addmembermodal">
+                        <i class="fas fa-user-plus pr-2"></i>
+                        Add Member
+                    </button>
+
+                    <!-- The Member Modal -->
+                    <div class="modal" id="addmembermodal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Add Members</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+
+                                <!-- Modal body -->
+                                @using (Html.BeginForm())
+                                {
+                                    <h4 class="pl-3">Add Teammates</h4>
+
+                                    <div class="text-center">
+                                        <div class="team">
+                                            <input type="text" style="margin-top: 4px;" name="mem0" id="mem0">
+                                            <button style="margin-left: 1px;" class="remove btn btn-light">Remove</button>
+                                        </div>
+                                        <button id="add" style="margin-top: 4px;" class="text-primary text-right btn btn-light">Add more..</button>
+                                    </div>
+                                    <h4 class="pl-3">Add Customers</h4>
+                                    <div class="text-center">
+                                        <div class="cust">
+                                            <input type="text" style="margin-top: 4px;" name="cust0">
+                                            <button style="margin-left: 1px;" class="removecust btn btn-light">Remove</button>
+                                        </div>
+                                        <button id="addcust" class="btn btn-light text-right text-primary" style="margin-top: 4px;">Add More..</button>
+                                    </div>
+
+
+                                    <input type="hidden" name="no_of_customer" id="ncust" value="0" />
+
+                                    <input type="hidden" name="no_of_teammember" id="nteam" value="0" />
+
+                                    <input type="hidden" name="projectid" value="@ViewBag.projectid" />
+                                   
+                                    <br /><br />
+                                    <li class="text-info m-2">Add user in only one role.(either in team or as a customer)</li>
+                                    
+
+                                    <div class="modal-footer">
+                                        <input type="submit" class="btn btn-primary text-primary" value="Add" />
+                                    </div>
+                                }
+
+                                <!-- Modal footer -->
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- The role Modal -->
+
+
+
+                </div>
+                <!--wrapper for members-->
+
+                <div class="row mt-5">
+                    <div class="col-12 text-center">
+                        <h3 class="text-left mb-3">Team Members</h3>
+                        <div class="row pb-3">
+                            <div class="col-3">
+                                <h5>Name</h5>
+                            </div>
+                            <div class="col-3">
+                                <h5>Email</h5>
+                            </div>
+                            <div class="col-3">
+                                <h5>Phone No</h5>
+                            </div>
+                            <div class="col-3">
+                                <h5>Action</h5>
+                            </div>
+                        </div>
+                        <hr class="mb-3"/>
+                        @foreach (project_user item in ViewBag.teammodel)
+                        {
+                            ApplicationUserManager au = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                            var x = au.FindById(item.user_Id);
+                            <div class="row nunito">
+                                <div class="col-3">
+                                    <div class="profile-item">
+                                        <div class="d-flex align-items-center"
+                                             style="font-size: 1.1rem; font-weight: 600;">
+                                            <img src="~/Content/images/userpic.png" alt="profile" style="width: 50px;"
+                                                 class="circle-profile">
+                                            @if (x.UserName != null)
+                                            {
+                                                @x.UserName
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="profile-item">
+                                        <div class="d-flex align-items-center pt-1">
+                                            @x.Email
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="profile-item">
+                                        <div class="d-flex align-items-center pt-1">
+                                            @if (x.PhoneNumber != null)
+                                            {
+                                                @x.PhoneNumber
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="profile-item">
+                                        <button type="button" class="btn">
+
+                                            @Html.ActionLink("Remove", "removeMember", "Project", new {pid = @ViewBag.projectid, uid = x.Id}, new {@class = "btn btn-danger"})
+
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        <h3 class="text-left mb-3">Customers</h3>
+                        <div class="row pb-3">
+                            <div class="col-3">
+                                <h5>Name</h5>
+                            </div>
+                            <div class="col-3">
+                                <h5>Email</h5>
+                            </div>
+                            <div class="col-3">
+                                <h5>Phone No</h5>
+                            </div>
+                            <div class="col-3">
+                                <h5>Action</h5>
+                            </div>
+                        </div>
+                        <hr class="mb-3"/>
+                        @foreach (project_user item in ViewBag.usermodel)
+                        {
+                            ApplicationUserManager au = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                            var x = au.FindById(item.user_Id);
+                            <div class="row nunito">
+                                <div class="col-3">
+                                    <div class="profile-item">
+                                        <div class="d-flex align-items-center"
+                                             style="font-size: 1.1rem; font-weight: 600;">
+                                            <img src="~/Content/images/userpic.png" alt="profile" style="width: 50px;"
+                                                 class="circle-profile">
+                                            @if (x.UserName != null)
+                                            {
+                                                @x.UserName
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="profile-item">
+                                        <div class="d-flex align-items-center pt-1">
+                                            @x.Email
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="profile-item">
+                                        <div class="d-flex align-items-center pt-1">
+                                            @if (x.PhoneNumber != null)
+                                            {
+                                                @x.PhoneNumber
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="profile-item">
+                                        <button type="button" class="btn">
+
+                                            @Html.ActionLink("Remove", "removeMember", "Project", new {pid = @ViewBag.projectid, uid = x.Id}, new {@class = "btn btn-danger"})
+
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        <div class="alert alert-success" id="divSuccessMessage">
+                            <strong>Success!</strong> Team members and customers are added.<br />
+                            If any Team member or user is not added than they don't have account they need to signup in our website.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
 
-    if ('@ViewBag.successMessage' != "") {
+    if ('@ViewBag.successMessage' == "success") {
         $('#divSuccessMessage').show();
+        $('#divSuccessMessage').delay(5000).fadeOut(1600);
+       
+       
     }
     else {
         $('#divSuccessMessage').hide();
@@ -165,7 +353,7 @@
         e.preventDefault();
         $('<div/>').addClass('team')
             .html($('<input type="text" style="margin-top:4px;"/>').attr("name", id))
-            .append($('<button style="margin-left:4px;"/>').addClass('remove').text('Remove'))
+            .append($('<button class="btn btn-light" style="margin-left:4px;"/>').addClass('remove').text('Remove'))
             .insertBefore(this);
     });
     $(document).on('click', 'button.remove', function (e) {
@@ -182,7 +370,7 @@
         e.preventDefault();
         $('<div/>').addClass('cust')
             .html($('<input type="text" style="margin-top:4px;"/>').attr("name", cid))
-            .append($('<button style="margin-left:4px;"/>').addClass('removecust').text('Remove'))
+            .append($('<button class="btn btn-light" style="margin-left:4px;"/>').addClass('removecust').text('Remove'))
             .insertBefore(this);
     });
 
@@ -194,3 +382,4 @@
 
 
 </script>
+

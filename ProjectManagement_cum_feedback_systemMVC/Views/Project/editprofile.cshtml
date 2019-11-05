@@ -62,9 +62,6 @@
                     </div>
                 </div>
             </div>
-            <div class="alert alert-success" id="success" style="display: none;">
-                <strong>Success!</strong> User Updated Successfully.
-            </div>
         </div>
     </div>
 </form>
@@ -81,8 +78,10 @@
                     /* d is the HTML of the returned response */
                    
                     $("#commandiv").html(d); //replaces previous HTML with action
-                     $('#success').html(data).fadeIn('slow');
-                    $('#success').delay(5000).fadeOut('slow');
+                    $('#success').show();
+                    //setTimeout(function () { $("#success").hide(); }, 10000);
+                    //alert("success");
+
                 }
 
             });

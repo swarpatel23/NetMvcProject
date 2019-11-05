@@ -37,19 +37,24 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateProject(project p)
+        public ActionResult CreateProject(string title)
         {
-            p.user_Id = User.Identity.GetUserId();
-            m.projects.Add(p);
-            m.SaveChanges();
-            int id = p.Project_Id;
+            
+                project p = new project();
+                p.project_title = title;
+                p.user_Id = User.Identity.GetUserId();
+                m.projects.Add(p);
+                m.SaveChanges();
+                int id = p.Project_Id;
 
-            project_user pu = new project_user();
-            pu.user_Id = User.Identity.GetUserId();
-            pu.project_Id = id;
-            pu.role = Roles.admin;
-            m.project_users.Add(pu);
-            m.SaveChanges();
+                project_user pu = new project_user();
+                pu.user_Id = User.Identity.GetUserId();
+                pu.project_Id = id;
+                pu.role = Roles.admin;
+                m.project_users.Add(pu);
+                m.SaveChanges();
+            
+
             return RedirectToAction("allUserProject");
         }
 
@@ -79,6 +84,7 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
 
             ViewBag.teammodel = teammodel;
             ViewBag.usermodel = usermodel;
+            
             return View();
         }
 
@@ -100,7 +106,7 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
             {
                 string temp = "mem" + i;
                 string email = form[temp];
-                if (email != "")
+                if (email != "" && email!=null)
                 {
                     project_user pu = new project_user();
                     var x=au.FindByEmail(email);
@@ -136,7 +142,7 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
             {
                 string temp = "cust" + i;
                 string email = form[temp];
-                if (email != "")
+                if (email != "" && email!=null)
                 {
                     project_user pu = new project_user();
                     var x = au.FindByEmail(email);
@@ -230,4 +236,7 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
             return PartialView("editprofile");
         }
     }
+
+
+    
 }
