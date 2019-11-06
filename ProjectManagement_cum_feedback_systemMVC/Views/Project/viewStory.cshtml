@@ -1,0 +1,123 @@
+﻿@using ProjectManagement_cum_feedback_systemMVC.Models
+
+@{
+    ViewBag.Title = "viewStory";
+}
+
+
+@section Scripts {
+    <link rel="stylesheet" href="../../Content/css/style.css">
+    <link rel="stylesheet" href="../../Content/css/post.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script src="https://cdn.tiny.cloud/1/3d2cmnxfl9u6baqb2prn5gy5dphdpl588qt88u15lj2v3tbc/tinymce/5/tinymce.min.js"></script>
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            height: 500,
+            statusbar: false,
+            plugins: 'lists advlist image imagetools',
+            toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | table | fontsizeselect"
+        });
+    </script>
+
+}
+
+
+@{
+
+    <style>
+        body > div.container-fluid > div > div.col-9 > div > div > div > a {
+            color: black;
+        }
+
+            body > div.container-fluid > div > div.col-9 > div > div > div > a > div:hover {
+                transition: 1s ease-in-out forwards;
+                transform: scale(1.02);
+                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            }
+
+        body > div.container-fluid > div > div.col-2 > div:nth-child(2) > div > a {
+            text-decoration: none;
+            color: #868e96;
+        }
+
+            body > div.container-fluid > div > div.col-2 > div:nth-child(2) > div > a:hover {
+                color: black;
+            }
+
+        .my-active {
+            color: black;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            border-radius: 12px 0px 0px 12px;
+            background-color: #f8f9fa;
+        }
+
+        .profile-item {
+            padding: 0.8rem;
+        }
+
+        body > div.container-fluid > div > div.col-10.bg-white > div > div.row > div.col-3.nunito.text-center > div:nth-child(4) > div > img {
+            max-height: 30px;
+        }
+       
+
+       
+      
+        
+        </style>
+}
+
+
+
+
+
+<div class="container-fluid">
+    <div class="row m-1">
+        @Html.Partial("_ProjectPartial")
+
+
+
+        <div class="col-10""> 
+            <div class="container-flex p-4 bg-white wrapper-rounded" style="min-height: 600px;">
+                <h3 class="nunito mb-3">
+                   Project's Story Board
+                </h3>
+                
+                <div class="row mt-5">
+                    <div class="col-12" style="padding: 0px 30px;">
+                        
+                        @{
+                            Model1 m = new Model1();
+                            int pid = Int32.Parse(ViewBag.projectid);
+                            project p = m.projects.Find(pid);
+                        }
+
+                        @if (p.story_status != 1)
+                        {
+                            <h3>Customer hasn't created Story board yet.</h3>
+                        }
+                        else
+                        {
+                            <div class="wrapper-rounded p-3" id="story" style="background-color: rgb(220, 220, 220);">
+
+                                @Html.Raw(p.story_desc)
+                            </div>
+                        }
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+    $("#story > ul").css("background-color", "rgb(220, 220, 220)");
+    $("#story > ol").css("background-color", "rgb(220, 220, 220)");
+</script>

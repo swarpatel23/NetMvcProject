@@ -1,0 +1,143 @@
+﻿@using ProjectManagement_cum_feedback_systemMVC.Models
+
+@{
+    ViewBag.Title = "createStory";
+}
+
+@section Scripts {
+    <link rel="stylesheet" href="../../Content/css/style.css">
+    <link rel="stylesheet" href="../../Content/css/post.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script src="https://cdn.tiny.cloud/1/3d2cmnxfl9u6baqb2prn5gy5dphdpl588qt88u15lj2v3tbc/tinymce/5/tinymce.min.js"></script>
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            height: 500,
+            statusbar: false,
+            plugins: 'lists advlist image imagetools',
+            toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | table | fontsizeselect"
+        });
+    </script>
+
+}
+
+
+@{
+
+    <style>
+        body > div.container-fluid > div > div.col-9 > div > div > div > a {
+            color: black;
+        }
+
+        body > div.container-fluid > div > div.col-9 > div > div > div > a > div:hover {
+            transition: 1s ease-in-out forwards;
+            transform: scale(1.02);
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        body > div.container-fluid > div > div.col-2 > div:nth-child(2) > div > a {
+            text-decoration: none;
+            color: #868e96;
+        }
+
+        body > div.container-fluid > div > div.col-2 > div:nth-child(2) > div > a:hover {
+            color: black;
+        }
+
+        .my-active {
+            color: black;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            border-radius: 12px 0px 0px 12px;
+            background-color: #f8f9fa;
+        }
+
+        .profile-item {
+            padding: 0.8rem;
+        }
+
+        body > div.container-fluid > div > div.col-10.bg-white > div > div.row > div.col-3.nunito.text-center > div:nth-child(4) > div > img {
+            max-height: 30px;
+        }
+    </style>
+}
+
+
+
+
+
+<div class="container-fluid">
+    <div class="row m-1">
+        @Html.Partial("_ProjectPartial")
+   
+    
+   
+            <div class="col-10 ">
+                <div class="container-flex p-4 bg-white wrapper-rounded">
+                    <h3 class="nunito mb-3">
+                        Create Story Board
+                        @if ((int) (Session["project_story_status"]) == 1)
+                        {
+                            @:(Edit)
+                        }
+                    </h3>
+                    @{
+                        Model1 m = new Model1();
+                        int pid = Int32.Parse((string)(Session["project_id"]));
+                        project p=m.projects.Find(pid);
+
+                    }
+
+                    <div class="row mt-5">
+                        <div class="col-12 text-center" style="padding: 0px 30px;">
+                            @using (Html.BeginForm())
+                            {
+                                <textarea name="userstory">
+                                    @if (p.story_status != 1)
+                                    {
+                                        <p><strong>Write what features you want in your software.</strong></p>
+                                        <p>Example:﻿</p>
+                                        <ul style="font-family: Arial; font-size: small; background-color: rgb(255, 255, 255);"><li><span style="font-size: 12pt;" data-mce-style="font-size: 12pt;"><font size="2">Students can purchase monthly parking passes online.</font></span></li><li><span style="font-size: 12pt;" data-mce-style="font-size: 12pt;"><font size="2">Parking passes can be paid via credit cards.</font></span></li><li><span style="font-size: 12pt;" data-mce-style="font-size: 12pt;"><font size="2">Parking passes can be paid via PayPal.</font></span></li><li><span style="font-size: 12pt;" data-mce-style="font-size: 12pt;"><font size="2">Professors can input student marks.</font></span></li><li><span style="font-size: 12pt;" data-mce-style="font-size: 12pt;"><font size="2">Students can obtain their current seminar schedule.</font></span></li><li><span style="font-size: 12pt;" data-mce-style="font-size: 12pt;"><font size="2">Students can order official transcripts.</font></span></li><li><span style="font-size: 12pt;" data-mce-style="font-size: 12pt;"><font size="2">Students can only enroll in seminars for which they have prerequisites.</font></span></li><li><span style="font-size: 12pt;" data-mce-style="font-size: 12pt;"><font size="2">Transcripts will be available online via a standard browser.</font></span></li></ul>
+                                    }
+                                    else
+                                    {
+                                        @p.story_desc
+                                    }
+</textarea>
+                                if ((int) (Session["project_story_status"]) != 1)
+                                {
+                                    <input type="submit" value="Submit" class="btn btn-primary pull-right mt-2 mr-3 text-primary"/>
+                                }
+                                else
+                                {
+                                    <input type="submit" value="Edit" class="btn btn-primary pull-right mt-2 mr-3 text-primary"/>
+                                }
+                                <input type="hidden" name="projectid" value="@ViewBag.projectid"/>
+                            }
+                        </div>
+                        <div id="message" class="text-center">
+                            @if (ViewBag.story_updated == true)
+                            {
+                                if ((int)(Session["project_story_status"]) != 1)
+                                {
+                                    <div class="alert alert-success" style="margin-left: 40px;">
+                                        <strong>Success!</strong> Story Board Created and mail is sent to all Team members.<br />
+                                        If you want to do any changes in that you can do it.
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="alert alert-success" style="margin-left: 40px;">
+                                        <strong>Success!</strong> Story Borad is Updated.
+                                    </div>
+                                }
+                                <script>
+                                    $('#message').delay(5000).fadeOut(3000);
+                                </script>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,93 @@
+﻿@using ProjectManagement_cum_feedback_systemMVC.Models
+<div class="col-2 wrapper-rounded" style="background-color: #f8f9fa;">
+    <!--Navigation wrapper-->
+    <div class="row">
+        <div class="col-12">
+            <img src="~/Content/images/userpic.png" alt="project profile" class="img-fluid">
+        </div>
+        <div class="col-12 text-center">
+            <h6>@Session["project_title"]</h6>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 m-3 " style="font-size: 1.1rem;">
+            <a href="#" class="nunito my-active">
+                <div class="row my-active p-2">
+                    <div class="col-2">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="col-10">
+                        @Html.ActionLink("Team", "addMember", "Project", new { id = @Session["project_id"], role = @Session["user_project_role"] }, null)
+                    </div>
+                </div>
+            </a>
+            <a href="#" class="nunito">
+                <div class="row p-2 ">
+                    <div class="col-2">
+                        <i class="far fa-map"></i>
+                    </div>
+                    <div class="col-10">
+                        Roadmap
+                    </div>
+                </div>
+            </a>
+            <a href="#" class="nunito">
+                <div class="row p-2">
+                    <div class="col-2">
+                        <i class="fas fa-clipboard-list"></i>
+                    </div>
+                    <div class="col-10">
+                        Board
+                    </div>
+                </div>
+            </a>
+            <a href="#" class="nunito">
+                <div class="row p-2">
+                    <div class="col-2 text-center">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <div class="col-10">
+                        Add Issue
+                    </div>
+                </div>
+            </a>
+            @if ((string)(Session["user_project_role"]) == "customer")
+            {
+                <a href="#" class="nunito">
+                    <div class="row p-2">
+                        <div class="col-2 text-center">
+                            <i class="fa fa-pencil-square-o"></i>
+                        </div>
+                        <div class="col-10">
+                            @Html.ActionLink("Create StoryBoard", "createStory", "Project", new { id = @ViewBag.projectid }, null)
+                        </div>
+                    </div>
+                </a>
+            }
+            else
+            {
+                <a href="#" class="nunito">
+                    <div class="row p-2">
+                        <div class="col-2 text-center">
+                            <i class="fas fa-scroll"></i>
+                        </div>
+                        <div class="col-10">
+                            @Html.ActionLink("View StoryBoard", "viewStory", "Project", new { id = @Session["project_id"] }, null)
+                        </div>
+                    </div>
+                </a>
+            }
+            <a href="#" class="nunito">
+                <div class="row p-2">
+                    <div class="col-2 text-center">
+                        <i class="fas fa-trash"></i>
+                    </div>
+                    <div class="col-10">
+                        @Html.ActionLink("Delete Project", "removeProject", "Project", new { id = @Session["project_id"] }, null)
+                    </div>
+                </div>
+            </a>
+
+        </div>
+    </div>
+</div>

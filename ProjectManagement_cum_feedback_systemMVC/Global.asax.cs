@@ -16,6 +16,12 @@ namespace ProjectManagement_cum_feedback_systemMVC
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            Session_Start();
+        }
+
+        protected void Session_Start()
+        {
+           
         }
     }
 }

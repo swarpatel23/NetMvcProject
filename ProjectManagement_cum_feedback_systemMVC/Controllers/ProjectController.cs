@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Net.Mail;
 using System.Reflection;
@@ -62,21 +63,27 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
         public ActionResult allUserProject()
         {
             string s = User.Identity.GetUserId();
-            var model = m.projects.Where(x => x.user_Id == s).ToList();
+            var model = m.project_users.Where(x => x.user_Id == s).ToList();
 
             ViewBag.userproject = model;
             return View();
         }
 
         [HttpGet]
-        public ActionResult addMember(string id)
+        public ActionResult addMember(string id,string role)
         {
             ViewBag.projectid = id;
 
             int projectid = Int32.Parse(id);
+            Session["project_id"] = projectid;
 
             var p = m.projects.First(x => x.Project_Id == projectid);
             ViewBag.project_title = p.project_title;
+            Session["project_title"] = p.project_title;
+            Session["project_story_status"] = p.story_status;
+            Session["user_project_role"] = role;
+
+
 
             var teammodel = m.project_users.Where(x => x.project_Id == projectid && x.role == Roles.teammember);
 
@@ -98,7 +105,6 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
 
             var p = m.projects.First(x => x.Project_Id == projectid);
             ViewBag.project_title = p.project_title;
-
 
             ApplicationUserManager au = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
             MailMessage mail = new MailMessage();
@@ -180,6 +186,8 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
 
 
             ViewBag.projectid = projectid;
+            Session["project_id"] = projectid;
+            TempData["project_id"] = projectid;
             return View();
         }
 
@@ -235,8 +243,81 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
             ViewBag.user = x;
             return PartialView("editprofile");
         }
+
+
+        [HttpGet]
+        public ActionResult createStory(string id)
+        {
+            ViewBag.projectid = id;
+            Session["project_id"] = id;
+            int pid = Int32.Parse(id);
+            project p = m.projects.Find(pid);
+            Session["project_story_status"] = p.story_status;
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult viewStory(string id)
+        {
+            ViewBag.projectid = id;
+            Session["project_id"] = id;
+            return View();
+        }
+
+
+        [HttpPost, ValidateInput(false)]
+        public ActionResult createStory(FormCollection form)
+        {
+            ViewBag.projectid = form["projectid"];
+            int pid = Int32.Parse(form["projectid"]);
+            project p = m.projects.Find(pid);
+            p.story_desc = form["userstory"];
+            MailMessage umail = new MailMessage();
+            MailMessage tmail = new MailMessage();
+
+
+            if (p.story_status == 0)
+            {
+                umail.Body = User.Identity.GetUserName() + " Created Users Story Board for " + p.project_title+".";
+                tmail.Body = User.Identity.GetUserName() + " Created Users Story Board for " + p.project_title;
+            }
+            else
+            {
+                umail.Body = User.Identity.GetUserName() + " Updated Users Story Board for " + p.project_title+".";
+                tmail.Body = User.Identity.GetUserName() + " Created Users Story Board for " + p.project_title;
+            }
+
+            p.story_status = 1;
+            ViewBag.story_updated = true;
+            Session["project_story_status"] = p.story_status;
+            m.SaveChanges();
+
+            umail.From = new MailAddress("ddumvc@gmail.com");
+            umail.Subject = "Notification From Canny";
+            tmail.From = new MailAddress("ddumvc@gmail.com");
+            tmail.Subject = "Notification From Canny";
+            ApplicationUserManager au = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var users=m.project_users.Where(x => x.project_Id == pid);
+            foreach (project_user t in users)
+            {
+               
+                if (t.role != Roles.customer)
+                {
+                    tmail.To.Add(au.GetEmail(t.user_Id));
+                    tmail.Body +=
+                        ".Now It's time to create Software Requirement Specification. Start dicussing with your team member.";
+                }
+                else
+                {
+                    umail.To.Add(au.GetEmail(t.user_Id));
+                }
+            }
+            //smtp.Send(umail);
+            //smtp.Send(tmail);
+            return View();
+        }
     }
 
 
-    
+
 }

@@ -144,17 +144,23 @@
                     </div>
                     <!-- card collection    -->
                     <div class="card-deck m-2 p-2">
-                       
+                       @{
+                         Model1 m = new Model1();
+                       }
                         
-                        @foreach (project item in ViewBag.userproject)
+                        @foreach (project_user item in ViewBag.userproject)
                         {
-                            <a href="@Url.Action("addMember","Project",new {id=item.Project_Id})" class="mb-2">
+                            <a href="@Url.Action("addMember","Project",new {id=item.project_Id,role=item.role})" class="mb-2">
                                 <div class="card" style="width: 15rem;">
                                     <div style="height: 15rem; background-color: #5CC8FF;" class="text-center">
                                         <i class="fas fa-dove mt-5" style="font-size: 12rem; color: #ffffff;"></i>
                                     </div>
+                                    @{
+                                        project z = m.projects.Find(item.project_Id);
+
+                                    }
                                     <div class="card-body nunito">
-                                        <p class="card-text">@item.project_title</p>
+                                        <p class="card-text">@z.project_title</p>
                                     </div>
 
                                 </div>

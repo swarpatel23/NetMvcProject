@@ -65,61 +65,9 @@
 
 <div class="container-fluid">
     <div class="row m-1">
-        <div class="col-2 wrapper-rounded" style="background-color: #f8f9fa;">
-            <!--Navigation wrapper-->
-            <div class="row">
-                <div class="col-12">
-                    <img src="~/Content/images/userpic.png" alt="project profile" class="img-fluid">
-                </div>
-                <div class="col-12 text-center">
-                    <h6>@ViewBag.project_title</h6>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12 m-3 " style="font-size: 1.1rem;">
-                    <a href="#" class="nunito my-active">
-                        <div class="row my-active p-2">
-                            <div class="col-2">
-                                <i class="fas fa-users"></i>
-                            </div>
-                            <div class="col-10">
-                                Team
-                            </div>
-                        </div>
-                    </a>
-                    <a href="#" class="nunito">
-                        <div class="row p-2 ">
-                            <div class="col-2">
-                                <i class="far fa-map"></i>
-                            </div>
-                            <div class="col-10">
-                                Roadmap
-                            </div>
-                        </div>
-                    </a>
-                    <a href="#" class="nunito">
-                        <div class="row p-2">
-                            <div class="col-2">
-                                <i class="fas fa-clipboard-list"></i>
-                            </div>
-                            <div class="col-10">
-                                Board
-                            </div>
-                        </div>
-                    </a>
-                    <a href="#" class="nunito">
-                        <div class="row p-2">
-                            <div class="col-2 text-center">
-                                <i class="fas fa-plus"></i>
-                            </div>
-                            <div class="col-10">
-                                Add Issue
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
+                @Html.Partial("_ProjectPartial")
+           
+        
         <div class="col-10 ">
             <div class="container-flex p-4 bg-white wrapper-rounded">
                 <h3 class="nunito mb-3">Team</h3>
