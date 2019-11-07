@@ -24,11 +24,12 @@ namespace ProjectManagement_cum_feedback_systemMVC.Models
 
         public int story_status { get; set; } //0-not written 1-written
 
-        public string srs_title { get; set; }
+        public string srs_acceptance_status { get; set; }//0-not accepted 1-accepted
 
         public string srs_desc { get; set; }
 
-        public int srs_status { get; set; }//0-rejected 1-accepted
+        public int srs_status { get; set; }//0-not written 1-not written
+
 
         public ICollection<project_issue> issues { get; set; }
 
@@ -37,6 +38,8 @@ namespace ProjectManagement_cum_feedback_systemMVC.Models
         public ICollection<user_post> project_posts { get; set; }
 
         public ICollection<post_comment> project_posts_comments { get; set; }
+
+        public ICollection<srs_comment> project_srs_comments { get; set; }
 
 
 

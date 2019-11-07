@@ -77,6 +77,33 @@
                     </div>
                 </a>
             }
+            
+            @if ((string)(Session["user_project_role"]) != "customer")
+            {
+                <a href="#" class="nunito">
+                    <div class="row p-2">
+                        <div class="col-2 text-center">
+                            <i class="fa fa-pencil-square-o"></i>
+                        </div>
+                        <div class="col-10">
+                            @Html.ActionLink("Create SRS", "createSrs", "Project", new { id = @ViewBag.projectid }, null)
+                        </div>
+                    </div>
+                </a>
+            }
+            else
+            {
+                <a href="#" class="nunito">
+                    <div class="row p-2">
+                        <div class="col-2 text-center">
+                            <i class="fas fa-scroll"></i>
+                        </div>
+                        <div class="col-10">
+                            @Html.ActionLink("View SRS", "viewSrs", "Project", new { id = @Session["project_id"] }, null)
+                        </div>
+                    </div>
+                </a>
+            }
             <a href="#" class="nunito">
                 <div class="row p-2">
                     <div class="col-2 text-center">
