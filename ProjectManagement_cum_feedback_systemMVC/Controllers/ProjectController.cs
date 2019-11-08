@@ -284,7 +284,7 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
             else
             {
                 umail.Body = User.Identity.GetUserName() + " Updated Users Story Board for " + p.project_title+".";
-                tmail.Body = User.Identity.GetUserName() + " Created Users Story Board for " + p.project_title;
+                tmail.Body = User.Identity.GetUserName() + " Updated Users Story Board for " + p.project_title;
             }
 
             p.story_status = 1;
@@ -309,6 +309,149 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
                 }
                 else
                 {
+                    umail.To.Add(au.GetEmail(t.user_Id));
+                }
+            }
+            //smtp.Send(umail);
+            //smtp.Send(tmail);
+            return View();
+        }
+
+
+
+        [HttpGet]
+        public ActionResult createSrs(string id)
+        {
+            ViewBag.projectid = id;
+            Session["project_id"] = id;
+            int pid = Int32.Parse(id);
+            project p = m.projects.Find(pid);
+            Session["project_srs_status"] = p.srs_status;
+            if (p.srs_acceptance_status == "accepted")
+            {
+                Session["srs_acceptance"] = "accept";
+            }
+
+            var comments = m.srs_comments.Where(x => x.project_id == pid);
+            ViewBag.comments = comments;
+            
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult viewSrs(string id)
+        {
+            ViewBag.projectid = id;
+            Session["project_id"] = id;
+            project p = m.projects.Find(Int32.Parse((id)));
+            if (p.srs_acceptance_status == "accepted")
+            {
+                ViewBag.accept = true;
+            }
+            else
+            {
+                ViewBag.accept = false;
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult viewSrs(FormCollection form)
+        {
+            ViewBag.projectid = form["projectid"];
+            Session["project_id"] = form["projectid"];
+            srs_comment sc = new srs_comment();
+            sc.project_id = Int32.Parse(form["projectid"]);
+            if (form["comment_desc"] != "")
+            {
+               
+                sc.user_id = User.Identity.GetUserId();
+                sc.cdate = DateTime.Today;
+                sc.comment_desc = form["comment_desc"];
+                m.srs_comments.Add(sc);
+            }
+
+            project p = m.projects.Find(sc.project_id);
+            
+            if (form["srs_acceptance"] == "Accept")
+            {
+                p.srs_acceptance_status = "accepted";
+                ViewBag.srs_acceptance = "accepted";
+
+            }
+            else
+            {
+                p.srs_acceptance_status = "improvement needed";
+                ViewBag.srs_acceptance = "improvement needed";
+
+            }
+
+            if (p.srs_acceptance_status == "accepted")
+            {
+                ViewBag.accept = true;
+            }
+            else
+            {
+                ViewBag.accept = false;
+            }
+
+            m.SaveChanges();
+            return View();
+        }
+
+
+        [HttpPost, ValidateInput(false)]
+        public ActionResult createSrs(FormCollection form)
+        {
+            ViewBag.projectid = form["projectid"];
+            int pid = Int32.Parse(form["projectid"]);
+            project p = m.projects.Find(pid);
+            p.srs_desc = form["srs"];
+            if (p.srs_acceptance_status == "accepted")
+            {
+                Session["srs_acceptance"] = "accept";
+            }
+            var comments = m.srs_comments.Where(x => x.project_id == pid);
+            ViewBag.comments = comments;
+            MailMessage umail = new MailMessage();
+            MailMessage tmail = new MailMessage();
+
+
+            if (p.srs_status == 0)
+            {
+                umail.Body = User.Identity.GetUserName() + " Created Software Requirement Specification for " + p.project_title + ".";
+                tmail.Body = User.Identity.GetUserName() + " Created Software Requirement Specification for " + p.project_title;
+            }
+            else
+            {
+                umail.Body = User.Identity.GetUserName() + " Updated Software Requirement Specification for" + p.project_title + ".";
+                tmail.Body = User.Identity.GetUserName() + " Updated Software Requirement Specification for " + p.project_title;
+            }
+
+            p.srs_status = 1;
+            ViewBag.srs_updated = true;
+            Session["project_srs_status"] = p.srs_status;
+            m.SaveChanges();
+
+            umail.From = new MailAddress("ddumvc@gmail.com");
+            umail.Subject = "Notification From Canny";
+            tmail.From = new MailAddress("ddumvc@gmail.com");
+            tmail.Subject = "Notification From Canny";
+            ApplicationUserManager au = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var users = m.project_users.Where(x => x.project_Id == pid);
+            foreach (project_user t in users)
+            {
+
+                if (t.role != Roles.customer)
+                {
+                    tmail.To.Add(au.GetEmail(t.user_Id));
+                    tmail.Body +=
+                        ".As now srs is ready you can create issues and start working on it or admin will assign issues.";
+                }
+                else
+                {
+                    umail.Body +=
+                        ".If you have any conflicts or any part that you don't understand feel free to talk with your admin or teammates'.";
                     umail.To.Add(au.GetEmail(t.user_Id));
                 }
             }
