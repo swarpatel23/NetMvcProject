@@ -31,6 +31,7 @@ namespace ProjectManagement_cum_feedback_systemMVC.Models
         //-------------------------------------------------
         public virtual DbSet<project_message> project_messages { get; set; }
         //-------------------------------------------------
+        public virtual DbSet<srs_comment> srs_comments { get; set; }
     }
 
     //public class MyEntity
