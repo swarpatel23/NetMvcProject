@@ -1,0 +1,258 @@
+﻿@using ProjectManagement_cum_feedback_systemMVC.Models
+@model ProjectManagement_cum_feedback_systemMVC.Models.project_message
+@{
+    ViewBag.Title = "chat";
+}
+@{
+
+    <style>
+        div.panel-body {
+            overflow: scroll;
+            background: url('https://subtlepatterns.com/patterns/geometry2.png');
+        }
+
+        body > div.container-fluid > div > div.col-9 > div > div > div > a {
+            color: black;
+        }
+
+            body > div.container-fluid > div > div.col-9 > div > div > div > a > div:hover {
+                transition: 1s ease-in-out forwards;
+                transform: scale(1.02);
+                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            }
+
+        body > div.container-fluid > div > div.col-2 > div:nth-child(2) > div > a {
+            text-decoration: none;
+            color: #868e96;
+        }
+
+            body > div.container-fluid > div > div.col-2 > div:nth-child(2) > div > a:hover {
+                color: black;
+            }
+
+        .my-active {
+            color: black;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            border-radius: 12px 0px 0px 12px;
+            background-color: #f8f9fa;
+        }
+
+        .profile-item {
+            padding: 0.8rem;
+        }
+
+        body > div.container-fluid > div > div.col-10.bg-white > div > div.row > div.col-3.nunito.text-center > div:nth-child(4) > div > img {
+            max-height: 30px;
+        }
+    </style>
+}
+
+
+
+
+
+<div class="container-fluid">
+    <div class="row m-1">
+        @Html.Partial("_ProjectPartial")
+
+
+
+        <div class="col-10" ">
+            <div class="container-flex p-4 bg-white wrapper-rounded" style="min-height: 600px;">
+                <h3 class="nunito mb-3">
+                    ChatBox
+                </h3>
+
+                <div class="chat-panel panel panel-default">
+                    <div class="panel-heading">
+                        Chats
+                        <i class="fa fa-paper-plane fa-fw"></i>
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body" id="chat" style="height:250px;">
+                        <input type="hidden" id="displayname" value="@Session["username"]" />
+                        <input type="hidden" id="projname" value="@Session["project_id"]" />
+                        <input type="hidden" id="userId" value="@Session["userId"]" />
+                        <p id="discussion"></p>
+                    </div>
+                    <!-- /.panel-body -->
+                    <div class="panel-footer">
+                        <div class="input-group">
+                            <input id="message" type="text" name="message" class="form-control input-sm" placeholder="Type your message here..." />
+
+                            <span class="input-group-btn">
+                                <input type="button" class="btn btn-warning btn-sm" id="sendmessage" value="Send">
+
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 
+<form id="form1" method="post">
+
+    
+    <div class="row mt-4 mb-4">
+
+        <div class="col-12 col-lg-6 mb-lg-5">
+            <div class="input-fields">
+                <label for="userId">User ID</label>
+                <input type="text" name="userId" id="userId"
+                       value="@Session["userId"]" />
+            </div>
+        </div>
+        <div class="col-12 col-lg-6 mb-lg-5">
+            <div class="input-fields">
+                <label for="project_Id">ProjectId</label>
+                <input type="text" name="project_Id" id="project_Id"
+                       value="@Session["project_id"]" />
+            </div>
+        </div>
+        <div class="col-12 col-lg-6 mb-lg-2">
+            <div class="input-fields">
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username"
+                       value="@Session["username"]" />
+            </div>
+        </div>
+        <div class="col-12 col-lg-6 mb-lg-2">
+            <div class="input-fields">
+                <label for="messages">messages</label>
+                <input type="text" name="messages" id="messages" />
+            </div>
+        </div>
+
+
+        <div class="row mt-0">
+            <div class="col-12 pr-2">
+                <div class="btn btn-wrap">
+                    <button class="btn nunito confirm-btn" id="chatsave" style="margin-left: 15px;">
+                        Confirm
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+ -->
+<!-- 
+<script>
+    $(document).ready(function() {
+        $('#chatsave').click(function () {
+            
+            $.ajax({
+                type: "post",
+                url: "@Url.Action("chatsave", "Project")",
+                data: $('#form1').serializeArray(),
+                success: function(d) {
+                    /* d is the HTML of the returned response */
+
+                  //  $("#commandiv").html(d); //replaces previous HTML with action
+                   // $('#success').show();
+                    //setTimeout(function () { $("#success").hide(); }, 10000);
+                    //alert("success");
+
+                }
+
+            });
+        });
+    });
+</script> -->
+
+
+
+
+
+
+
+
+@section scripts {
+    @*<link rel="stylesheet" href="../../Content/css/style.css">
+        <link rel="stylesheet" href="../../Content/css/post.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+        <script src="https://cdn.tiny.cloud/1/3d2cmnxfl9u6baqb2prn5gy5dphdpl588qt88u15lj2v3tbc/tinymce/5/tinymce.min.js"></script>*@
+    @*<script>
+                tinymce.init({
+                    selector: 'textarea',
+                    height: 500,
+                    statusbar: false,
+                    plugins: 'lists advlist image imagetools',
+                    toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | table | fontsizeselect"
+                });
+        </script>*@
+
+
+    <script type="text/javascript">
+        function OnSuccess(response) {
+            var message = "Person Id: " + response.PersonId;
+            message += "\nName: " + response.Name;
+            message += "\nGender: " + response.Gender;
+            message += "\nCity: " + response.City;
+            alert(message);
+        }
+        function OnFailure(response) {
+            alert("Error occured.");
+        }
+    </script>
+
+    <!--Script references. -->
+    <!--The jQuery library is required and is referenced by default in _Layout.cshtml. -->
+    <!--Reference the SignalR library. -->
+    <script src="~/Scripts/jquery.signalR-2.4.1.min.js"></script>
+    <!--Reference the autogenerated SignalR hub script. -->
+    <script src="~/signalr/hubs"></script>
+    <!--SignalR script to update the chat page and send messages.-->
+    <script>
+        $(function () {
+            // Reference the auto-generated proxy for the hub.
+            var chat = $.connection.chatHub;
+            // Create a function that the hub can call back to display messages.
+            chat.client.addNewMessageToPage = function (name,projname ,message) {
+                var pic = "../../Content/images/userpic.png";
+                if (projname == $("#projname").val().toString()) {
+                    if (name != $("#displayname").val().toString()) {
+                        // Add the message to the page.
+                        $('#discussion').append('<p style="color:green; text-align:left; width:500px"><strong><img width="50" height="50" style="border-radius: 50%;" src=' + pic + ' title=' + name + '>'
+                            + ' </strong> ' + htmlEncode(message) + '</p>');
+                    }
+                    else {
+                        // Add the message to the page.
+                        $('#discussion').append('<p style="color:blue;text-align:right;"><strong><img width="50" height="50" style="border-radius: 50%;" src=' + pic + ' title=' + name + '>'
+                            + ' </strong> ' + htmlEncode(message) + '</p>');
+                    }
+                }
+            };
+
+           // console.log(typeof (k));
+            // Get the user name and store it to prepend to messages.
+            //$('#displayname').val(
+            //    k
+            //    );
+            // Set initial focus to message input box.
+            $('#message').focus();
+            // Start the connection.
+            $.connection.hub.start().done(function () {
+                $('#sendmessage').click(function () {
+                    // Call the Send method on the hub.
+                    chat.server.send($('#displayname').val(), $('#projname').val(), $('#message').val());
+                    // Clear text box and reset focus for next comment.
+                    $('#message').val('').focus();
+                });
+            });
+        });
+        // This optional function html-encodes messages for display in the page.
+        function htmlEncode(value) {
+            var encodedValue = $('<div />').text(value).html();
+            return encodedValue;
+        }
+    </script>
+}
+
+
+

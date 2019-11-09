@@ -9,6 +9,9 @@ namespace ProjectManagement_cum_feedback_systemMVC
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
+            // ------------------------------
+            app.MapSignalR();
+            // ------------------------------
         }
     }
 }

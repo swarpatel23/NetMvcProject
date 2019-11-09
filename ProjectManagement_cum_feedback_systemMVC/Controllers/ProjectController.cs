@@ -264,6 +264,41 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
             return View();
         }
 
+        //----------------------------------------------------
+        [HttpGet]
+        public ActionResult chat(string id,string role)
+        {
+            ViewBag.projectid = id;
+
+            int projectid = Int32.Parse(id);
+            Session["project_id"] = projectid;
+            Session["userId"] = User.Identity.GetUserId();
+            var p = m.projects.First(x => x.Project_Id == projectid);
+            ViewBag.project_title = p.project_title;
+            Session["project_title"] = p.project_title;
+            Session["project_story_status"] = p.story_status;
+            Session["user_project_role"] = role;
+
+
+
+            var teammodel = m.project_users.Where(x => x.project_Id == projectid && x.role == Roles.teammember);
+
+            var usermodel = m.project_users.Where(x => x.project_Id == projectid && x.role == Roles.customer);
+
+            ViewBag.teammodel = teammodel;
+            ViewBag.usermodel = usermodel;
+            return View();
+        }
+
+        public ActionResult chatsave(string userId, string project_Id, string username, string messages)
+        {
+            Console.Write(userId, project_Id, username, messages);
+            // ViewBag.Records = "Name : " + Messages.username + " City:  " + Messages.messages + " Addreess: " + Messages.Message_Id;
+            return Content("succes");
+        }
+
+        //----------------------------------------------------
+
 
         [HttpPost, ValidateInput(false)]
         public ActionResult createStory(FormCollection form)

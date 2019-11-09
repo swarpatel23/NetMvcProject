@@ -11,16 +11,28 @@
     </div>
     <div class="row">
         <div class="col-12 m-3 " style="font-size: 1.1rem;">
-            <a href="#" class="nunito my-active">
-                <div class="row my-active p-2">
+            <a href="@Url.Action("addMember", "Project",new { id = @Session["project_id"], role = @Session["user_project_role"] })" class="nunito">
+                <div class="my-active row p-2">
                     <div class="col-2">
                         <i class="fas fa-users"></i>
                     </div>
                     <div class="col-10">
-                        @Html.ActionLink("Team", "addMember", "Project", new { id = @Session["project_id"], role = @Session["user_project_role"] }, null)
+                        Team
                     </div>
                 </div>
             </a>
+            <!------------------------------------------------------------------------------------>
+            <a class="nunito" href="@Url.Action("chat", "Project",new { id = @Session["project_id"], role = @Session["user_project_role"] })">
+                <div class="row p-2 ">
+                    <div class="col-2">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <div class="col-10">
+                        Chat
+                    </div>
+                </div>
+            </a>
+            <!------------------------------------------------------------------------------------>
             <a href="#" class="nunito">
                 <div class="row p-2 ">
                     <div class="col-2">
@@ -53,37 +65,37 @@
             </a>
             @if ((string)(Session["user_project_role"]) == "customer")
             {
-                <a href="#" class="nunito">
+                <a href="@Url.Action("createStory", "Project",new { id = @ViewBag.projectid })" class="nunito">
                     <div class="row p-2">
                         <div class="col-2 text-center">
                             <i class="fa fa-pencil-square-o"></i>
                         </div>
                         <div class="col-10">
-                            @Html.ActionLink("Create StoryBoard", "createStory", "Project", new { id = @ViewBag.projectid }, null)
+                            Create StoryBoard
                         </div>
                     </div>
                 </a>
             }
             else
             {
-                <a href="#" class="nunito">
+                <a href="@Url.Action("viewStory", "Project",new { id = @Session["project_id"] })" class="nunito">
                     <div class="row p-2">
                         <div class="col-2 text-center">
                             <i class="fas fa-scroll"></i>
                         </div>
                         <div class="col-10">
-                            @Html.ActionLink("View StoryBoard", "viewStory", "Project", new { id = @Session["project_id"] }, null)
+                           View StoryBoard
                         </div>
                     </div>
                 </a>
             }
-            <a href="#" class="nunito">
+            <a href="@Url.Action("removeProject", "Project",new { id = @Session["project_id"] })" class="nunito">
                 <div class="row p-2">
                     <div class="col-2 text-center">
                         <i class="fas fa-trash"></i>
                     </div>
                     <div class="col-10">
-                        @Html.ActionLink("Delete Project", "removeProject", "Project", new { id = @Session["project_id"] }, null)
+                        Delete Project
                     </div>
                 </div>
             </a>

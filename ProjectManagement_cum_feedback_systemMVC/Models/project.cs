@@ -38,7 +38,9 @@ namespace ProjectManagement_cum_feedback_systemMVC.Models
 
         public ICollection<post_comment> project_posts_comments { get; set; }
 
-
+        //----------------------------------
+        public ICollection<project_message> messages { get; set; }
+        //----------------------------------
 
     }
 }
