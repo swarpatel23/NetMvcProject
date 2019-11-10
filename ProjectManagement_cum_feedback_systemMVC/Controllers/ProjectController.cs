@@ -279,7 +279,8 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
             Session["project_story_status"] = p.story_status;
             Session["user_project_role"] = role;
 
-
+            var previousmsgs = m.project_messages.Where(x => x.project_Id == projectid);
+            ViewBag.previousmsgs = previousmsgs;
 
             var teammodel = m.project_users.Where(x => x.project_Id == projectid && x.role == Roles.teammember);
 
@@ -290,11 +291,21 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
             return View();
         }
 
-        public ActionResult chatsave(string userId, string project_Id, string username, string messages)
+
+        public EmptyResult chatsave(string message)
         {
-            Console.Write(userId, project_Id, username, messages);
+
+            //Console.Write(userId, project_Id, username, messages);
             // ViewBag.Records = "Name : " + Messages.username + " City:  " + Messages.messages + " Addreess: " + Messages.Message_Id;
-            return Content("succes");
+            project_message pm = new project_message();
+            pm.project_Id = (int)Session["project_id"];
+            pm.userId = User.Identity.GetUserId();
+            pm.username = User.Identity.GetUserName();
+            pm.messages = message;
+            pm.msgtime = DateTime.Now;
+            m.project_messages.Add(pm);
+            m.SaveChanges();
+            return new EmptyResult();
         }
 
         //----------------------------------------------------

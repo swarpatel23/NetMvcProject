@@ -22,6 +22,8 @@ namespace ProjectManagement_cum_feedback_systemMVC.Models
 
         public string username { get; set; }
 
+        public DateTime msgtime { get; set; }
+
         [ForeignKey("project_Id")]
         public virtual project Project { get; set; }
     }
