@@ -192,6 +192,15 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
         }
 
 
+        public JsonResult getUserEmail(string term)
+        {
+            ApplicationUserManager au = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            List<string> useremail = au.Users.Where(x => x.Email.StartsWith(term)).Select(y => y.Email).ToList();
+
+            return Json(useremail, JsonRequestBehavior.AllowGet);
+        }
+
+
         public ActionResult removeMember(string pid,string uid)
         {
             int projectid = Int32.Parse(pid);
