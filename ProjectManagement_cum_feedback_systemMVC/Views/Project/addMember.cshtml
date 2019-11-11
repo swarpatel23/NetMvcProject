@@ -16,7 +16,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.js"></script>
-
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">  
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>  
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script> 
 }
 
 
@@ -56,9 +58,9 @@
         body > div.container-fluid > div > div.col-10.bg-white > div > div.row > div.col-3.nunito.text-center > div:nth-child(4) > div > img {
             max-height: 30px;
         }
+        .ui-front { z-index:2147483647 !important; }
     </style>
 }
-
 
 
 
@@ -105,7 +107,7 @@
                                     <h4 class="pl-3">Add Customers</h4>
                                     <div class="text-center">
                                         <div class="cust">
-                                            <input type="text" style="margin-top: 4px;" name="cust0">
+                                            <input type="text" style="margin-top: 4px;" name="cust0" id="cust0">
                                             <button style="margin-left: 1px;" class="removecust btn btn-light">Remove</button>
                                         </div>
                                         <button id="addcust" class="btn btn-light text-right text-primary" style="margin-top: 4px;">Add More..</button>
@@ -279,12 +281,30 @@
 </div>
 
 <script>
+    $(function() {
+        $("#cust0").autocomplete(
+            {
+                source : '@Url.Action("getUserEmail")'
+            });
+    });
+</script>
+
+<script>
+    $(function() {
+        $("#mem0").autocomplete(
+            {
+                source : '@Url.Action("getUserEmail")'
+            });
+    });
+</script>
+
+<script>
 
     if ('@ViewBag.successMessage' == "success") {
         $('#divSuccessMessage').show();
         $('#divSuccessMessage').delay(5000).fadeOut(1600);
-       
-       
+
+
     }
     else {
         $('#divSuccessMessage').hide();
@@ -300,9 +320,16 @@
         $('#nteam').val(teammember);
         e.preventDefault();
         $('<div/>').addClass('team')
-            .html($('<input type="text" style="margin-top:4px;"/>').attr("name", id))
+            .html($('<input type="text" style="margin-top:4px;"/>').attr("name", id).attr("id",id))
             .append($('<button class="btn btn-light" style="margin-left:4px;"/>').addClass('remove').text('Remove'))
             .insertBefore(this);
+
+        $(function () {
+            $('#' + id).autocomplete(
+                {
+                    source: '@Url.Action("getUserEmail")'
+                });
+        });
     });
     $(document).on('click', 'button.remove', function (e) {
 
@@ -316,10 +343,22 @@
 
         var cid = "cust" + customer;
         e.preventDefault();
+       
         $('<div/>').addClass('cust')
-            .html($('<input type="text" style="margin-top:4px;"/>').attr("name", cid))
+            .html($('<input type="text" style="margin-top:4px;"/>').attr("name", cid).attr("id",cid))
             .append($('<button class="btn btn-light" style="margin-left:4px;"/>').addClass('removecust').text('Remove'))
             .insertBefore(this);
+
+         $(function() {
+            $('#'+cid).autocomplete(
+            {
+                source : '@Url.Action("getUserEmail")'
+            });
+        });
+
+        
+     
+       
     });
 
     $(document).on('click', 'button.removecust', function (e) {
