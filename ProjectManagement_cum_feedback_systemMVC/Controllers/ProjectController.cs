@@ -309,7 +309,103 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
         }
 
         //----------------------------------------------------
+        //----------------------------------------------------
+        [HttpGet]
+        public ActionResult issues(string id, string role) {
+            ViewBag.project_id = id;
+            Session["project_id"] = id;
+            int projectid = Int32.Parse(id);
+            Session["project_id"] = projectid;
+            Session["userId"] = User.Identity.GetUserId();
+            var p = m.projects.First(x => x.Project_Id == projectid);
+            var issuemodal = m.project_issue.Where(x => x.project_Id == projectid);
+            ViewBag.issuemodal = issuemodal;
+            var teammodel = m.project_users.Where(x => x.project_Id == projectid && x.role == Roles.teammember);
+            var usermodel = m.project_users.Where(x => x.project_Id == projectid && x.role == Roles.customer);
+            Session["user_project_role"] = role;
+            ViewBag.user_project_role = role;
+            return View();
+        }
 
+        [HttpPost]
+        public ActionResult issues(FormCollection form)
+        {
+            int projid = Int32.Parse(form["projectid"]);
+            int prio = Int32.Parse(form["priority"]);
+            int issueassstatus = Int32.Parse(form["issueassstatus"]);
+            string issuetitle = form["issuetitle"];
+            string issuedesc = form["issuedesc"];
+            int issuestatus = Int32.Parse(form["issuestatus"]);
+            int issuetype = Int32.Parse(form["issuetype"]);
+            project_issue pi = new project_issue();
+            pi.project_Id = projid;
+            pi.priority = prio;
+            pi.assign_status = issueassstatus;
+            pi.issue_title = issuetitle;
+            pi.issue_desc = issuedesc;
+
+            if (issuestatus==0)
+                pi.issue_status = issue_stat.todo;
+            else if (issuestatus==1)
+                pi.issue_status = issue_stat.inprogress;
+            else
+                pi.issue_status = issue_stat.done;
+
+            if (issuetype == 0)
+                pi.issue_type = issue_type.newfeature;
+            else if (issuetype == 1)
+                pi.issue_type = issue_type.bug;
+            else
+                pi.issue_type = issue_type.improvement;
+            
+            m.project_issue.Add(pi);
+            m.SaveChanges();
+            TempData["project_id"] = projid;
+            Session["project_id"] = projid;
+            ViewData["project_id"] = projid;
+            Session["user_project_role"] = form["role"];
+            ViewData["user_project_role"] = form["role"];
+            var issuemodal = m.project_issue.Where(x => x.project_Id == projid);
+            ViewBag.issuemodal = issuemodal;
+            return RedirectToAction("issues", "Project", new { id = projid,role = form["role"] });
+        }
+
+        public ActionResult changePriority(FormCollection form)
+        {
+            int projid = Int32.Parse(form["pid"]);
+            int issid = Int32.Parse(form["issueid"]);
+            int prionew = Int32.Parse(form["issuepriochange"]);
+            string role = form["role"];
+            project_issue x = m.project_issue.Find(issid);
+            x.priority = prionew;
+            m.SaveChanges();
+            TempData["project_id"] = projid;
+            Session["project_id"] = projid;
+            ViewData["project_id"] = projid;
+            Session["user_project_role"] = form["role"];
+            ViewData["user_project_role"] = form["role"];
+            return RedirectToAction("issues", "Project", new { id = projid, role = role });
+        }
+
+        public ActionResult removeIssue(string projid,string issid,string urole)
+        {
+            int pid = Int32.Parse(projid);
+            int iid = Int32.Parse(issid);
+            var x = m.project_issue.Find(iid);
+            m.project_issue.Remove(x);
+            m.SaveChanges();
+            TempData["project_id"] = projid;
+            Session["project_id"] = projid;
+            ViewData["project_id"] = projid;
+            Session["user_project_role"] = urole;
+            ViewData["user_project_role"] = urole;
+            return RedirectToAction("issues", "Project", new { id = pid, role = urole });
+        }
+
+
+
+
+        //----------------------------------------------
 
         [HttpPost, ValidateInput(false)]
         public ActionResult createStory(FormCollection form)

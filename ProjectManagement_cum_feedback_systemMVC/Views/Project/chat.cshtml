@@ -6,6 +6,11 @@
     ViewBag.Title = "chat";
 }
 @{
+    <link rel="stylesheet" href="../../Content/css/style.css">
+    <link rel="stylesheet" href="../../Content/css/post.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.js"></script>
 
     <style>
         #chat::-webkit-scrollbar {
@@ -74,6 +79,7 @@
                         Chats
                         <i class="fa fa-paper-plane fa-fw"></i>
                     </div>
+                    <br />
                     <!-- /.panel-heading -->
                     <div class="panel-body" id="chat" style="height:350px;">
                         <input type="hidden" id="displayname" value="@Session["username"]" />
@@ -96,7 +102,7 @@
                                     {
                                         <p style="color: blue; text-align: right;">
                                             <strong>
-                                                <img width="50" height="50" style="border-radius: 50%;" src="../../Content/images/userpic.png" title="swar239">
+                                                <img width="50" height="50" style="border-radius: 50%;" src="../../Content/images/userpic.png" title="@pm.username">
                                             </strong> @pm.messages
                                         </p>
                                     }
@@ -104,7 +110,7 @@
                                     {
                                         <p style="color: green; text-align: left;">
                                             <strong>
-                                                <img width="50" height="50" style="border-radius: 50%;" src="../../Content/images/userpic.png" title="swar239">
+                                                <img width="50" height="50" style="border-radius: 50%;" src="../../Content/images/userpic.png" title="@pm.username">
                                             </strong> @pm.messages
                                         </p>
                                     }
@@ -114,16 +120,19 @@
                             <div id="endmsg"></div>
                         </p>
                         </div>
+                        <br />
                         <!-- /.panel-body -->
                         <div class="panel-footer">
 
-                            <div class="input-group">
-                                <input id="message" type="text" name="message" class="form-control input-sm" placeholder="Type your message here..." />
-
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-warning btn-sm" id="sendmessage" value="Send">Send</button>
-
-                                </span>
+                            <div class="row">
+                                <div class="col-10">
+                                    <input id="message" type="text" name="message" class="input-group input-sm" placeholder="Type your message here..." />
+                                </div>
+                                <div class="col-2">
+                                    <span class="input-group-btn ml-4">
+                                        <button type="button" class="btn btn-warning btn-lg" id="sendmessage" value="Send">Send</button>
+                                    </span>
+                                </div>
                             </div>
 
                         </div>

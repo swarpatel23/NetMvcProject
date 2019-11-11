@@ -1,0 +1,301 @@
+﻿@using System.Diagnostics.Eventing
+@using System.Web.UI.HtmlControls
+@using Microsoft.AspNet.Identity
+@using Microsoft.AspNet.Identity.Owin
+@using ProjectManagement_cum_feedback_systemMVC.Models
+@model ProjectManagement_cum_feedback_systemMVC.Models.project_issue
+@{
+    ViewBag.Title = "Issues";
+}
+
+@section Scripts {
+    <link rel="stylesheet" href="../../Content/css/style.css">
+    <link rel="stylesheet" href="../../Content/css/post.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.js"></script>
+
+}
+
+
+@{
+
+    <style>
+        body > div.container-fluid > div > div.col-9 > div > div > div > a {
+            color: black;
+        }
+
+            body > div.container-fluid > div > div.col-9 > div > div > div > a > div:hover {
+                transition: 1s ease-in-out forwards;
+                transform: scale(1.02);
+                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            }
+
+        body > div.container-fluid > div > div.col-2 > div:nth-child(2) > div > a {
+            text-decoration: none;
+            color: #868e96;
+        }
+
+            body > div.container-fluid > div > div.col-2 > div:nth-child(2) > div > a:hover {
+                color: black;
+            }
+
+        .my-active {
+            color: black;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            border-radius: 12px 0px 0px 12px;
+            background-color: #f8f9fa;
+        }
+
+        .profile-item {
+            padding: 0.8rem;
+        }
+
+        body > div.container-fluid > div > div.col-10.bg-white > div > div.row > div.col-3.nunito.text-center > div:nth-child(4) > div > img {
+            max-height: 30px;
+        }
+    </style>
+}
+
+
+
+
+
+<div class="container-fluid">
+    <div class="row m-1">
+        @Html.Partial("_ProjectPartial")
+        <div class="col-10 ">
+            <div class="container-flex p-4 bg-white wrapper-rounded" style="min-height: 600px;">
+                <h3 class="nunito mb-3">Issues</h3>
+                <!-- wrapper for add member -->
+                <div class="row mt-5">
+                    <div class="col-12" style="padding: 0px 30px;">
+                    <button class="btn btn-outline-primary align-items-center" data-toggle="modal"
+                            data-target="#addissuemodal">
+                        <i class="fas fa-plus-circle pr-2"></i>
+                        Add Issue
+                    </button>
+                    <!-- The Member Modal -->
+                    <div class="modal" id="addissuemodal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Issue Details</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                    @using (Html.BeginForm())
+                                    {
+
+                                        <div class="form-group">
+                                            <h4 class="pl-3">Title:</h4>
+                                            <input type="text" name="issuetitle" id="issuetitle">
+                                        </div>
+                                        <div class="form-group">
+                                            <h4 class="pl-3">Description:</h4>
+                                            <textarea name="issuedesc" id="issuedesc" rows="4" class="form-control"></textarea>
+                                        </div>
+
+                                        <div class="form-row">
+                                            <div class="col-md-6 mb-3">
+                                                <h4 class="pl-3">Type:</h4>
+                                                <select class="custom-select mr-sm-2" id="issuetype" name="issuetype">
+                                                    <option selected>Choose...</option>
+                                                    <option value="0">New Feature</option>
+                                                    <option value="1">Bug</option>
+                                                    <option value="2">Improvement</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <h4 class="pl-3">Status:</h4>
+                                                <select class="custom-select mr-sm-2" name="issuestatus" id="issuestatus">
+                                                    <option selected>Choose...</option>
+                                                    <option value="0">To-Do</option>
+                                                    <option value="1">In Progress</option>
+                                                    <option value="2">Done</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="col-md-6 mb-3">
+                                                <h4 class="pl-3">Priority:</h4>
+                                                <select class="custom-select mr-sm-2" id="priority" name="priority">
+                                                    <option selected>Choose...</option>
+                                                    <option value="0">Very Low</option>
+                                                    <option value="1">Low</option>
+                                                    <option value="2">High</option>
+                                                    <option value="3">Very High</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <h4 class="pl-3">Assign Status:</h4>
+                                                <select class="custom-select mr-sm-2" name="issueassstatus" id="issueassstatus">
+                                                    <option selected>Choose...</option>
+                                                    <option value="0">Unassigned</option>
+                                                    <option value="1">Assigned</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <input type="hidden" name="projectid" value="@ViewBag.project_id" />
+                                        <input type="hidden" name="role" value="@ViewBag.user_project_role" />
+                                        <div class="modal-footer">
+                                            <input type="submit" class="btn btn-primary text-primary" value="Add" />
+                                        </div>
+                                    }
+                                    <!-- Modal footer -->
+                                </div>
+                                </div>
+                        </div>
+                    </div>
+                    <!-- The role Modal -->
+                    </div>
+                </div>
+                <!--wrapper for members-->
+                <br/>
+                <br />
+                <div class="container-fluid">
+                    @foreach (project_issue pi in ViewBag.issuemodal)
+                    {
+                        <div class="border border-dark">
+                            @pi.issue_title<br />
+                            @pi.issue_desc<br />
+                            <div class="row nunito">
+
+                                <div class="col-3">
+                                    <div class="profile-item">
+
+                                        <div class="d-flex align-items-center pt-1">
+                                            Type:    @if (pi.issue_type == issue_type.newfeature)
+                                            { @:New Feature
+                                     }
+                                            else if (pi.issue_type == issue_type.bug)
+                                            {
+                                                @:Bug
+                                    }
+                                            else
+                                            {
+                                                @:Improvement
+                                    }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="profile-item">
+
+                                        <div class="d-flex align-items-center pt-1">
+                                            Status :    @if (pi.issue_status == issue_stat.done)
+                                            { @:Done
+                                     }
+                                            else if (pi.issue_status == issue_stat.inprogress)
+                                            {
+                                                @:Inprogress
+                                    }
+                                            else
+                                            {
+                                                @:Done
+                                    }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="row">
+                                    <div class="col-6">
+                                        <div class="profile-item">
+                                        @if (ViewBag.user_project_role != "admin")
+                                        {
+                                            <div class="d-flex align-items-center pt-1">
+                                                
+                                                Priority:     @if (pi.priority == 0)
+                                                { @:Very Low
+                                     }
+                                                else if (pi.priority == 1)
+                                                {
+                                                    @:Low
+                                    }
+                                                else if (pi.priority == 2)
+                                                {
+                                                    @:High
+                                    }
+                                                else
+                                                {
+                                                    @:Very High
+                                    }
+                                            </div>
+                                        }
+                                        else
+                                        {   using (Html.BeginForm("changePriority", "Project", FormMethod.Post))
+                                            {
+                                                <input name="issueid" value="@pi.issue_Id" hidden />
+                                                <input name="role" value="@ViewBag.user_project_role" hidden />
+                                                <input name="pid" value="@pi.project_Id" hidden /> 
+                                            <select class="custom-select mr-sm-2" name="issuepriochange">
+                                                Priority:     @if (pi.priority == 0)
+                                                {
+                                                    <option>Choose...</option>
+                                                    <option selected value="0">Very Low</option>
+                                                    <option value="1">Low</option>
+                                                    <option value="2">High</option>
+                                                    <option value="3">Very High</option>
+                                                }
+                                                else if (pi.priority == 1)
+                                                {
+                                                    <option>Choose...</option>
+                                                    <option  value="0">Very Low</option>
+                                                    <option selected value="1">Low</option>
+                                                    <option value="2">High</option>
+                                                    <option value="3">Very High</option>
+                                                }
+                                                else if (pi.priority == 2)
+                                                {
+                                                    <option>Choose...</option>
+                                                        <option value="0">Very Low</option>
+                                                        <option  value="1">Low</option>
+                                                        <option selected value="2">High</option>
+                                                        <option value="3">Very High</option>
+                                                }
+                                                else
+                                                {
+                                                    <option>Choose...</option>
+                                                        <option value="0">Very Low</option>
+                                                        <option value="1">Low</option>
+                                                        <option value="2">High</option>
+                                                        <option selected value="3">Very High</option>
+
+                                                }
+                                                 
+                                            </select>
+
+                                                    <div class="profile-item">
+                                                        <button type="submit" class="btn btn-success">Change Priority</button>
+                                                    </div>
+                                            }
+
+                                        }
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            @if (@ViewBag.user_project_role == "admin")
+                                            {
+                                            <button type="button" class="btn">
+                                                @Html.ActionLink("Remove Issue", "removeIssue", "Project", new { projid = @pi.project_Id, issid = @pi.issue_Id, urole = @ViewBag.user_project_role }, new { @class = "btn btn-danger" })
+                                            </button>
+                                            }
+                                            </div>
+                                        </div>    
+                                         
+                                </div>
+                                
+                            </div>
+                        </div>
+                    }
+                </div>
+
+            </div>      
+        </div>
+    </div>
+</div>
+
+
