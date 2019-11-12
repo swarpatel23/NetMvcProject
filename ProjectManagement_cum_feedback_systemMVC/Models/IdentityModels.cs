@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.Owin.Security;
 
 namespace ProjectManagement_cum_feedback_systemMVC.Models
 {
@@ -23,6 +24,8 @@ namespace ProjectManagement_cum_feedback_systemMVC.Models
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
+
+        public string UserPhoto { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>

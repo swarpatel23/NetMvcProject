@@ -11,6 +11,7 @@ namespace ProjectManagement_cum_feedback_systemMVC
         public void Send(string name,string projname, string message)
         {
             // Call the addNewMessageToPage method to update clients.
+
             Clients.All.addNewMessageToPage(name,projname, message);
         }
     }

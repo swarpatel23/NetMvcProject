@@ -15,9 +15,27 @@
         <div class="col-12 col-lg-3">
             <div class="row m-2 bg-white wrapper-rounded">
                 <div class="col-0 col-lg-12">
-                    <div class="row mt-3" style="filter:drop-shadow(-1px 6px 3px rgba(50, 50, 0, 0.5));">
+                    @{
+                        string userphoto = Session["userpic"] as string;
+                    }
+                    <div class="row mt-3" style="filter: drop-shadow(-1px 6px 3px rgba(50, 50, 0, 0.5));">
                         <div class="col-12 circle-profile">
-                            <img src="~/Content/images/userpic.png" alt="profile" class="img-fluid">
+                            @if (userphoto != null)
+                            {
+                                <img src="~/Content/userphotos/@userphoto" alt="profile" id="preview" class="img-fluid text-center" style="width: 239px; height: 191px;">
+                            }
+                            else
+                            {
+                                <img src="~/Content/images/userpic.png" alt="profile" id="preview" class="img-fluid text-center" style="width: 239px; height: 191px;">
+
+                            }
+                        </div>
+                        <div style="background: #fff; bottom: 26px; position: absolute; right: 67px; overflow: visible; height: 32px; width: 32px; border-radius: 50%; text-align: center;">
+                            <button aria-label="Change profile picture." style="border-radius: 50%; background: #ffffff; outline: none;" id="editimage">
+                                <svg enable-background="new 0 0 24 24" focusable="false" height="26" viewBox="0 0 24 24" width="18" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <path d="M20 5h-3.17L15 3H9L7.17 5H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 14H4V7h16v12zM12 9c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4z"></path>
+                                </svg>
+                            </button>
                         </div>
                     </div>
                     <div class="row nunito mt-2">
@@ -33,7 +51,7 @@
                         <div class="col-12 mt-3">
                             <nav class="nav flex-column">
                                 <a class="nav-link active" id="profile" href="#">Profile</a>
-                                @Html.ActionLink("Projects","allUserProject","Project",null,new {@class= "navbar-link text-muted",@style="padding-left:15px;" })
+                                @Html.ActionLink("Projects", "allUserProject", "Project", null, new {@class = "navbar-link text-muted", @style = "padding-left:15px;"})
                                 <a class="nav-link text-muted" id="feedback" href="#">Feedbacks</a>
                             </nav>
                         </div>

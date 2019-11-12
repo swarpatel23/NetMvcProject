@@ -2,7 +2,7 @@
 @{
     ApplicationUser u = ViewBag.user;
 }
-<form id="form" method="post">
+<form id="form" method="post" enctype = "multipart/form-data">
     <div class="row">
         <div class="col-12">
             <!--Main content -->
@@ -52,10 +52,12 @@
                         </select>
                     </div>
                 </div>
+                <input type="file" name="userpic" id="userpic" accept=".jpg,.jpeg,.png"  style="visibility: hidden">
+                
                 <div class="row mt-0">
                     <div class="col-12 pr-2">
                         <div class="btn btn-wrap">
-                            <button class="btn nunito confirm-btn" id="edituser" style="margin-left: 15px;">
+                            <button type="button" class="btn nunito confirm-btn text-right" id="edituser">
                                 Confirm
                             </button>
                         </div>
@@ -68,23 +70,59 @@
 
 
 <script>
-    $(document).ready(function() {
-        $('#edituser').click(function() {
+    $('#editimage').click(function () {
+        $('#userpic').click();
+    });
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#preview').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#userpic").change(function () {
+        readURL(this);
+    });
+
+    $(document).ready(function () {
+        
+        $('#edituser').click(function () {
+            var formData = new FormData();
+            formData.append("firstname", $("#firstname").val());
+            formData.append("lastname", $("#lastname").val());
+            formData.append("username", $("#username").val());
+            formData.append("phone", $("#Phone").val());
+            formData.append("twofactor", $("#twofactor").val());
+            formData.append("userpic", $('#userpic')[0].files[0]);
+            
             $.ajax({
                 type: "post",
                 url: "@Url.Action("updateuser", "Project")",
-                data: $('#form').serializeArray(),
+                enctype: 'multipart/form-data',
+                contentType: false,
+                processData: false,
+                data: formData,
                 success: function(d) {
                     /* d is the HTML of the returned response */
                    
                     $("#commandiv").html(d); //replaces previous HTML with action
                     $('#success').show();
+                    location.reload(true);
                     //setTimeout(function () { $("#success").hide(); }, 10000);
                     //alert("success");
 
                 }
 
+
+
             });
+          
         });
     });
 </script>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
+using System.IO;
 using System.Linq;
 using System.Net.Mail;
 using System.Reflection;
@@ -223,6 +224,9 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
 
         public ActionResult profile()
         {
+            ApplicationUserManager au = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var x = au.FindById(User.Identity.GetUserId());
+            Session["userpic"] = x.UserPhoto;
             return View();
         }
 
@@ -232,18 +236,43 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
             ApplicationUserManager au = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
             var x = au.FindById(User.Identity.GetUserId());
             ViewBag.user = x;
+            Session["userpic"] = x.UserPhoto;
+
             return PartialView();
         }
 
-        public ActionResult updateuser(string firstname,string lastname,string username,string Phone)
+        public ActionResult updateuser(FormCollection form, HttpPostedFileBase userpic)
         {
             ApplicationUserManager au = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
             var x = au.FindById(User.Identity.GetUserId());
 
-            x.FirstName = firstname;
-            x.LastName = lastname;
-            x.UserName = username;
-            x.PhoneNumber = Phone;
+            x.FirstName = form["firstname"];
+            x.LastName = form["lastname"];
+            x.UserName = form["username"]; 
+            x.PhoneNumber = form["phone"];
+            //x.UserPhoto = form["userpic"];
+            if (userpic != null)
+            {
+                string filename = Path.GetFileNameWithoutExtension(userpic.FileName);
+                string extension = Path.GetExtension(userpic.FileName);
+                filename = filename + DateTime.Now.ToString("yymmssff") + extension;
+                x.UserPhoto = filename;
+                string filepath = Path.Combine(Server.MapPath("~/Content/userphotos"), filename);
+                userpic.SaveAs(filepath);
+            }
+
+
+            /*if (file.ContentLength > 0)
+            {
+                string filename = Path.GetFileNameWithoutExtension(file.FileName);
+                string extension = Path.GetExtension(file.FileName);
+                filename = filename + DateTime.Now.ToString("yymmssff") + extension;
+                x.UserPhoto = filename;
+                string filepath = Path.Combine(Server.MapPath("~/Content/userphotos"),filename);
+                file.SaveAs(filepath);
+            }
+*/
+
             au.Update(x);
             ApplicationSignInManager SignInM = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
            
