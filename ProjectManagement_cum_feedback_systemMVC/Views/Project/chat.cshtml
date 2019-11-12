@@ -278,9 +278,10 @@
             
             // Create a function that the hub can call back to display messages.
             chat.client.addNewMessageToPage = function (name, projname, message,pix) {
-            
                 var pic = "../../Content/userphotos/"+pix;
-               
+                if (pix == "")
+                    pic = "../../Content/images/userpic";
+                
 
                 if (projname == $("#projname").val().toString()) {
                     if (name != $("#displayname").val().toString()) {
