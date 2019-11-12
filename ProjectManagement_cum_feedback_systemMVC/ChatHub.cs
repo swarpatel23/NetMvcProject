@@ -8,11 +8,11 @@ namespace ProjectManagement_cum_feedback_systemMVC
 {
     public class ChatHub : Hub
     {
-        public void Send(string name,string projname, string message)
+        public void Send(string name,string projname, string message,string userpic)
         {
             // Call the addNewMessageToPage method to update clients.
 
-            Clients.All.addNewMessageToPage(name,projname, message);
+            Clients.All.addNewMessageToPage(name,projname, message,userpic);
         }
     }
 }

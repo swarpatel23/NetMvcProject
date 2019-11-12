@@ -86,6 +86,7 @@
                         <input type="hidden" id="displayname" value="@Session["username"]" />
                         <input type="hidden" id="projname" value="@Session["project_id"]" />
                         <input type="hidden" id="userId" value="@Session["userId"]" />
+                        <input type="hidden" id="userpic" value="@Session["userpic"]" />
                         <p id="discussion">
                             @{
                                 DateTime d  = new DateTime();
@@ -276,9 +277,9 @@
             var chat = $.connection.chatHub;
             
             // Create a function that the hub can call back to display messages.
-            chat.client.addNewMessageToPage = function (name, projname, message) {
+            chat.client.addNewMessageToPage = function (name, projname, message,pix) {
             
-                var pic = "../../Content/images/userpic.png";
+                var pic = "../../Content/userphotos/"+pix;
                
 
                 if (projname == $("#projname").val().toString()) {
@@ -309,7 +310,7 @@
                 $('#sendmessage').click(function () {
                     // Call the Send method on the hub.
                    
-                    chat.server.send($('#displayname').val(), $('#projname').val(), $('#message').val());
+                    chat.server.send($('#displayname').val(), $('#projname').val(), $('#message').val(), $('#userpic').val());
                     // Clear text box and reset focus for next comment.
                     $('#message').val('').focus();
                 });

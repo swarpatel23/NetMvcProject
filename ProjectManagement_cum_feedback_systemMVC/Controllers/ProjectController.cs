@@ -311,6 +311,9 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
             int projectid = Int32.Parse(id);
             Session["project_id"] = projectid;
             Session["userId"] = User.Identity.GetUserId();
+            ApplicationUserManager au = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var z = au.FindById(User.Identity.GetUserId());
+            Session["userpic"] = z.UserPhoto;
             var p = m.projects.First(x => x.Project_Id == projectid);
             ViewBag.project_title = p.project_title;
             Session["project_title"] = p.project_title;
