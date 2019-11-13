@@ -93,7 +93,7 @@
             
             @if ((string)(Session["user_project_role"]) != "customer")
             {
-                <a href="@Url.Action("createSrs", "Project",new { id = @ViewBag.projectid })" class="nunito">
+                <a href="@Url.Action("createSrs", "Project",new { id = @Session["project_id"] })" class="nunito">
                     <div class="row p-2">
                         <div class="col-2 text-center">
                             <i class="fa fa-pencil-square-o"></i>

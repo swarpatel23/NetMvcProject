@@ -1,0 +1,147 @@
+﻿@using System.Linq
+@using ProjectManagement_cum_feedback_systemMVC.Models
+@model ProjectManagement_cum_feedback_systemMVC.Models.project_issue
+
+@foreach (project_issue pi in ViewBag.issuemodal)
+{
+
+    <div class="border border-dark">
+        <div class="wrapper p-3" id="story" style="background-color: rgb(220, 220, 220);overflow-y: auto">
+            <b>Title : @pi.issue_title</b> <br />
+            <b>Description: @Html.Raw(pi.issue_desc)</b><br />
+            <div class="row nunito">
+
+                <div class="col-3">
+                    <div class="profile-item">
+
+                        <div class="d-flex align-items-center pt-1">
+                           <b> Type:    @if (pi.issue_type == issue_type.newfeature)
+                            { @:New Feature
+                                     }
+                            else if (pi.issue_type == issue_type.bug)
+                            {
+                                @:Bug
+                                    }
+                            else
+                            {
+                                @:Improvement
+                                    }
+                            </b>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="profile-item">
+
+                        <div class="d-flex align-items-center pt-1">
+                            <b>
+                                Status :    @if (pi.issue_status == issue_stat.done)
+                                { @:Done
+                                     }
+                                else if (pi.issue_status == issue_stat.inprogress)
+                                {
+                                    @:Inprogress
+                                    }
+                                else
+                                {
+                                    @:To Do
+                                    }
+                            </b>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="profile-item">
+                                @if (ViewBag.rolef != "admin")
+                                {
+                                    <div class="d-flex align-items-center pt-1">
+                                        <b>
+                                            Priority:     @if (pi.priority == 0)
+                                            { @:Very Low
+                                     }
+                                            else if (pi.priority == 1)
+                                            {
+                                                @:Low
+                                    }
+                                            else if (pi.priority == 2)
+                                            {
+                                                @:High
+                                    }
+                                            else
+                                            {
+                                                @:Very High
+                                    }
+                                        </b>
+                                    </div>
+                                }
+                                else
+                                {
+                                    using (Html.BeginForm("changePriority", "Project", FormMethod.Post))
+                                    {
+                                        <input name="issueid" value="@pi.issue_Id" hidden />
+                                        <input name="role" value="@ViewBag.rolef" hidden />
+                                                <input name="pid" value="@pi.project_Id" hidden />
+                                                <select class="custom-select mr-sm-2" name="issuepriochange">
+                                                    Priority:     @if (pi.priority == 0)
+                                                    {
+                                                        <option>Choose...</option>
+                                                        <option selected value="0">Very Low</option>
+                                                        <option value="1">Low</option>
+                                                        <option value="2">High</option>
+                                                        <option value="3">Very High</option>
+                                                    }
+                                                    else if (pi.priority == 1)
+                                                    {
+                                                        <option>Choose...</option>
+                                                        <option value="0">Very Low</option>
+                                                        <option selected value="1">Low</option>
+                                                        <option value="2">High</option>
+                                                        <option value="3">Very High</option>
+                                                    }
+                                                    else if (pi.priority == 2)
+                                                    {
+                                                        <option>Choose...</option>
+                                                        <option value="0">Very Low</option>
+                                                        <option value="1">Low</option>
+                                                        <option selected value="2">High</option>
+                                                        <option value="3">Very High</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option>Choose...</option>
+                                                        <option value="0">Very Low</option>
+                                                        <option value="1">Low</option>
+                                                        <option value="2">High</option>
+                                                        <option selected value="3">Very High</option>
+
+                                                    }
+
+                                                </select>
+
+                                                <div class="profile-item">
+                                                    <button type="submit" class="btn btn-success">Change Priority</button>
+                                                </div>
+                                    }
+
+                                }
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            @if (@ViewBag.rolef == "admin")
+                            {
+                                <button type="button" class="btn">
+                                    @Html.ActionLink("Remove Issue", "removeIssue", "Project", new { projid = @pi.project_Id, issid = @pi.issue_Id, urole = @ViewBag.rolef }, new { @class = "btn btn-danger" })
+                                </button>
+                            }
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        </div><br/>
+}

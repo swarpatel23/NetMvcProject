@@ -39,6 +39,8 @@ namespace ProjectManagement_cum_feedback_systemMVC.Models
 
         public int assign_status { get; set; } // 0-unassigned 1-assigned
 
+        public DateTime creationtime { get; set; }
+
         public issue_stat issue_status { get; set; }
 
         public issue_type issue_type { get; set; }

@@ -365,6 +365,8 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
             var usermodel = m.project_users.Where(x => x.project_Id == projectid && x.role == Roles.customer);
             Session["user_project_role"] = role;
             ViewBag.user_project_role = role;
+            ViewBag.rolef = role;
+            Session["issuemodal"] = issuemodal;
             return View();
         }
 
@@ -384,7 +386,7 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
             pi.assign_status = issueassstatus;
             pi.issue_title = issuetitle;
             pi.issue_desc = issuedesc;
-
+            pi.creationtime = DateTime.Now;
             if (issuestatus==0)
                 pi.issue_status = issue_stat.todo;
             else if (issuestatus==1)
@@ -443,7 +445,428 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
             return RedirectToAction("issues", "Project", new { id = pid, role = urole });
         }
 
+        
+        public ActionResult issuesFilter(string pidf, string rolef,string issstatusf,string isstypef,string priorityf,string datef)
+        {
+            ViewBag.project_id = pidf;
+            Session["project_id"] = pidf;
+            int projectid = Int32.Parse(pidf);
+            Session["project_id"] = projectid;
+            int issstatusf1 = Int32.Parse(issstatusf);
+            int isstypef1 = Int32.Parse(isstypef);
+            int priorityf1 = Int32.Parse(priorityf);
+            int datef1 = Int32.Parse(datef);
+           // ViewBag.pidf = pidf;
+            ViewBag.rolef = rolef;
+            ViewBag.isstatusf = issstatusf;
+            ViewBag.isstypef = isstypef;
+            ViewBag.priorityf = priorityf;
+           IQueryable<project_issue>  issuemodal = m.project_issue.Where(x => x.project_Id == projectid);
+            if (issstatusf1 == 0)
+            {
+                if (isstypef1 == 0)
+                {
+                    if (priorityf1 == 0)
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.todo && x.issue_type == issue_type.newfeature).OrderByDescending(x => x.priority).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.todo && x.issue_type == issue_type.newfeature).OrderByDescending(x => x.priority).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.todo && x.issue_type == issue_type.newfeature).OrderByDescending(x => x.priority); }
+                    }
+                    else if (priorityf1 == 1)
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.todo && x.issue_type == issue_type.newfeature).OrderBy(x => x.priority).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.todo && x.issue_type == issue_type.newfeature).OrderBy(x => x.priority).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.todo && x.issue_type == issue_type.newfeature).OrderBy(x => x.priority); }
+                    }
+                    else
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.todo && x.issue_type == issue_type.newfeature).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.todo && x.issue_type == issue_type.newfeature).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.todo && x.issue_type == issue_type.newfeature); }
+                    }
+                }
+                else if (isstypef1 == 1)
+                {
+                    if (priorityf1 == 0)
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.todo && x.issue_type == issue_type.bug).OrderByDescending(x => x.priority).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.todo && x.issue_type == issue_type.bug).OrderByDescending(x => x.priority).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.todo && x.issue_type == issue_type.bug).OrderByDescending(x => x.priority); }
+                    }
+                    else if (priorityf1 == 1)
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.todo && x.issue_type == issue_type.bug).OrderBy(x => x.priority).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.todo && x.issue_type == issue_type.bug).OrderBy(x => x.priority).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.todo && x.issue_type == issue_type.bug).OrderBy(x => x.priority); }
+                    }
+                    else
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.todo && x.issue_type == issue_type.bug).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.todo && x.issue_type == issue_type.bug).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.todo && x.issue_type == issue_type.bug); }
+                    }
+                }
+                else if (isstypef1 == 2)
+                {
+                    if (priorityf1 == 0)
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.todo && x.issue_type == issue_type.improvement).OrderByDescending(x => x.priority).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.todo && x.issue_type == issue_type.improvement).OrderByDescending(x => x.priority).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.todo && x.issue_type == issue_type.improvement).OrderByDescending(x => x.priority); }
+                    }
+                    else if (priorityf1 == 1)
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.todo && x.issue_type == issue_type.improvement).OrderBy(x => x.priority).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.todo && x.issue_type == issue_type.improvement).OrderBy(x => x.priority).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.todo && x.issue_type == issue_type.improvement).OrderBy(x => x.priority); }
+                    }
+                    else
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.todo && x.issue_type == issue_type.improvement).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.todo && x.issue_type == issue_type.improvement).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.todo && x.issue_type == issue_type.improvement); }
+                    }
+                }
+                else
+                {
+                    if (priorityf1 == 0)
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.todo).OrderByDescending(x => x.priority).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.todo).OrderByDescending(x => x.priority).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.todo).OrderByDescending(x => x.priority); }
+                    }
+                    else if (priorityf1 == 1)
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.todo).OrderBy(x => x.priority).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.todo).OrderBy(x => x.priority).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.todo).OrderBy(x => x.priority); }
+                    }
+                    else
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.todo).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.todo).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.todo); }
+                    }
+                }
+            }
+            else if(issstatusf1 == 1)
+            {
+                if (isstypef1 == 0)
+                {
+                    if (priorityf1 == 0)
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.inprogress && x.issue_type == issue_type.newfeature).OrderByDescending(x => x.priority).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.inprogress && x.issue_type == issue_type.newfeature).OrderByDescending(x => x.priority).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.inprogress && x.issue_type == issue_type.newfeature).OrderByDescending(x => x.priority); }
+                    }
+                    else if (priorityf1 == 1)
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.inprogress && x.issue_type == issue_type.newfeature).OrderBy(x => x.priority).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.inprogress && x.issue_type == issue_type.newfeature).OrderBy(x => x.priority).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.inprogress && x.issue_type == issue_type.newfeature).OrderBy(x => x.priority); }
+                    }
+                    else
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.inprogress && x.issue_type == issue_type.newfeature).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.inprogress && x.issue_type == issue_type.newfeature).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.inprogress && x.issue_type == issue_type.newfeature); }
+                    }
+                }
+                else if (isstypef1 == 1)
+                {
+                    if (priorityf1 == 0)
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.inprogress && x.issue_type == issue_type.bug).OrderByDescending(x => x.priority).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.inprogress && x.issue_type == issue_type.bug).OrderByDescending(x => x.priority).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.inprogress && x.issue_type == issue_type.bug).OrderByDescending(x => x.priority); }
+                    }
+                    else if (priorityf1 == 1)
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.inprogress && x.issue_type == issue_type.bug).OrderBy(x => x.priority).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.inprogress && x.issue_type == issue_type.bug).OrderBy(x => x.priority).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.inprogress && x.issue_type == issue_type.bug).OrderBy(x => x.priority); }
+                    }
+                    else
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.inprogress && x.issue_type == issue_type.bug).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.inprogress && x.issue_type == issue_type.bug).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.inprogress && x.issue_type == issue_type.bug); }
+                    }
+                }
+                else if (isstypef1 == 2)
+                {
+                    if (priorityf1 == 0)
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.inprogress && x.issue_type == issue_type.improvement).OrderByDescending(x => x.priority).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.inprogress && x.issue_type == issue_type.improvement).OrderByDescending(x => x.priority).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.inprogress && x.issue_type == issue_type.improvement).OrderByDescending(x => x.priority); }
+                    }
+                    else if (priorityf1 == 1)
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.inprogress && x.issue_type == issue_type.improvement).OrderBy(x => x.priority).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.inprogress && x.issue_type == issue_type.improvement).OrderBy(x => x.priority).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.inprogress && x.issue_type == issue_type.improvement).OrderBy(x => x.priority); }
+                    }
+                    else
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.inprogress && x.issue_type == issue_type.improvement).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.inprogress && x.issue_type == issue_type.improvement).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.inprogress && x.issue_type == issue_type.improvement); }
+                    }
+                }
+                else
+                {
+                    if (priorityf1 == 0)
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.inprogress).OrderByDescending(x => x.priority).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.inprogress).OrderByDescending(x => x.priority).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.inprogress).OrderByDescending(x => x.priority); }
+                    }
+                    else if (priorityf1 == 1)
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.inprogress).OrderBy(x => x.priority).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.inprogress).OrderBy(x => x.priority).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.inprogress).OrderBy(x => x.priority); }
+                    }
+                    else
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.inprogress).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.inprogress).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.inprogress); }
+                    }
+                }
+            }
+            else if(issstatusf1 == 2)
+            {
+                if (isstypef1 == 0)
+                {
+                    if (priorityf1 == 0)
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.done && x.issue_type == issue_type.newfeature).OrderByDescending(x => x.priority).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.done && x.issue_type == issue_type.newfeature).OrderByDescending(x => x.priority).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.done && x.issue_type == issue_type.newfeature).OrderByDescending(x => x.priority); }
+                    }
+                    else if (priorityf1 == 1)
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.done && x.issue_type == issue_type.newfeature).OrderBy(x => x.priority).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.done && x.issue_type == issue_type.newfeature).OrderBy(x => x.priority).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.done && x.issue_type == issue_type.newfeature).OrderBy(x => x.priority); }
+                    }
+                    else
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.done && x.issue_type == issue_type.newfeature).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.done && x.issue_type == issue_type.newfeature).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.done && x.issue_type == issue_type.newfeature); }
+                    }
+                }
+                else if (isstypef1 == 1)
+                {
+                    if (priorityf1 == 0)
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.done && x.issue_type == issue_type.bug).OrderByDescending(x => x.priority).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.done && x.issue_type == issue_type.bug).OrderByDescending(x => x.priority).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.done && x.issue_type == issue_type.bug).OrderByDescending(x => x.priority); }
+                    }
+                    else if (priorityf1 == 1)
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.done && x.issue_type == issue_type.bug).OrderBy(x => x.priority).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.done && x.issue_type == issue_type.bug).OrderBy(x => x.priority).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.done && x.issue_type == issue_type.bug).OrderBy(x => x.priority); }
+                    }
+                    else
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.done && x.issue_type == issue_type.bug).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.done && x.issue_type == issue_type.bug).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.done && x.issue_type == issue_type.bug); }
+                    }
+                }
+                else if (isstypef1 == 2)
+                {
+                    if (priorityf1 == 0)
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.done && x.issue_type == issue_type.improvement).OrderByDescending(x => x.priority).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.done && x.issue_type == issue_type.improvement).OrderByDescending(x => x.priority).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.inprogress && x.issue_type == issue_type.improvement).OrderByDescending(x => x.priority); }
+                    }
+                    else if (priorityf1 == 1)
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.done && x.issue_type == issue_type.improvement).OrderBy(x => x.priority).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.done && x.issue_type == issue_type.improvement).OrderBy(x => x.priority).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.done && x.issue_type == issue_type.improvement).OrderBy(x => x.priority); }
+                    }
+                    else
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.done && x.issue_type == issue_type.improvement).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.done && x.issue_type == issue_type.improvement).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.done && x.issue_type == issue_type.improvement); }
+                    }
+                }
+                else
+                {
+                    if (priorityf1 == 0)
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.done).OrderByDescending(x => x.priority).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.done).OrderByDescending(x => x.priority).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.done).OrderByDescending(x => x.priority); }
+                    }
+                    else if (priorityf1 == 1)
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.done).OrderBy(x => x.priority).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.done).OrderBy(x => x.priority).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.done).OrderBy(x => x.priority); }
+                    }
+                    else
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.done).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.done).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.done); }
+                    }
+                }
+            }
+            else
+            {
+                if (isstypef1 == 0)
+                {
+                    if (priorityf1 == 0)
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_type == issue_type.newfeature).OrderByDescending(x => x.priority).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_type == issue_type.newfeature).OrderByDescending(x => x.priority).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_type == issue_type.newfeature).OrderByDescending(x => x.priority); }
+                    }
+                    else if (priorityf1 == 1)
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid  && x.issue_type == issue_type.newfeature).OrderBy(x => x.priority).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid  && x.issue_type == issue_type.newfeature).OrderBy(x => x.priority).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid  && x.issue_type == issue_type.newfeature).OrderBy(x => x.priority); }
+                    }
+                    else
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid  && x.issue_type == issue_type.newfeature).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid  && x.issue_type == issue_type.newfeature).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_type == issue_type.newfeature); }
+                    }
+                }
+                else if (isstypef1 == 1)
+                {
+                    if (priorityf1 == 0)
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_type == issue_type.bug).OrderByDescending(x => x.priority).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_type == issue_type.bug).OrderByDescending(x => x.priority).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_type == issue_type.bug).OrderByDescending(x => x.priority); }
+                    }
+                    else if (priorityf1 == 1)
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_type == issue_type.bug).OrderBy(x => x.priority).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_type == issue_type.bug).OrderBy(x => x.priority).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_type == issue_type.bug).OrderBy(x => x.priority); }
+                    }
+                    else
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_type == issue_type.bug).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_type == issue_type.bug).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_type == issue_type.bug); }
+                    }
+                }
+                else if (isstypef1 == 2)
+                {
+                    if (priorityf1 == 0)
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid   && x.issue_type == issue_type.improvement).OrderByDescending(x => x.priority).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid   && x.issue_type == issue_type.improvement).OrderByDescending(x => x.priority).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.inprogress && x.issue_type == issue_type.improvement).OrderByDescending(x => x.priority); }
+                    }
+                    else if (priorityf1 == 1)
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid   && x.issue_type == issue_type.improvement).OrderBy(x => x.priority).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid   && x.issue_type == issue_type.improvement).OrderBy(x => x.priority).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid   && x.issue_type == issue_type.improvement).OrderBy(x => x.priority); }
+                    }
+                    else
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid   && x.issue_type == issue_type.improvement).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid   && x.issue_type == issue_type.improvement).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid   && x.issue_type == issue_type.improvement); }
+                    }
+                }
+                else
+                {
+                    if (priorityf1 == 0)
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid  ).OrderByDescending(x => x.priority).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid  ).OrderByDescending(x => x.priority).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid  ).OrderByDescending(x => x.priority); }
+                    }
+                    else if (priorityf1 == 1)
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid  ).OrderBy(x => x.priority).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid  ).OrderBy(x => x.priority).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid  ).OrderBy(x => x.priority); }
+                    }
+                    else
+                    {
+                        if (datef1 == 0)
+                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid  ).OrderByDescending(x => x.creationtime); }
+                        else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid  ).OrderBy(x => x.creationtime); }
+                        else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid); }
+                    }
+                }
+            }
+                  
 
+            ViewData["issuemodal"] = issuemodal;
+            Session["user_project_role"] = rolef;
+            ViewData["issuemodal"] = issuemodal;
+            Session["issuemodal"] = issuemodal;
+            ViewBag.issuemodal = issuemodal;
+            return PartialView("_issueresult");
+        }
 
 
         //----------------------------------------------
