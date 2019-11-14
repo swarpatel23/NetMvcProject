@@ -201,6 +201,31 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
             return Json(useremail, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult getTeamEmail(string term)
+        {
+            ApplicationUserManager au = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            List<string> useremail = au.Users.Where(x => x.Email.StartsWith(term)).Select(y => y.Email).ToList();
+
+            List<string> teamemail = new List<string>();
+            int pid = (int) Session["project_id"];
+            foreach (string email in useremail)
+            {
+                string uid = au.FindByEmail(email).Id;
+
+                var x = m.project_users.Find(pid, uid);
+                if (x != null)
+                {
+                    if (x.role != Roles.customer)
+                    {
+                        teamemail.Add(email);
+                    }
+                }
+
+            }
+
+            return Json(teamemail, JsonRequestBehavior.AllowGet);
+        }
+
 
         public ActionResult removeMember(string pid,string uid)
         {
@@ -364,7 +389,7 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
             var teammodel = m.project_users.Where(x => x.project_Id == projectid && x.role == Roles.teammember);
             var usermodel = m.project_users.Where(x => x.project_Id == projectid && x.role == Roles.customer);
             Session["user_project_role"] = role;
-            ViewBag.user_project_role = role;
+            ViewBag.user_project_role = role; 
             ViewBag.rolef = role;
             Session["issuemodal"] = issuemodal;
             return View();
@@ -413,36 +438,35 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
             return RedirectToAction("issues", "Project", new { id = projid,role = form["role"] });
         }
 
-        public ActionResult changePriority(FormCollection form)
+        public EmptyResult changePriority(string issueid,string issuePriority,string pid,string role)
         {
-            int projid = Int32.Parse(form["pid"]);
-            int issid = Int32.Parse(form["issueid"]);
-            int prionew = Int32.Parse(form["issuepriochange"]);
-            string role = form["role"];
+            int projid = Int32.Parse(pid);
+            int issid = Int32.Parse(issueid);
+            int prionew = Int32.Parse(issuePriority);
             project_issue x = m.project_issue.Find(issid);
             x.priority = prionew;
             m.SaveChanges();
             TempData["project_id"] = projid;
             Session["project_id"] = projid;
             ViewData["project_id"] = projid;
-            Session["user_project_role"] = form["role"];
-            ViewData["user_project_role"] = form["role"];
-            return RedirectToAction("issues", "Project", new { id = projid, role = role });
+            Session["user_project_role"] = role;
+            ViewData["user_project_role"] = role;
+            return new EmptyResult();
         }
 
-        public ActionResult removeIssue(string projid,string issid,string urole)
+        public EmptyResult removeIssue(string issueid)
         {
-            int pid = Int32.Parse(projid);
-            int iid = Int32.Parse(issid);
+            //int pid = Int32.Parse(projid);
+            int iid = Int32.Parse(issueid);
             var x = m.project_issue.Find(iid);
             m.project_issue.Remove(x);
             m.SaveChanges();
-            TempData["project_id"] = projid;
-            Session["project_id"] = projid;
-            ViewData["project_id"] = projid;
-            Session["user_project_role"] = urole;
-            ViewData["user_project_role"] = urole;
-            return RedirectToAction("issues", "Project", new { id = pid, role = urole });
+            //TempData["project_id"] = projid;
+            //Session["project_id"] = projid;
+            //ViewData["project_id"] = projid;
+            //Session["user_project_role"] = urole;
+            //ViewData["user_project_role"] = urole;
+            return new EmptyResult();
         }
 
         
@@ -868,7 +892,36 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
             return PartialView("_issueresult");
         }
 
+        public EmptyResult assignIssue(string tmail,DateTime sdate,DateTime edate,string issueid1)
+        {
+            ApplicationUserManager au = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            string uid = au.FindByEmail(tmail).Id;
+            project_issue_assign pia = new project_issue_assign();
+            pia.project_Id = (int)Session["project_id"];
+            pia.issue_Id = Int32.Parse(issueid1);
+            pia.user_Id = uid;
+            var y = m.project_issue_assigns.Find(pia.issue_Id, uid);
+            if (y == null)
+            {
+                
+                pia.startdate = sdate;
+                pia.enddate = edate;
+                m.project_issue_assigns.Add(pia);
+            }
+            else
+            {
+                y.startdate = sdate;
+                y.enddate = edate;
+            }
 
+            m.SaveChanges();
+
+            var x=m.project_issue.Find(pia.issue_Id);
+            x.assign_status = 1;
+            m.SaveChanges();
+
+            return new EmptyResult();
+        }
         //----------------------------------------------
 
         [HttpPost, ValidateInput(false)]

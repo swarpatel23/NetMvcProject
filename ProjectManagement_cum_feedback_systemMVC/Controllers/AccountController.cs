@@ -80,9 +80,6 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    ApplicationUserManager au = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
-                    var x = au.FindById(User.Identity.GetUserId());
-                    Session["userpic"] = x.UserPhoto;
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");

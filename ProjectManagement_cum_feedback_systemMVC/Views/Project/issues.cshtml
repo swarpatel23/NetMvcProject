@@ -3,8 +3,8 @@
 @using Microsoft.AspNet.Identity
 @using Microsoft.AspNet.Identity.Owin
 @*@using System.Linq
-@using ProjectManagement_cum_feedback_systemMVC.Models
-@model ProjectManagement_cum_feedback_systemMVC.Models.project_issue*@
+    @using ProjectManagement_cum_feedback_systemMVC.Models
+    @model ProjectManagement_cum_feedback_systemMVC.Models.project_issue*@
 @{
     ViewBag.Title = "Issues";
 }
@@ -15,6 +15,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">  
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>  
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script> 
 
 }
 
@@ -55,6 +58,8 @@
         body > div.container-fluid > div > div.col-10.bg-white > div > div.row > div.col-3.nunito.text-center > div:nth-child(4) > div > img {
             max-height: 30px;
         }
+
+        .ui-front { z-index:2147483647 !important; }
     </style>
 }
 
@@ -199,12 +204,12 @@
                     </div>
                 </div>
                 <br />
-                <br/>
+                <br />
                 <div class="container-fluid" id="result">
                     @Html.Partial("_issueresult")
                 </div>
-                          </div>
-  
+            </div>
+
         </div>
     </div>
 </div>
@@ -225,16 +230,16 @@
                 url: "/Project/issuesFilter",
                 contentType: "application/json; charset=utf-8",
                 datatype: "json",
-                data: { pidf:pidf,rolef:rolef,issstatusf:issstatusf,isstypef:isstypef,priorityf:priorityf,datef:datef},
-            success: function (d) {
-                $('#iss1').scrollTop($('#iss1')[0].scrollHeight);
-                $("#result").html(d);
-            }
+                data: { pidf: pidf, rolef: rolef, issstatusf: issstatusf, isstypef: isstypef, priorityf: priorityf, datef: datef },
+                success: function (d) {
+                    $('#iss1').scrollTop($('#iss1')[0].scrollHeight);
+                    $("#result").html(d);
+                }
+
+            });
+
 
         });
-            
-
-    });
     });
 
 </script>
