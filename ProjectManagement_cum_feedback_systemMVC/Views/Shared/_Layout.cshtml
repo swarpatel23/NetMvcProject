@@ -24,13 +24,13 @@
     </style>
 
 </head>
-<body>
+<body style="background-color:#2e6dff">
 @{
     Session["username"] = User.Identity.Name;
 }
 <header>
     <nav class="navbar navbar-expand-lg container container-fluid-md">
-        @Html.ActionLink("Canny", "Index", "Home", new {area = ""}, new {@class = "navbar-brand nunito", @style = "font-size:2em;color:black;"})
+        @Html.ActionLink("Canny", "Index", "Home", new {area = ""}, new {@class = "navbar-brand nunito", @style = "font-size:2em;color:white;"})
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainnavbar"
                 aria-controls="mainnavbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,10 +40,10 @@
         <div class="collapse navbar-collapse nunito" id="mainnavbar">
             <ul class="navbar-nav  ml-auto" style="font-size: 1.1em;">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Features</a>
+                    <a class="nav-link" href="#"  style="color:white;">Features</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Contact Us</a>
+                    <a class="nav-link" href="#"  style="color:white;">Contact Us</a>
                 </li>
 
 

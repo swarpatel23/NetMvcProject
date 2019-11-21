@@ -1,0 +1,297 @@
+﻿@using ProjectManagement_cum_feedback_systemMVC.Models
+@using System;
+
+@section Scripts {
+    <link rel="stylesheet" href="../../Content/css/style.css">
+    <link rel="stylesheet" href="../../Content/css/post.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Content/js/JavaScript.js"></script>
+    @{
+        <style scoped>
+            body > div.container-fluid > div > div.col-9 > div > div > div > a {
+                color: black;
+            }
+
+                body > div.container-fluid > div > div.col-9 > div > div > div > a > div:hover {
+                    transition: 1s ease-in-out forwards;
+                    transform: scale(1.02);
+                    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+                }
+
+            body > div > div > div > div.col-2.wrapper-rounded > div:nth-child(2) > div > a {
+                text-decoration: none;
+                color: #868e96;
+            }
+
+                body > div.container-fluid > div > div.col-2 > div:nth-child(2) > div > a:hover {
+                    color: black;
+                }
+
+            .my-active {
+                color: black;
+                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+                border-radius: 12px 0px 0px 12px;
+                background-color: #f8f9fa;
+            }
+
+            .profile-item {
+                padding: 0.8rem;
+            }
+
+            body > div.container-fluid > div > div.col-10.bg-white > div > div.row > div.col-3.nunito.text-center > div:nth-child(4) > div > img {
+                max-height: 30px;
+            }
+
+            body {
+                background-color: #2e6dff;
+            }
+
+            .up-arrow {
+                color: #9b9b9bd4;
+            }
+
+                .up-arrow:hover {
+                    color: #424242d4;
+                }
+
+            body > div.body-content > div > div > div.col-10 > div.row.mt-3 > div > div > div.issue-wrapper.m-3.pt-4 > div > div.col-10.nunito > a {
+                font-weight: 600;
+                text-decoration: none;
+                color: black;
+            }
+        </style>
+    }
+}
+<script>
+    var nopost = "<h1 class=\"nunito mt-3 mb-3 \">No Post</h1>";
+    var order = -1;
+    var sortby = "id";
+    function sortbyandorder(sortby, order) {
+        return function (a, b) {
+            if (a[sortby] > b[sortby]) {
+                return 1 * order;
+            } else if (a[sortby] < b[sortby]) {
+                return -1 * order;
+            }
+            return;
+        }
+    }
+        function getstatusofpost(id,data)
+{
+            var color;
+            var title;
+            switch (data) {
+                case "todo":
+                    color = "#FCFF4B";  //yellow
+                    title = "Reviwed(To do)";
+                    break;
+                case "done":
+                    color = "#3772FF";  //blue
+                    title = "Completed";
+                    break;
+                case "inprogress":
+                    color = "#06D6A0";  //green
+                    title = "Work is in progress";
+                    break;     
+                case "notreviwed":
+                default:       
+                    color = "#CCDDD3";
+                    title = "Not Reviwed";
+                    break;                
+            }
+            $("#" + id + "_circle").css("background-color", color);
+            $("#" + id + "_circle").attr("title", title);
+//            console.log(id + "_circle");
+            //console.log(color);        
+}
+    </script>
+<script>
+    var post_arr;
+    function getdatapost(id) {
+        console.log(id);
+        $.ajax('/Project/getallpost/' + id, {
+            type: 'GET',  // http method
+            success: function (data, status, xhr) {
+                if (data.length != 0) {
+                    post_arr = data;
+                    console.log(data);
+                    console.log(post_arr.length);
+                    post_arr.sort(sortbyandorder(sortby, -1))
+                    displaypost(post_arr);
+                }
+                else {
+                    $("#post_list").html(nopost);
+                }
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                alert(errorMessage);
+            }
+        });
+    }
+
+    function displaypost(arr) {
+        $("#post_list").html("");
+        for (let i = 0; i < arr.length; i+=1) {
+                        var vote = 0;
+                        console.log(i);
+                        if (arr[i].vote >= 1000) {
+                            vote = (Math.floor(arr[i].vote / 1000)) + "k";
+                        }
+                        else {
+                            vote = arr[i].vote;
+                        }
+                        temp = '<div class="row pb-3 wrapper-rounded m-3 ">' +
+                            '<div class="col-1">' +
+                            '<div onclick="like(' + arr[i].id + ')">' +
+                            '<div class="up-arrow text-center p-1 mt-3 ml-2"' +
+                            'style="border-radius: 5px;background-color: #c4c6c8a1;width:40px;">' +
+                            '<i class="fas fa-caret-up" style="font-size: 2rem;"></i>' +
+                            '</div>' +
+                            '</div>' +
+                            '<h6 class="text-center" id="' + arr[i].id + '">' +
+                            vote +
+                            '</h6>' +
+                            '</div>' +
+                            '<div class="col-11 nunito pt-3">' +
+                            '<a href="#" >' +
+                                '<div style="width:20px;height:20px;clip-path: circle(50% at 50% 50%);" class="float-right" data-toggle="tooltip" data-placement="top" title="" id="' + arr[i].id + '_circle">'+
+                                    ' '+
+                                '</div>'+
+                            '</a>' +                                                        
+                            '<a href="/Post/Details/' + arr[i].id + '" style="text-decoration:none;color:black;">' +
+                            '<h5>' +
+                            arr[i].title +
+                            '</h5>' +
+                            '<p>' +
+                            arr[i].desc +
+                            '</p>' +
+                            '</a>' +
+                            '</div>' +
+                            '</div>';
+                        $("#post_list").append(temp);
+                        $("#post_list").append("<script>getstatusofpost(" + arr[i].id + ",'" + arr[i].status + "');<\/script>");                                                
+                    }
+    }
+</script>
+<div class="container-fluid">
+    <div class="row m-1">
+        @Html.Partial("_ProjectPartial","question")
+        <div class="col-10 ">
+            <div class="container-flex p-4 bg-white wrapper-rounded" style="min-height: 450px;">
+                <h1>Questions </h1>
+                @if (!Session["user_project_role"].ToString().Equals("customer"))
+                {
+                    <div class="btn-wrap mt-3">
+                        <button class="btn nunito edit-btn" data-toggle="modal" data-target="#addpostmodal">
+                            Create Post
+                        </button>
+                    </div>
+                }
+                <div class="mt-5">
+                    <span>Showing </span>
+                    <select name="type" style="padding:0px" id="type">
+                        <option value="new">New</option>
+                        <option value="top">top</option>
+                    </select>
+                    <span>Post</span>
+                    <span class="float-right">
+                        <span>Filter By  </span>
+                        <select name="status" style="padding:0px" id="status">
+                            <option value="all">Show All</option>
+                            <option value="todo">Reviwed</option>
+                            <option value="inprogress">In Progress</option>
+                            <option value="done">Completed</option>
+                            <option value="">Not reviwed</option>
+                        </select>
+                    </span>
+                </div>
+                <div class="container mt-2 ml-2 p-2" id="post_list">
+
+                </div>
+                <script>
+                    getdatapost(@Session["project_id"]);
+                </script>
+                <form method="POST" action="@Url.Action("Create", "Post",new { id = @Session["project_id"]})">
+                    <div class="modal fade" id="addpostmodal" tabindex="-1" role="dialog" aria-labelledby="addpostmodal" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="projectModel">Create Post</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body m-3">
+                                    <div class="input-fields">
+                                        <label for="post_title">Title</label>
+                                        <input type="text" name="post_title" id="post_title"
+                                               placeholder="Enter" />
+                                    </div>
+                                    <div class="input-fields">
+                                        <label for="post_desc">Description</label>
+                                        <textarea rows="4" cols="50" name="post_desc" id="post_desc" placeholder="Enter"></textarea>
+                                    </div>
+                                    <input type="hidden" name="project_Id" value="@ViewBag.projectid" />
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Create</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>   
+ 
+</script>
+<script>
+    $('#status').on('change', function () {
+
+        if (this.value == "all") {
+            getdatapost(@ViewBag.projectid);
+        }
+        $.ajax('/Project/getpostwithparameter/' + @ViewBag.projectid, {
+            type: 'GET',  // http method
+            data: {paramater:this.value},
+            success: function (data, status, xhr) {
+                if (data.length != 0) {
+                    post_arr = data;
+                    console.log(data);
+                    console.log(post_arr.length);
+                    console.log("sort_by" + sortby + "order" + order);
+                    post_arr.sort(sortbyandorder(sortby, order));
+                    displaypost(post_arr);
+                }
+                else {
+                    $("#post_list").html(nopost);
+                }
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                alert(errorMessage);
+            }
+        });
+        
+        
+    });
+    $('#type').on('change', function () {        
+        switch (this.value) {
+            case "top":
+                sortby = "vote";
+                order = -1;
+                break;
+            case "new":
+                sortby = "id";
+                order = -1;
+                break;
+        }
+        console.log(post_arr.sort(sortbyandorder(sortby, order)));        
+        displaypost(post_arr);
+});
+</script>

@@ -7,13 +7,13 @@ namespace ProjectManagement_cum_feedback_systemMVC.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class third : IMigrationMetadata
+    public sealed partial class second : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(third));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(second));
         
         string IMigrationMetadata.Id
         {
-            get { return "201910311356451_third"; }
+            get { return "201911210343240_second"; }
         }
         
         string IMigrationMetadata.Source

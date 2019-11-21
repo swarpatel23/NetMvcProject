@@ -1,0 +1,189 @@
+﻿
+@model IEnumerable<ProjectManagement_cum_feedback_systemMVC.Models.task>
+
+@using System.Diagnostics.Eventing
+@using System.Web.UI.HtmlControls
+@using Microsoft.AspNet.Identity
+@using Microsoft.AspNet.Identity.Owin
+@{
+    ViewBag.Title = "CreateProject";
+}
+
+
+
+@section Scripts {
+    <link rel="stylesheet" href="../../Content/css/style.css">
+    <link rel="stylesheet" href="../../Content/css/post.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+}
+
+
+@{
+
+    <style>
+        body > div.container-fluid > div > div.col-9 > div > div > div > a {
+            color: black;
+        }
+
+            body > div.container-fluid > div > div.col-9 > div > div > div > a > div:hover {
+                transition: 1s ease-in-out forwards;
+                transform: scale(1.02);
+                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            }
+
+        body > div.container-fluid > div > div.col-2 > div:nth-child(2) > div > a {
+            text-decoration: none;
+            color: #868e96;
+        }
+
+            body > div.container-fluid > div > div.col-2 > div:nth-child(2) > div > a:hover {
+                color: black;
+            }
+
+        .my-active {
+            color: black;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            border-radius: 12px 0px 0px 12px;
+            background-color: #f8f9fa;
+        }
+
+        .profile-item {
+            padding: 0.8rem;
+        }
+
+        body > div.container-fluid > div > div.col-10.bg-white > div > div.row > div.col-3.nunito.text-center > div:nth-child(4) > div > img {
+            max-height: 30px;
+        }
+
+        .ui-front {
+            z-index: 2147483647 !important;
+        }
+    </style>
+}
+
+
+
+
+<div class="container">
+    <div class="row m-1">
+        <div class="col-12 ">
+            <div class="container-flex p-4 bg-white wrapper-rounded">
+                <h3 class="nunito mb-3">Task Index</h3>
+
+                <p>
+                    @Html.ActionLink("Create New", "Create", new { id = @ViewBag.projectid })
+                </p>
+                <table class="table">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.task_Id_toshow)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.task_name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.start_date)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.end_date)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.duration)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.percentage)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.dependencies)
+                        </th>
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.task_Id_toshow)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.task_name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.start_date)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.end_date)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.duration)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.percentage)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.dependencies)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.task_id }) |                                
+                                @Html.ActionLink("Delete", "Delete", new { id = item.task_id ,pid = @ViewBag.projectid })
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+
+                <br />
+                <br />
+                <br />
+
+                <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+                <script type="text/javascript">
+        google.charts.load('current', { 'packages': ['gantt'] });
+        google.charts.setOnLoadCallback(drawChart);
+
+        function daysToMilliseconds(days) {
+            return days * 24 * 60 * 60 * 1000;
+        }
+
+        function drawChart() {
+
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Task ID');
+            data.addColumn('string', 'Task Name');
+            data.addColumn('date', 'Start Date');
+            data.addColumn('date', 'End Date');
+            data.addColumn('number', 'Duration');
+            data.addColumn('number', 'Percent Complete');
+            data.addColumn('string', 'Dependencies');
+            data.addRows([
+            @foreach (var item in Model)
+             {
+              <text>[</text><text>'</text>@item.task_Id_toshow<text>',</text><text>'</text>@item.task_name<text>',</text>if(item.start_date == null){<text>null</text>}else {DateTime start = (DateTime)item.start_date;<text>new Date(</text>@start.Year <text>,</text> @(start.Month-1)<text>, </text>@start.Day<text>)</text>}<text>,</text>if(item.end_date == null){<text>null</text>}else {DateTime end = (DateTime)item.end_date;<text>new Date(</text>@end.Year <text>,</text> @(end.Month-1)<text>,</text> @end.Day<text>)</text>}<text>,</text>if(item.duration == null){<text>null</text>}else{<text>daysToMilliseconds(@item.duration)</text>}<text>,</text>@item.percentage<text>,</text>if (@item.dependencies == null) {<text>null</text>} else {<text>'</text>@item.dependencies<text>'</text>}<text>],</text>
+             }
+             ]);
+
+            var options = {
+                height: 275
+            };
+
+                var chart = new google.visualization.Gantt(document.getElementById('chart_div'));
+
+                chart.draw(data, options);
+        }
+                </script>
+
+                <div id="chart_div"></div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

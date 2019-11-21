@@ -1,4 +1,5 @@
 ﻿@using ProjectManagement_cum_feedback_systemMVC.Models
+@model string    
 <div class="col-2 wrapper-rounded" style="background-color: #f8f9fa;">
     <!--Navigation wrapper-->
     <div class="row">
@@ -6,13 +7,13 @@
             <img src="~/Content/images/userpic.png" alt="project profile" class="img-fluid">
         </div>
         <div class="col-12 text-center">
-            <h6>@Session["project_title"]</h6>
+            <h6>@Session["project_title"]</h6>           
         </div>
     </div>
     <div class="row">
         <div class="col-12 m-3 " style="font-size: 1.1rem;">
             <a href="@Url.Action("addMember", "Project",new { id = @Session["project_id"], role = @Session["user_project_role"] })" class="nunito">
-                <div class="my-active row p-2">
+                <div class="row p-2" id="team">
                     <div class="col-2">
                         <i class="fas fa-users"></i>
                     </div>
@@ -23,7 +24,7 @@
             </a>
             <!------------------------------------------------------------------------------------>
             <a class="nunito" href="@Url.Action("chat", "Project",new { id = @Session["project_id"], role = @Session["user_project_role"] })">
-                <div class="row p-2 ">
+                <div class="row p-2 " id="chat">
                     <div class="col-2">
                         <i class="fas fa-comments"></i>
                     </div>
@@ -33,8 +34,8 @@
                 </div>
             </a>
             <!------------------------------------------------------------------------------------>
-            <a href="#" class="nunito">
-                <div class="row p-2 ">
+            <a href="@Url.Action("roadmap", "Project" , new { id=@Session["project_id"]})" class="nunito">
+                <div class="row p-2 " id="roadmap">
                     <div class="col-2">
                         <i class="far fa-map"></i>
                     </div>
@@ -43,8 +44,20 @@
                     </div>
                 </div>
             </a>
-            <a href="#" class="nunito">
-                <div class="row p-2">
+            <!------------------------------------------------------------------------------------>
+            <a href="@Url.Action("question", "Project" , new { id=@Session["project_id"]})" class="nunito">
+                <div class="row p-2 " id="question">
+                    <div class="col-2">
+                        <i class="fa fa-question-circle" aria-hidden="true"></i>
+                    </div>
+                    <div class="col-10">
+                        Questions
+                    </div>
+                </div>
+            </a>
+            <!------------------------------------------------------------------------------------>
+            <a href="@Url.Action("board", "Project" , new { id=@Session["project_id"]})" class="nunito">
+                <div class="row p-2" id="board">
                     <div class="col-2">
                         <i class="fas fa-clipboard-list"></i>
                     </div>
@@ -54,7 +67,7 @@
                 </div>
             </a>
             <a href="@Url.Action("issues", "Project",new { id = @Session["project_id"], role = @Session["user_project_role"] })" class="nunito">
-                <div class="row p-2">
+                <div class="row p-2" id="issue">
                     <div class="col-2 text-center">
                         <i class="fas fa-bug"></i>
                     </div>
@@ -66,7 +79,7 @@
             @if ((string)(Session["user_project_role"]) == "customer")
             {
                 <a href="@Url.Action("createStory", "Project",new { id = @ViewBag.projectid })" class="nunito">
-                    <div class="row p-2">
+                    <div class="row p-2" id="storyboard">
                         <div class="col-2 text-center">
                             <i class="fa fa-pencil-square-o"></i>
                         </div>
@@ -79,22 +92,22 @@
             else
             {
                 <a href="@Url.Action("viewStory", "Project",new { id = @Session["project_id"] })" class="nunito">
-                    <div class="row p-2">
+                    <div class="row p-2" id="storyboard">
                         <div class="col-2 text-center">
                             <i class="fas fa-scroll"></i>
                         </div>
                         <div class="col-10">
-                           View StoryBoard
+                            View StoryBoard
                         </div>
                     </div>
                 </a>
             }
-            
-            
+
+
             @if ((string)(Session["user_project_role"]) != "customer")
             {
                 <a href="@Url.Action("createSrs", "Project",new { id = @Session["project_id"] })" class="nunito">
-                    <div class="row p-2">
+                    <div class="row p-2" id="srs">
                         <div class="col-2 text-center">
                             <i class="fa fa-pencil-square-o"></i>
                         </div>
@@ -107,7 +120,7 @@
             else
             {
                 <a href="@Url.Action("viewSrs", "Project",new { id = @Session["project_id"] })" class="nunito">
-                    <div class="row p-2">
+                    <div class="row p-2" id="srs">
                         <div class="col-2 text-center">
                             <i class="fas fa-scroll"></i>
                         </div>
@@ -118,7 +131,7 @@
                 </a>
             }
             <a href="@Url.Action("removeProject", "Project",new { id = @Session["project_id"] })" class="nunito">
-                <div class="row p-2">
+                <div class="row p-2" id="deleteproject">
                     <div class="col-2 text-center">
                         <i class="fas fa-trash"></i>
                     </div>
@@ -131,3 +144,7 @@
         </div>
     </div>
 </div>
+<script>
+        var active = "@Model";
+        $("#" + active).addClass("my-active");
+</script>

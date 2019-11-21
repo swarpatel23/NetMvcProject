@@ -1118,6 +1118,106 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
             //smtp.Send(tmail);
             return View();
         }
+        [HttpGet]
+        public ActionResult roadmap(string id, string role)
+        {
+            int projectid = Int32.Parse(id);
+            ViewBag.projectid = projectid;
+            var check = m.tasks.Where(t => t.Project_Id == projectid).FirstOrDefault();
+
+            if (check != null)
+            {
+                ViewBag.tasks_model = m.tasks.Where(t => t.Project_Id == projectid).ToList();
+            }
+            else
+            {
+                ViewBag.tasks_model = null;
+            }
+
+            ViewBag.todo_model = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.todo);
+            ViewBag.progress_model = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.inprogress);
+            ViewBag.done_model = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.done);
+            return View();
+        }
+        public ActionResult question(string id)
+        {
+            int projectid = Int32.Parse(id);
+            ViewBag.projectid = projectid;
+            ViewBag.post_model = m.user_posts.Where(x => x.project_Id == projectid);
+            return View();
+        }
+        [HttpGet]
+        public JsonResult getallpost(int id)
+        {
+            /*var results = m.user_posts.Where(x => x.project_Id == id).Select(p => new
+            {
+                post_id = p.post_Id,
+                post_title = p.post_title,
+                post_desc = p.post_desc,
+                post_vote = p.vote,                
+
+            }).ToList();
+            */
+            var results = (from p in m.user_posts
+                           join upi in m.User_Post_Issues on p.post_Id equals upi.post_Id into upis
+                           from upi in upis.DefaultIfEmpty()
+                           join i in m.project_issue on upi.issue_Id equals i.issue_Id into _is
+                           from i in _is.DefaultIfEmpty()
+                           where p.project_Id == id
+                           select new
+                           {
+                               id = p.post_Id,
+                               title = p.post_title,
+                               desc = p.post_desc,
+                               vote = p.vote,
+                               status = (m.User_Post_Issues.Where(x => x.post_Id == p.post_Id).FirstOrDefault() != null) ? i.issue_status.ToString() : "notreviwed"
+                           })
+                           .ToList();
+
+            return new JsonResult() { Data = results, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
+
+        [HttpGet]
+        public JsonResult getpostwithparameter(int id, string paramater)
+        {
+            /*var results = m.user_posts.Where(x => x.project_Id == id).Select(p => new
+            {
+                post_id = p.post_Id,
+                post_title = p.post_title,
+                post_desc = p.post_desc,
+                post_vote = p.vote,                
+
+            }).ToList();
+            */
+            var results = (from p in m.user_posts
+                           join upi in m.User_Post_Issues on p.post_Id equals upi.post_Id into upis
+                           from upi in upis.DefaultIfEmpty()
+                           join i in m.project_issue on upi.issue_Id equals i.issue_Id into _is
+                           from i in _is.DefaultIfEmpty()
+                           where i.issue_status.ToString().Equals(paramater)
+                           where p.project_Id == id
+                           select new
+                           {
+                               id = p.post_Id,
+                               title = p.post_title,
+                               desc = p.post_desc,
+                               vote = p.vote,
+                               status = (m.User_Post_Issues.Where(x => x.post_Id == p.post_Id).FirstOrDefault() != null) ? i.issue_status.ToString() : "notreviwed"
+                           })
+                           .ToList();
+
+            return new JsonResult() { Data = results, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
+        [HttpGet]
+        public ActionResult board(string id, string role)
+        {
+            int projectid = Int32.Parse(id);
+            ViewBag.projectid = projectid;       
+            ViewBag.todo_model = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.todo);
+            ViewBag.progress_model = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.inprogress);
+            ViewBag.done_model = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.done);
+            return View();
+        }
     }
 
 

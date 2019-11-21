@@ -12,7 +12,7 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return View("Index","_IndexLayout");
         }
 
         public ActionResult About()

@@ -1,23 +1,87 @@
-﻿@{
-    <style scoped>
-        body
-        {
+﻿@section Scripts {
+    @{
+        <link rel="stylesheet" href="../../Content/css/style.css">
+        <link rel="stylesheet" href="../../Content/css/post.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    }
 
+
+    <style scoped>
+        body {
             /* background-image: url(image/pngbgf1.png);             */
-            background-image: url(../../Content/images/bgf.svg);            
+            background-image: url(../../Content/images/bgf.svg);
             background-repeat: no-repeat;
-            /* background-size:cover; */    
-            background-size:contain;    
+            /* background-size:cover; */
+            background-size: contain;
+            background-color: white;
         }
     </style>
 }
 @{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Home Page";    
 }
 
 <div class="container mt-xs-0 mt-xl-5 mt-lg-4">
-    
-    <div id="main-slide-carousel" class="carousel slide mt-5 mt-sm-0 " data-ride="carousel" style="transform:translateY(110px);">
+    <!-- <div id="main-slide-carousel" class="carousel slide mt-5 mt-sm-0" data-ride="carousel" >
+        <ol class="carousel-indicators">
+            <li data-target="#main-slide-carousel" data-slide-to="0" class="active"  style="height: 6px;"></li>
+            <li data-target="#main-slide-carousel" data-slide-to="1"  style="height: 6px;"></li>
+            <li data-target="#main-slide-carousel" data-slide-to="2"  style="height: 6px;"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div class="carousel-item active ">
+                <div class="row mt-xl-5 pt-xl-5 pt-lg-5 ">
+                    <div class="col-sm-6 col-xl-5 mt-5 mt-sm-0">
+                        <h1 class="nunito text-white  text-center text-md-left" style="font-weight: bold;">
+                            Track feedback to build better product
+                        </h1>
+                    </div>
+                </div>
+                <div class="row mt-xl-4">
+                    <div class="col-sm-6 col-xl-4 mt-3 mt-sm-2">
+                        <h5 class="text-white nunito  text-center text-md-left">
+                            Capture feedback in one organized place to inform your product decisions.
+                        </h5>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="row mt-xl-5 pt-xl-5 pt-lg-5">
+                    <div class="col-sm-6 col-xl-5 mt-5 mt-sm-0">
+                        <h1 class="nunito text-white  text-center text-md-left" style="font-weight: bold;">
+                            Collect feedback from customers + teammates
+                        </h1>
+                    </div>
+                </div>
+                <div class="row mt-xl-4">
+                    <div class="col-sm-6 col-xl-5 mt-3 mt-sm-2">
+                        <h5 class="text-white nunito  text-center text-md-left">
+                            Ditch your messy spreadsheets. Stop letting ideas slip through the cracks. Manage and
+                            organize all feedback in one tool.
+                        </h5>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="row mt-xl-5 pt-xl-5 pt-lg-5">
+                    <div class="col-sm-6 col-xl-7 mt-5 mt-sm-0">
+                        <h1 class="nunito text-white  text-center text-md-left" style="font-weight: bold;">
+                            Prioritize customer feedback for better product decisions
+                        </h1>
+                    </div>
+                </div>
+                <div class="row mt-xl-4">
+                    <div class="col-sm-6 col-xl-5 mt-3 mt-sm-2">
+                        <h5 class="text-white nunito  text-center text-md-left">
+                            See which features are most requested, and clarify use cases up front. Don’t waste time
+                            building the wrong things.
+                        </h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <div id="main-slide-carousel" class="carousel slide mt-5 mt-sm-0 " data-ride="carousel" style="    transform: translateY(110px);">
         <ol class="carousel-indicators">
             <li data-target="#main-slide-carousel" data-slide-to="0" class="active" style="height: 6px;"></li>
             <li data-target="#main-slide-carousel" data-slide-to="1" style="height: 6px;"></li>
@@ -77,9 +141,9 @@
         </div>
     </div>
 </div>
-<div class="container mt-4" id="content">
+<div class="container" id="content">
     <div class="row">
-        <div class="col-12" style="margin-top: 200px;">
+        <div class="col-12">
             <h1>hello there</h1>
             <h1>hello there</h1>
             <h1>hello there</h1>

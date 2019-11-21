@@ -1,0 +1,220 @@
+﻿@using ProjectManagement_cum_feedback_systemMVC.Models
+@using System;
+
+@section Scripts {
+    <link rel="stylesheet" href="../../Content/css/style.css">
+    <link rel="stylesheet" href="../../Content/css/post.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Content/js/JavaScript.js"></script>
+}
+
+@{
+    <style scoped>
+        body > div.container-fluid > div > div.col-9 > div > div > div > a {
+            color: black;
+        }
+
+            body > div.container-fluid > div > div.col-9 > div > div > div > a > div:hover {
+                transition: 1s ease-in-out forwards;
+                transform: scale(1.02);
+                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            }
+
+        body > div.container-fluid > div > div.col-2 > div:nth-child(2) > div > a {
+            text-decoration: none;
+            color: #868e96;
+        }
+
+            body > div.container-fluid > div > div.col-2 > div:nth-child(2) > div > a:hover {
+                color: black;
+            }
+
+        .my-active {
+            color: black;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            border-radius: 12px 0px 0px 12px;
+            background-color: #f8f9fa;
+        }
+
+        .profile-item {
+            padding: 0.8rem;
+        }
+
+        body > div.container-fluid > div > div.col-10.bg-white > div > div.row > div.col-3.nunito.text-center > div:nth-child(4) > div > img {
+            max-height: 30px;
+        }
+
+        body {
+            background-color: #2e6dff;
+        }
+
+        .up-arrow {
+            color: #9b9b9bd4;
+        }
+
+            .up-arrow:hover {
+                color: #424242d4;
+            }
+
+        body > div.body-content > div > div > div.col-10 > div.row.mt-3 > div > div > div.issue-wrapper.m-3.pt-4 > div > div.col-10.nunito > a {
+            font-weight: 600;
+            text-decoration: none;
+            color: black;
+        }
+    </style>
+}
+
+<div class="container-fluid">
+    <script>
+        function getstatus(id)
+{
+    $.ajax('/Post/getstatus/' + id, {
+        type: 'GET',  // http method       
+        success: function (data, status, xhr) {
+            console.log(data);
+            var color;
+            var title;
+            switch (data) {
+                case "todo":
+                    color = "#FCFF4B";  //yellow
+                    title = "Started Working";
+                    break;
+                case "done":
+                    color = "#3772FF";  //blue
+                    title = "Completed";
+                    break;
+                case "progress":
+                    color = "#06D6A0";  //green
+                    title = "Work is in progress";
+                    break;                         
+                default:       
+                    color = "#CCDDD3";
+                    title = "Not Reviwed";
+                    break;                
+            }
+            $("#" + id + "_circle").css("background-color", color);
+            $("#" + id + "_circle").attr("title", title);
+            console.log(id + "_circle");
+            console.log(color);
+        },
+        
+        error: function (jqXhr, textStatus, errorMessage) {
+            alert(errorMessage);
+        }
+    });
+}
+    </script>
+    <div class="row m-1">
+        @Html.Partial("_ProjectPartial")
+        <div class="col-10 ">
+            <div class="container-flex p-4 bg-white wrapper-rounded" style="min-height: 450px;">
+                <h3 class="mb-5">Question Detail</h3>
+                @if (Session["user_project_role"].Equals("admin")) { 
+                <button type="button" class="btn btn-primary" onclick="loadissues(@Session["project_id"])">
+                    Map Issue
+                </button>
+
+                <!-- The Modal -->
+                <div class="modal" id="myModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <h4 class="modal-title">Map Issue</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+
+                            <!-- Modal body -->
+                            <div class="modal-body" id="body">
+                                <form method="POST" action="@Url.Action("linkissuepost", "Post" )">
+                                    <input type="hidden" name="post_Id" value="@Session["post_Id"]" />
+                                    <select id="issus_list" name="issue_Id">
+                                    </select>
+                                    <input type="submit" />
+                                </form>
+                            </div>
+
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+               }
+                <div class="row pb-3 wrapper-rounded m-3 ">
+                    <div class="col-1">
+                        <div onclick=like(@Session["post_Id"])>
+                            <div class="up-arrow text-center p-1 mt-3 ml-2"
+                                 style="border-radius: 5px;background-color: #c4c6c8a1;width:40px;">
+                                <i class="fas fa-caret-up" style="font-size: 2rem;"></i>
+                            </div>
+                        </div>
+                        <h6 class="text-center" id="@Session[" post_Id"]">
+                            @if (ViewBag.post_model.vote >= 1000)
+                            {
+
+                                @(Math.Floor((double)ViewBag.post_model.vote / 1000))<text>K</text>
+                            }
+                            else
+                            {
+                                @ViewBag.post_model.vote
+                            }
+                        </h6>
+                    </div>
+                    <div class="col-11 nunito pt-3">
+                        <a href="#" >
+                            <div style="width:20px;height:20px;clip-path: circle(50% at 50% 50%);" class="float-right" data-toggle="tooltip" data-placement="top" title="" id="@(Session["post_Id"])_circle">
+
+                            </div>
+                        </a>
+                        <script>
+                            getstatus(@Session["post_Id"]);
+                        </script>
+                        <a href="#" style="text-decoration:none;color:black;">
+                            <h5>
+                                @ViewBag.post_model.post_title
+                            </h5>
+                            <p>
+                                @ViewBag.post_model.post_desc
+                            </p>
+                        </a>
+                    </div>
+                    <div class="col-1"> &nbsp;</div>
+                    <div class="col-11">
+                        <form method="POST" action="@Url.Action("Create", "Comment" )">
+                            <input type="hidden" name="project_Id" value="@Session["project_id"]" />
+                            <input type="hidden" name="post_Id" value="@Session["post_Id"]" />
+                            <input type="text" name="comment_desc" id="comment_desc" placeholder="Leave a comment" class="w-50" />
+                            <input type="submit" />
+                        </form>
+                    </div>
+                </div>
+                <h3>Comments</h3>
+                @foreach (post_comment comment in ViewBag.comment_model)
+                {
+                    <div class="row p-3 wrapper-rounded m-3 nunito">
+                        <div class="col-1">
+
+                            <div class="d-flex align-items-center"
+                                 style="font-size: 1.1rem; font-weight: 600;">
+                                <img src="~/Content/images/userpic.png" alt="profile" style="width: 80px;"
+                                     class="circle-profile">
+                            </div>
+
+                        </div>
+                        <div class="col-11" style="font-size:1.2rem;">
+                            @comment.comment_desc
+                        </div>
+
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

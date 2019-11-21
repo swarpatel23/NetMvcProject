@@ -1,9 +1,8 @@
 @import url('https://fonts.googleapis.com/css?family=Nunito&display=swap');
-body
-{
-    /* height: 100%; */   
+
+body {
+    /* height: 100%; */
     /* position: relative;     */
-    
 }
 /* .bgimg{
     margin: 0px;    
@@ -14,104 +13,90 @@ body
     background-size: cover;
     position: relative;    
 } */
-.nunito
-{
+.nunito {
     font-family: 'Nunito', sans-serif;
 }
-body > header > nav > button > i
-{
+
+body > header > nav > button > i {
     color: white;
 }
 
-@media only screen and (min-width:576px)
-{
-    body > header > nav > button > i
-    {
-        color:white;
+@media only screen and (min-width:576px) {
+    body > header > nav > button > i {
+        color: white;
     }
-    #content
-    {
+
+    #content {
         margin-top: 230px;
     }
 }
-@media only screen and (max-width:576px)
-{
-    #content
-    {
+
+@media only screen and (max-width:576px) {
+    #content {
         margin-top: 200px;
     }
 }
 
-@media only screen and (min-width:991px)
-{
-    body
-    {
+@media only screen and (min-width:991px) {
+    body {
         /* background-size: cover; */
     }
-    #content
-    {
-        margin-top:80px;
-    }
-    #main-slide-carousel
-{
-    height: 60vh;
-}
 
-}
-@media only screen and (min-width:1060px)
-{
-    #content
-    {
-        margin-top:150px;
+    #content {
+        margin-top: 80px;
     }
-}
-@media only screen and (min-width:1200px)
-{
-    #content
-    {
-        margin-top:170px;
-    }
-}
-@media only screen and (min-width:1300px)
-{
-    #content
-    {
-        margin-top:250px;
-    }
-}
-@media only screen and (min-width:1400px)
-{
-    #content
-    {
-        margin-top:270px;
-    }
-}
-@media only screen and (min-width:1500px)
-{
-    #content
-    {
-        margin-top:300px;
-    }
-}
-@media only screen and (max-width:991px)
-{    
-    body
-    {
-        background-size: auto;
-    }
-    #mainnavbar > ul > li > a
-    {
-        color: white;
-    }    
-    #main-slide-carousel
-    {
+
+    #main-slide-carousel {
         height: 60vh;
     }
 }
-@media only screen and (max-width:576px)
-{    
-    .mybg
-    {
+
+@media only screen and (min-width:1060px) {
+    #content {
+        margin-top: 150px;
+    }
+}
+
+@media only screen and (min-width:1200px) {
+    #content {
+        margin-top: 170px;
+    }
+}
+
+@media only screen and (min-width:1300px) {
+    #content {
+        margin-top: 250px;
+    }
+}
+
+@media only screen and (min-width:1400px) {
+    #content {
+        margin-top: 270px;
+    }
+}
+
+@media only screen and (min-width:1500px) {
+    #content {
+        margin-top: 300px;
+    }
+}
+
+@media only screen and (max-width:991px) {
+    body {
+        background-size: auto;
+    }
+
+    #mainnavbar > ul > li > a {
+        color: white;
+    }
+
+    #main-slide-carousel {
+        height: 60vh;
+    }
+}
+
+@media only screen and (max-width:576px) {
+    .mybg {
         transform: scale(1.9);
     }
 }

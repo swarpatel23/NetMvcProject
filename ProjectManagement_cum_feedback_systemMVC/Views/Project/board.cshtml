@@ -1,0 +1,152 @@
+﻿@using ProjectManagement_cum_feedback_systemMVC.Models
+@using System;
+
+@section Scripts {
+    <link rel="stylesheet" href="../../Content/css/style.css">
+    <link rel="stylesheet" href="../../Content/css/post.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.js"></script>
+
+}
+
+@{
+    <style scoped>
+        body > div.container-fluid > div > div.col-9 > div > div > div > a {
+            color: black;
+        }
+
+            body > div.container-fluid > div > div.col-9 > div > div > div > a > div:hover {
+                transition: 1s ease-in-out forwards;
+                transform: scale(1.02);
+                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            }
+
+        body > div > div > div > div.col-2.wrapper-rounded > div:nth-child(2) > div > a{
+            text-decoration: none;
+            color: #868e96;
+        }
+
+            body > div.container-fluid > div > div.col-2 > div:nth-child(2) > div > a:hover {
+                color: black;
+            }
+
+        .my-active {
+            color: black;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            border-radius: 12px 0px 0px 12px;
+            background-color: #f8f9fa;
+        }
+
+        .profile-item {
+            padding: 0.8rem;
+        }
+
+        body > div.container-fluid > div > div.col-10.bg-white > div > div.row > div.col-3.nunito.text-center > div:nth-child(4) > div > img {
+            max-height: 30px;
+        }
+
+        body {
+            background-color: #2e6dff;
+        }
+
+        .up-arrow {
+            color: #9b9b9bd4;
+        }
+
+            .up-arrow:hover {
+                color: #424242d4;
+            }
+
+        body > div.body-content > div > div > div > div.row.mt-3 > div > div > div.issue-wrapper.m-3.pt-4 > div > div > a {
+            font-weight: 600;
+            text-decoration: none;
+            color: black;
+        }
+    </style>
+}
+
+<div class="container-fluid">
+    <div class="row m-1">
+        @Html.Partial("_ProjectPartial","board")
+        <div class="col-10 ">                   
+            <div class="row mt-3">
+                <div class="col-4">
+                    <div class="container-flex  bg-white wrapper-rounded">
+                        <div class="row text-center pt-2">
+                            <div class="col-12">
+                                <h3 class="nunito">Planned</h3>
+                            </div>
+                        </div>
+                        <div class="issue-wrapper m-3 pt-4">
+                            <!--Issues-->
+                            @foreach (project_issue pi in ViewBag.todo_model)
+                            {
+                                <div class="row pb-3">
+                                    <div class="col-1">
+
+                                    </div>
+                                    <div class="col-11 nunito">
+                                        <a href="#">
+                                            @pi.issue_title
+                                        </a>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="container-flex  bg-white wrapper-rounded">
+                        <div class="row text-center pt-2">
+                            <div class="col-12">
+                                <h3 class="nunito">In Progress</h3>
+                            </div>
+                        </div>
+                        <div class="issue-wrapper m-3 pt-4">
+                            <!--Issues-->
+                            @foreach (project_issue pi in ViewBag.progress_model)
+                            {
+                                <div class="row pb-3">
+                                    <div class="col-1">
+
+                                    </div>
+                                    <div class="col-11 nunito">
+                                        <a href="#">
+                                            @pi.issue_title
+                                        </a>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="container-flex  bg-white wrapper-rounded">
+                        <div class="row text-center pt-2">
+                            <div class="col-12">
+                                <h3 class="nunito">Complete</h3>
+                            </div>
+                        </div>
+                        <div class="issue-wrapper m-3 pt-4">
+                            <!--Issues-->
+                            @foreach (project_issue pi in ViewBag.done_model)
+                            {
+                                <div class="row pb-3">
+                                    <div class="col-1">
+
+                                    </div>
+                                    <div class="col-11 nunito">
+                                        <a href="#">
+                                            @pi.issue_title
+                                        </a>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
