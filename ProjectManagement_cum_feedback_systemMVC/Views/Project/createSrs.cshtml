@@ -119,53 +119,63 @@
                                         @p.srs_desc
                                     }
                                 </textarea>
-                                <h3 class="mt-2">Comments:</h3>
-                                <hr class="mb-3"/>
-                                
-                                foreach (srs_comment x in ViewBag.comments)
-                                {
-                                    @*<div style="background-color: rgb(220, 220, 220); padding:2px 2px";margin-left: 6px;" class="wrapper-rounded">
-                                        <p>@au.FindById(x.user_id).UserName---@x.cdate.Day @x.cdate.DayOfWeek @x.cdate.Year</p>
-                                        <p>@x.comment_desc</p>llo
-                                    </div>*@
-
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-md-2">
-                                                    <img src="~/Content/images/userpic.png" class="img-circle ml-4"  width='50' height='50' style="border-radius: 50%;">
-                                                    <p class="text-secondary text-center">@x.cdate.Day @x.cdate.DayOfWeek @x.cdate.Year</p>
-                                                </div>
-                                                <div class="col-md-10">
-                                                    
-                                                    <div class="clearfix"></div>
-                                                    <p>@au.FindById(x.user_id).UserName : @x.comment_desc</p>
-                                                   
-                                                </div>
-                                            </div>
-                                        </div>
-                                        </div>
-
-                                }
-                               
                                 if ((int)(Session["project_srs_status"]) != 1)
                                 {
                                     <input type="submit" value="Submit" class="btn btn-primary pull-right mt-2 mr-3 text-primary" />
                                 }
                                 else
                                 {
-                                    <input type="submit" value="Edit" class="btn btn-primary pull-right mt-2 mr-3 text-primary" />
+                                    <input type="submit" value="Edit" style="margin-bottom: 10px;" class="btn btn-primary pull-right mt-2 mr-3 text-primary" />
                                 }
-                                <input type="hidden" name="projectid" value="@ViewBag.projectid" />
-
                                 
-                            }
-                        }
-                        else
-                        {
-                            <h3 class="text-left">Customer hasn't created Story board yet.</h3>
-                        }
-                    </div>
+                                <hr class="mb-3"/>
+                                
+                               <h3 class="mt-2"><span class="fas fa-caret-right" id="caretc">Comments:</span></h3>
+                                    foreach (srs_comment x in ViewBag.comments)
+                                    {
+                                    @*<div style="background-color: rgb(220, 220, 220); padding:2px 2px";margin-left: 6px;" class="wrapper-rounded">
+                        <p>@au.FindById(x.user_id).UserName---@x.cdate.Day @x.cdate.DayOfWeek @x.cdate.Year</p>
+                        <p>@x.comment_desc</p>llo
+                    </div>*@
+
+                                    <div class="card nested">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    @if (au.FindById(x.user_id).UserPhoto != null)
+                                                    {
+                                                        <img src="~/Content/userphotos/@au.FindById(x.user_id).UserPhoto" class="img-circle ml-4" width='50' height='50' style="border-radius: 50%;">
+                                                    }
+                                                    else
+                                                    {
+                                                        <img src="~/Content/images/userpic.png" class="img-circle ml-4" width='50' height='50' style="border-radius: 50%;">
+
+                                                    }
+                                                    <p class="text-secondary text-center">@x.cdate.Day @x.cdate.DayOfWeek @x.cdate.Year</p>
+                                                </div>
+                                                <div class="col-md-10">
+
+                                                    <div class="clearfix"></div>
+                                                    <p>@au.FindById(x.user_id).UserName : @x.comment_desc</p>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    }
+
+                                   
+                                        <input type="hidden" name="projectid" value="@ViewBag.projectid" />
+
+
+                                    }
+                                    }
+                                    else
+                                    {
+                                    <h3 class="text-left">Customer hasn't created Story board yet.</h3>
+                                    }
+</div>
                     <div id="message" class="text-center">
                         @if (ViewBag.srs_updated == true)
                         {
@@ -192,3 +202,14 @@
         </div>
     </div>
 </div>
+
+<script>
+    $('.nested').hide();
+   
+    $('#caretc').click(function () {
+        console.log("hi");
+        $(".nested").toggle();
+        $(this).addClass("fa-level-down").removeClass("fas fa-caret-right");
+    });
+
+</script>

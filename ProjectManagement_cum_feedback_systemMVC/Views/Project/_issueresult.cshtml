@@ -3,16 +3,20 @@
 @using Microsoft.AspNet.Identity.Owin
 @using ProjectManagement_cum_feedback_systemMVC.Models
 @model ProjectManagement_cum_feedback_systemMVC.Models.project_issue
+<input id="myInput" type="text" placeholder="Search issue.." style="margin: 10px 0;"><span class="input-group-addon">
+    <i class="fa fa-search"></i>
+</span>
 
+<div id="myissue">
 @foreach (project_issue pi in ViewBag.issuemodal)
 {
     Model1 m = new Model1();
     
 
-    <div class="border border-dark">
+    <div class="border border-dark" id="searchissue">
     <div class="wrapper p-3" id="story" style="background-color: rgb(220, 220, 220);overflow-y: auto">
-    <b>Title : @pi.issue_title</b> <br />
-    <b>Description: @Html.Raw(pi.issue_desc)</b><br />
+    <b id="issuetitle1">Title : @pi.issue_title</b> <br />
+    <b id="issuetitle2">Description: @Html.Raw(pi.issue_desc)</b><br />
     <div class="row nunito">
 
     <div class="col-3">
@@ -241,11 +245,13 @@
 
         }
     }
+
     </div>
     </div>
     </div>
     <br/>
                                     }
+</div>
 
 <script>
     $(document).ready(function() {
@@ -335,5 +341,14 @@
 </script>
 
 <script>
-
+    $(document).ready(function () {
+        $("#myInput").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#searchissue #issuetitle1").filter(function () {
+                $(this).closest('#searchissue').toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            });
+           
+        });
+    });
 </script>
+

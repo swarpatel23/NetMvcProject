@@ -141,7 +141,7 @@
                         else {
                             vote = arr[i].vote;
                         }
-                        temp = '<div class="row pb-3 wrapper-rounded m-3 ">' +
+                        temp = '<div id="searchpost"><div class="row pb-3 wrapper-rounded m-3 ">' +
                             '<div class="col-1">' +
                             '<div onclick="like(' + arr[i].id + ')">' +
                             '<div class="up-arrow text-center p-1 mt-3 ml-2"' +
@@ -168,7 +168,7 @@
                             '</p>' +
                             '</a>' +
                             '</div>' +
-                            '</div>';
+                            '</div></div>';
                         $("#post_list").append(temp);
                         $("#post_list").append("<script>getstatusofpost(" + arr[i].id + ",'" + arr[i].status + "');<\/script>");                                                
                     }
@@ -188,7 +188,10 @@
                         </button>
                     </div>
                 }
-                <div class="mt-5">
+                <input id="myInput" type="text" placeholder="Search post.." style="margin: 15px 0;"><span class="input-group-addon">
+                    <i class="fa fa-search"></i>
+                </span>
+                <div class="mt-3">
                     <span>Showing </span>
                     <select name="type" style="padding:0px" id="type">
                         <option value="new">New</option>
@@ -206,6 +209,8 @@
                         </select>
                     </span>
                 </div>
+                
+
                 <div class="container mt-2 ml-2 p-2" id="post_list">
 
                 </div>
@@ -282,16 +287,28 @@
     });
     $('#type').on('change', function () {        
         switch (this.value) {
-            case "top":
-                sortby = "vote";
-                order = -1;
-                break;
-            case "new":
-                sortby = "id";
-                order = -1;
-                break;
+        case "top":
+            sortby = "vote";
+            order = -1;
+            break;
+        case "new":
+            sortby = "id";
+            order = -1;
+            break;
         }
         console.log(post_arr.sort(sortbyandorder(sortby, order)));        
         displaypost(post_arr);
-});
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $("#myInput").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#searchpost h5").filter(function () {
+                $(this).closest('#searchpost').toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            });
+
+        });
+    });
 </script>

@@ -991,7 +991,7 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
                 Session["srs_acceptance"] = "accept";
             }
 
-            var comments = m.srs_comments.Where(x => x.project_id == pid);
+            var comments = m.srs_comments.Where(x => x.project_id == pid).OrderByDescending(d=>d.cdate);
             ViewBag.comments = comments;
             
             return View();
