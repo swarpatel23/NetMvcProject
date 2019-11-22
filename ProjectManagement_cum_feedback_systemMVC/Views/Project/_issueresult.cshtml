@@ -1,4 +1,5 @@
 ﻿@using System.Linq
+@using Microsoft.Ajax.Utilities
 @using Microsoft.AspNet.Identity
 @using Microsoft.AspNet.Identity.Owin
 @using ProjectManagement_cum_feedback_systemMVC.Models
@@ -11,7 +12,17 @@
 @foreach (project_issue pi in ViewBag.issuemodal)
 {
     Model1 m = new Model1();
-    
+
+    project_issue_assign ptest = m.project_issue_assigns.Find(pi.issue_Id, User.Identity.GetUserId());
+
+    if (ptest != null)
+    {
+        ViewBag.roleb = "admin";
+    }
+    else
+    {
+        ViewBag.roleb = "notadmin";
+    }
 
     <div class="border border-dark" id="searchissue">
     <div class="wrapper p-3" id="story" style="background-color: rgb(220, 220, 220);overflow-y: auto">
@@ -40,29 +51,85 @@
     </div>
     <div class="col-3">
         <div class="profile-item">
-
+        @if (ViewBag.rolef != "admin" && ViewBag.roleb != "admin")
+        {
             <div class="d-flex align-items-center pt-1">
+           
                 <b>
-                    Status :    @if (pi.issue_status == issue_stat.done)
-                                { @:Done
-                                }
-                                else if (pi.issue_status == issue_stat.inprogress)
-                                {
-                                    @:Inprogress
-                                }
-                                else
-                                {
-                                    @:To Do
-                                }
+                    Status :
+                    @if (pi.issue_status == issue_stat.done)
+                    {
+                        @:Done
+                    }
+                    else if (pi.issue_status == issue_stat.inprogress)
+                    {
+                        @:Inprogress
+                    }
+                    else
+                    {
+                        @:To Do
+                    }
                 </b>
+         
             </div>
+        }
+        else
+        {
+            <form>
+                <input name="issueid" id="issueid" value="@pi.issue_Id" hidden />
+                <input name="role" id="role" value="@ViewBag.rolef" hidden />
+                <input name="pid" value="@pi.project_Id" id="pid" hidden />
+                <select class="custom-select mr-sm-2" name="statuschange" id="statuschange">
+                    Priority:     @if (pi.issue_status == issue_stat.todo)
+                    {
+                                                <option>Choose...</option>
+                                                <option selected value=@issue_stat.todo>To Do</option>
+                                                <option value=@issue_stat.inprogress>In Progress</option>
+                                                <option value=@issue_stat.done>Done</option>
+                                                
+                    }
+                    else if (pi.issue_status == issue_stat.inprogress)
+                    {
+                        <option>Choose...</option>
+                        <option value=@issue_stat.todo>To Do</option>
+                        <option selected value=@issue_stat.inprogress>In Progress</option>
+                        <option value=@issue_stat.done>Done</option>
+                    }
+                    else if (pi.issue_status == issue_stat.done)
+                    {
+                        <option>Choose...</option>
+                        <option value=@issue_stat.todo>To Do</option>
+                        <option value=@issue_stat.inprogress>In Progress</option>
+                        <option selected value=@issue_stat.done>Done</option>
+                    }
+                    else
+                    {
+                        
+                    }
+                   
+                    
+
+                </select>
+
+                <div class="profile-item">
+                    <button type="button" value="changestatusbtn" class="btn btn-success">Change Status</button>
+
+                </div>
+
+
+
+            </form>
+            //}
+
+        
+        }
         </div>
     </div>
     <div class="col-6">
         <div class="row">
             <div class="col-6">
                 <div class="profile-item">
-                    @if (ViewBag.rolef != "admin")
+                    @if (ViewBag.rolef != "admin" && ViewBag.roleb!="admin")
                     {
                         <div class="d-flex align-items-center pt-1">
                             <b>
@@ -145,48 +212,48 @@
             <div class="col-6">
                 @if (@ViewBag.rolef == "admin")
                 {
-                               
+
                                     @*
                                     @Html.ActionLink("Remove Issue", "removeIssue", "Project", new { projid = @pi.project_Id, issid = @pi.issue_Id, urole = @ViewBag.rolef }, new { @class = "btn btn-danger" })
                                 *@
                     <div id="issue">
-                    <input name="issueid" id="issueid" value="@pi.issue_Id" hidden />
-                    <button type="button" class="btn btn-danger" value="removeissuebtn" class="btn btn-success">Remove Issue</button>
-                    <button class="btn btn-outline-primary" style="margin-top:40px!important;" data-toggle="modal"
-                            data-target="#assignissue" value="aissue">
-                        Assign Issue
-                    </button>
+                        <input name="issueid" id="issueid" value="@pi.issue_Id" hidden />
+                        <button type="button" class="btn btn-danger" value="removeissuebtn" class="btn btn-success">Remove Issue</button>
+                        <button class="btn btn-outline-primary" style="margin-top:40px!important;" data-toggle="modal"
+                                data-target="#assignissue" value="aissue">
+                            Assign Issue
+                        </button>
 
-                    <div class="modal" id="assignissue">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <!-- Modal Header -->
-                                <div class="modal-header">
-                                    <h4 class="modal-title">Assign Issue</h4>
-                                    <button type="button" class="close" id="closebtn" data-dismiss="modal">&times;</button>
-                                </div>
-                                <!-- Modal body -->
-                                <div class="modal-body">
-                                    <div class="form-group">
-                                        <h4 class="pl-3">Team Member's Email:</h4>
-                                        <input type="text" name="teamemail" id="teamemail">
+                        <div class="modal" id="assignissue">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <!-- Modal Header -->
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Assign Issue</h4>
+                                        <button type="button" class="close" id="closebtn" data-dismiss="modal">&times;</button>
                                     </div>
-                                    <div class="form-group">
-                                        <h4 class="pl-3">Start Date:</h4>
-                                        <input type="date" name="startdate" id="startdate">
+                                    <!-- Modal body -->
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <h4 class="pl-3">Team Member's Email:</h4>
+                                            <input type="text" name="teamemail" id="teamemail">
+                                        </div>
+                                        <div class="form-group">
+                                            <h4 class="pl-3">Start Date:</h4>
+                                            <input type="date" name="startdate" id="startdate">
+                                        </div>
+                                        <div class="form-group">
+                                            <h4 class="pl-3">End Date:</h4>
+                                            <input type="date" name="enddate" id="enddate">
+                                        </div>
                                     </div>
-                                    <div class="form-group">
-                                        <h4 class="pl-3">End Date:</h4>
-                                        <input type="date" name="enddate" id="enddate">
+                                    <div class="modal-footer">
+                                        <input name="issueid" id="issueid" value="@pi.issue_Id" hidden />
+                                        <button type="button" value="assignuser" class="btn btn-primary">Add</button>
                                     </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <input name="issueid" id="issueid" value="@pi.issue_Id" hidden />
-                                    <button type="button" value="assignuser" class="btn btn-primary">Add</button>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     </div>
                 }
                             
@@ -196,6 +263,7 @@
         </div>
 
     </div>
+    <div>
     @{
         int issueid = pi.issue_Id;
         var issueuser = m.project_issue_assigns.Where(x => x.issue_Id == issueid);
@@ -203,6 +271,7 @@
         int c = 0, p = 0, f = 0;
         foreach (project_issue_assign pia in issueuser)
         {
+            <div></div>
             DateTime suserdate = pia.startdate;
             DateTime euserdate = pia.enddate;
             DateTime today = DateTime.Now;
@@ -214,10 +283,9 @@
             {
                 if (c == 0)
                 {
-                    <p style="display: block">Currently Working Team Members:</p><br/>
+                    <p style="display: block">Currently Working Team Members:</p>
                 }
-                <br/>
-                <p style="color: green">@au.FindById(pia.user_Id).Email</p><br/>
+                <p style="color: green">@au.FindById(pia.user_Id).Email</p>
                 c++;
             }
 
@@ -225,10 +293,9 @@
             {
                 if (p == 0)
                 {
-                    <p>Previously Worked Team Members:</p><br/>
+                    <p>Previously Worked Team Members:</p>
                 }
-                <br />
-                <p style="color: brown">@au.FindById(pia.user_Id).Email</p><br/>
+                <p style="color: brown">@au.FindById(pia.user_Id).Email</p>
                 p++;
             }
 
@@ -236,16 +303,15 @@
             {
                 if (f == 0)
                 {
-                    <p>Working in Upcoming Dates:</p><br/>
+                    <p>Working in Upcoming Dates:</p>
                 }
-                <br />
-                <p style="color: blue">@au.FindById(pia.user_Id).Email</p><br/>
+                <p style="color: blue">@au.FindById(pia.user_Id).Email</p>
                 f++;
             }
-
+            
         }
     }
-
+    </div>
     </div>
     </div>
     </div>
@@ -288,6 +354,32 @@
 
                     });
                 }
+            }
+        });
+    });
+</script>
+
+
+<script>
+    $(document).ready(function() {
+        $('button').click(function() {
+            if ($(this).val() == "changestatusbtn") {
+                var x = $(this).closest('form').find('#issueid').val();
+                var y = $(this).closest('form').find('#statuschange').val();
+                var z = $(this).closest('form').find('#pid').val();
+                var w = $(this).closest('form').find('#role').val();
+                //console.log(x);
+                //console.log(y);
+                $.ajax({
+                    type: "post",
+                    url: "@Url.Action("changeStatus", "Project")",
+                    data: { issueid: x, statuschange: y, pid: z, role: w },
+                    success: function(d) {
+
+                        $("#filter").trigger("click");
+                    }
+
+                });
             }
         });
     });

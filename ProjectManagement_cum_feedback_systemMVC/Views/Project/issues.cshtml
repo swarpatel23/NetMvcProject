@@ -75,12 +75,16 @@
                 <h3 class="nunito mb-3" id="iss1">Issues</h3>
                 <!-- wrapper for add member -->
                 <div class="row">
+                @if (ViewBag.rolef == "admin")
+                {
                     <div class="col-2">
-                        <button class="btn btn-outline-primary" style="margin-top:40px!important;" data-toggle="modal"
+
+                        <button class="btn btn-outline-primary" style="margin-top: 40px !important;" data-toggle="modal"
                                 data-target="#addissuemodal">
                             <i class="fas fa-plus-circle pr-2"></i>
                             Add Issue
                         </button>
+
                         <!-- The Member Modal -->
                         <div class="modal" id="addissuemodal">
                             <div class="modal-dialog">
@@ -136,19 +140,19 @@
                                                     </select>
                                                 </div>
                                                 <div class="col-md-6 mb-3">
-                                                    <h4 class="pl-3">Assign Status:</h4>
+                                                    @*<h4 class="pl-3">Assign Status:</h4>
                                                     <select class="custom-select mr-sm-2" name="issueassstatus" id="issueassstatus">
                                                         <option selected>Choose...</option>
                                                         <option value="0">Unassigned</option>
                                                         <option value="1">Assigned</option>
-                                                    </select>
+                                                    </select>*@
                                                 </div>
                                             </div>
 
-                                            <input type="hidden" name="projectid" value="@ViewBag.project_id" />
-                                            <input type="hidden" name="role" value="@ViewBag.user_project_role" />
+                                            <input type="hidden" name="projectid" value="@ViewBag.project_id"/>
+                                            <input type="hidden" name="role" value="@ViewBag.user_project_role"/>
                                             <div class="modal-footer">
-                                                <input type="submit" class="btn btn-primary text-primary" value="Add" />
+                                                <input type="submit" class="btn btn-primary text-primary" value="Add"/>
                                             </div>
                                         }
                                         <!-- Modal footer -->
@@ -158,9 +162,10 @@
                         </div>
                         <!-- The role Modal -->
                     </div>
+                }
                     <!--wrapper for members-->
-                    <input name="rolef" id="rolef" value="@ViewBag.user_project_role" hidden />
-                    <input name="pidf" id="pidf" value="@Session["project_id"]" hidden />
+                    <input name="rolef" id="rolef" value="@ViewBag.user_project_role" hidden/>
+                    <input name="pidf" id="pidf" value="@Session["project_id"]" hidden/>
 
                     <div class="col-2">
                         <h5 class="pl-3">Status:</h5>
@@ -198,7 +203,7 @@
                         </select>
                     </div>
                     <div class="col-2">
-                        <button class="btn btn-info btn-lg" id="filter" style="margin-top:32px;">
+                        <button class="btn btn-info btn-lg" id="filter" style="margin-top: 32px;">
                             <i class="fas fa-filter pr-2"></i>Filter
                         </button>
                     </div>

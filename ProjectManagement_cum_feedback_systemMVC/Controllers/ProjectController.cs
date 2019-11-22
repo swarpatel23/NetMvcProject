@@ -400,7 +400,7 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
         {
             int projid = Int32.Parse(form["projectid"]);
             int prio = Int32.Parse(form["priority"]);
-            int issueassstatus = Int32.Parse(form["issueassstatus"]);
+            //int issueassstatus = Int32.Parse(form["issueassstatus"]);
             string issuetitle = form["issuetitle"];
             string issuedesc = form["issuedesc"];
             int issuestatus = Int32.Parse(form["issuestatus"]);
@@ -408,7 +408,7 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
             project_issue pi = new project_issue();
             pi.project_Id = projid;
             pi.priority = prio;
-            pi.assign_status = issueassstatus;
+            pi.assign_status = 0;
             pi.issue_title = issuetitle;
             pi.issue_desc = issuedesc;
             pi.creationtime = DateTime.Now;
@@ -453,6 +453,23 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
             ViewData["user_project_role"] = role;
             return new EmptyResult();
         }
+
+        public EmptyResult changeStatus(string issueid, issue_stat statuschange, string pid, string role)
+        {
+            int projid = Int32.Parse(pid);
+            int issid = Int32.Parse(issueid);
+            //int prionew = Int32.Parse(statuschange);
+            project_issue x = m.project_issue.Find(issid);
+            x.issue_status = statuschange;
+            m.SaveChanges();
+            TempData["project_id"] = projid;
+            Session["project_id"] = projid;
+            ViewData["project_id"] = projid;
+            Session["user_project_role"] = role;
+            ViewData["user_project_role"] = role;
+            return new EmptyResult();
+        }
+
 
         public EmptyResult removeIssue(string issueid)
         {
