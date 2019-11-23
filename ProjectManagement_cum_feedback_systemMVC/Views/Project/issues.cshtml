@@ -109,7 +109,7 @@
                                             </div>
 
                                             <div class="form-row">
-                                                <div class="col-md-6 mb-3">
+                                                <div class="col-md-4 mb-3">
                                                     <h4 class="pl-3">Type:</h4>
                                                     <select class="custom-select mr-sm-2" id="issuetype" name="issuetype">
                                                         <option selected>Choose...</option>
@@ -118,7 +118,7 @@
                                                         <option value="2">Improvement</option>
                                                     </select>
                                                 </div>
-                                                <div class="col-md-6 mb-3">
+                                                <div class="col-md-4 mb-3">
                                                     <h4 class="pl-3">Status:</h4>
                                                     <select class="custom-select mr-sm-2" name="issuestatus" id="issuestatus">
                                                         <option selected>Choose...</option>
@@ -127,9 +127,8 @@
                                                         <option value="2">Done</option>
                                                     </select>
                                                 </div>
-                                            </div>
-                                            <div class="form-row">
-                                                <div class="col-md-6 mb-3">
+                                            
+                                                <div class="col-md-4 mb-3">
                                                     <h4 class="pl-3">Priority:</h4>
                                                     <select class="custom-select mr-sm-2" id="priority" name="priority">
                                                         <option selected>Choose...</option>
@@ -139,14 +138,14 @@
                                                         <option value="3">Very High</option>
                                                     </select>
                                                 </div>
-                                                <div class="col-md-6 mb-3">
-                                                    @*<h4 class="pl-3">Assign Status:</h4>
+                                                @*<div class="col-md-6 mb-3">
+                                                    <h4 class="pl-3">Assign Status:</h4>
                                                     <select class="custom-select mr-sm-2" name="issueassstatus" id="issueassstatus">
                                                         <option selected>Choose...</option>
                                                         <option value="0">Unassigned</option>
                                                         <option value="1">Assigned</option>
-                                                    </select>*@
-                                                </div>
+                                                    </select>
+                                                </div>*@
                                             </div>
 
                                             <input type="hidden" name="projectid" value="@ViewBag.project_id"/>
@@ -202,12 +201,21 @@
                             <option value="1">Ascending</option>
                         </select>
                     </div>
+                    <div class="col-2" id="defcon1">
+                        <h5 class="pl-3">Assign Stat:</h5>
+                        <select class="form-control" name="assigf" id="assigf">
+                            <option selected value="-1">Choose...</option>
+                            <option value="0">My Issues</option>
+                            <option value="1">All Issues</option>
+                        </select>
+                    </div>
                     <div class="col-2">
                         <button class="btn btn-info btn-lg" id="filter" style="margin-top: 32px;">
-                            <i class="fas fa-filter pr-2"></i>Filter
+                            <i class="fa fa-filter pr-2"></i>Filter
                         </button>
                     </div>
                 </div>
+                
                 <br />
                 <br />
                 <div class="container-fluid" id="result">
@@ -222,6 +230,10 @@
 
 <script>
     $(document).ready(function () {
+        var rolet = $("#rolef").val();
+        if (rolet != 'teammember') {
+            $("#defcon1").hide();
+        }
         $('#filter').click(function () {
 
             var priorityf = $("#priorityf").val();
@@ -230,12 +242,13 @@
             var pidf = $("#pidf").val();
             var rolef = $("#rolef").val();
             var datef = $("#datef").val();
+            var assigf = $("#assigf").val();
             $.ajax({
                 type: "get",
                 url: "/Project/issuesFilter",
                 contentType: "application/json; charset=utf-8",
                 datatype: "json",
-                data: { pidf: pidf, rolef: rolef, issstatusf: issstatusf, isstypef: isstypef, priorityf: priorityf, datef: datef },
+                data: { pidf: pidf, rolef: rolef, issstatusf: issstatusf, isstypef: isstypef, priorityf: priorityf, datef: datef, assigf: assigf },
                 success: function (d) {
                     $('#iss1').scrollTop($('#iss1')[0].scrollHeight);
                     $("#result").html(d);

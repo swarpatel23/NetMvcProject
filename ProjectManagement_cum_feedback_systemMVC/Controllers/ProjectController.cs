@@ -468,7 +468,7 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
             return new EmptyResult();
         }
 
-        [ChildActionOnly]
+
         public EmptyResult changeStatus(string issueid, issue_stat statuschange, string pid, string role)
         {
             int projid = Int32.Parse(pid);
@@ -485,7 +485,7 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
             return new EmptyResult();
         }
 
-        [ChildActionOnly]
+
         public EmptyResult removeIssue(string issueid)
         {
             //int pid = Int32.Parse(projid);
@@ -501,8 +501,7 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
             return new EmptyResult();
         }
 
-        [ChildActionOnly]
-        public ActionResult issuesFilter(string pidf, string rolef,string issstatusf,string isstypef,string priorityf,string datef)
+        public ActionResult issuesFilter(string pidf, string rolef,string issstatusf,string isstypef,string priorityf,string datef,string assigf)
         {
             ViewBag.project_id = pidf;
             Session["project_id"] = pidf;
@@ -512,20 +511,24 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
             int isstypef1 = Int32.Parse(isstypef);
             int priorityf1 = Int32.Parse(priorityf);
             int datef1 = Int32.Parse(datef);
+            int assigf1 = Int32.Parse(assigf);
+            string uid = User.Identity.GetUserId();
+            if (rolef != "teammember") {
+                assigf1 = 1; 
+            }
            // ViewBag.pidf = pidf;
             ViewBag.rolef = rolef;
             ViewBag.isstatusf = issstatusf;
             ViewBag.isstypef = isstypef;
             ViewBag.priorityf = priorityf;
-           IQueryable<project_issue>  issuemodal = m.project_issue.Where(x => x.project_Id == projectid);
+           var issuemodal = m.project_issue.Where(x => x.project_Id == projectid);
             if (issstatusf1 == 0)
             {
                 if (isstypef1 == 0)
                 {
                     if (priorityf1 == 0)
                     {
-                        if (datef1 == 0)
-                        { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.todo && x.issue_type == issue_type.newfeature).OrderByDescending(x => x.priority).OrderByDescending(x => x.creationtime); }
+                        if (datef1 == 0) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.todo && x.issue_type == issue_type.newfeature).OrderByDescending(x => x.priority).OrderByDescending(x => x.creationtime); }
                         else if (datef1 == 1) { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.todo && x.issue_type == issue_type.newfeature).OrderByDescending(x => x.priority).OrderBy(x => x.creationtime); }
                         else { issuemodal = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.todo && x.issue_type == issue_type.newfeature).OrderByDescending(x => x.priority); }
                     }
@@ -914,7 +917,12 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
                     }
                 }
             }
-                  
+
+            if (assigf1 == 0)
+            {
+                var assiss = m.project_issue_assigns.Where(x => x.user_Id == uid);
+                issuemodal = issuemodal.Where(x => assiss.Any(y => y.issue_Id == x.issue_Id));
+            }
 
             ViewData["issuemodal"] = issuemodal;
             Session["user_project_role"] = rolef;
@@ -924,7 +932,7 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
             return PartialView("_issueresult");
         }
 
-        [ChildActionOnly]
+
         public EmptyResult assignIssue(string tmail,DateTime sdate,DateTime edate,string issueid1)
         {
             ApplicationUserManager au = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
