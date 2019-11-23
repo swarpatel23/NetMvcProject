@@ -109,39 +109,62 @@
                                 </button>
                             </div>
                             
-                                <div class="modal fade" id="projectModel" tabindex="-1" role="dialog" aria-labelledby="projectModel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="projectModel">Create Project</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
+                            <div class="modal fade" id="projectModel" tabindex="-1" role="dialog" aria-labelledby="projectModel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="projectModel">Create Project</h5>
+                                            <input type="file" name="picon" id="picon" accept=".jpg,.jpeg,.png"  style="visibility: hidden; width: 10px; height: 10px;">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body m-3">
+                                            <div class="input-fields" style="display: inline;">
+                                                <label for="picon">Select Icon</label>
+                                             
+                                                
+                                                    <img src="~/Content/projecticons/default.png" alt="profile" id="ppreview" class="img-circle" style="width: 50px; height: 50px; border-radius: 50%;">
+
+                                               
+                                                
+                                                <button  id="editicon" style="width: 50px; border-radius: 50%; height: auto; vertical-align: center; background-color: #ffffff;display: inline" class="mt-2">
+                                                    <img src="https://cdn2.iconfinder.com/data/icons/education-2-45/48/71-512.png" alt=".svg, edit, editorial, pen, pencil, write, writing icon" class="d-block mx-auto" height="40px" width="40px">
                                                 </button>
+                                                   
+                                                   
                                             </div>
-                                            <div class="modal-body m-3">
-                                                <div class="input-fields">
-                                                    <label for="projectname">Project Name</label>
-                                                    <input type="text" name="projectname1" id="projectname1"
-                                                           placeholder="Enter Project Title"/>
-                                                </div>
+                                        </div>
+                                        <div class="modal-body m-3">
+                                            <div class="input-fields">
+                                                <label for="projectname">Project Name</label>
+                                                <input type="text" name="projectname1" id="projectname1"
+                                                       placeholder="Enter Project Title"/>
                                             </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                <button type="button" class="btn btn-primary" data-dismiss="modal" id="createproject" onclick="myfunction()">Create</button>
-                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary" data-dismiss="modal" id="createproject" onclick="myfunction()">Create</button>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
                             
                             <script>
                                 function myfunction() {
-                                    var project_title = $("#projectname1").val();
+                                    var formData = new FormData();
+                                    formData.append("ptitle", $("#projectname1").val());
+                                    formData.append("picon", $('#picon')[0].files[0]);;
+                                    //var project_title = $("#projectname1").val();
                                     var link = '@Url.Action("CreateProject", "Project", new { title = "-1" })';
                                     //link = link.replace("-1", project_title);
                                     $.ajax({
                                         type: "POST",
                                         url: link,
-                                        data: { "title": $("#projectname1").val() },
+                                        enctype: 'multipart/form-data',
+                                        contentType: false,
+                                        processData: false,
+                                        data: formData,
                                         success: function (data) {
                                             //alert("finally got data " + data);
                                             location.reload(true);
@@ -149,7 +172,7 @@
                                     });
 
 
-
+                                    
 
                                 }
                             </script>
@@ -157,21 +180,30 @@
                     </div>
                     <!-- card collection    -->
                     <div class="card-deck m-2 p-3">
-                       @{
-                         Model1 m = new Model1();
-                       }
+                        @{
+                            Model1 m = new Model1();
+                        }
                         
                         @foreach (project_user item in ViewBag.userproject)
                         {
                             <a href="@Url.Action("addMember","Project",new {id=item.project_Id,role=item.role})" class="mb-2">
                                 <div class="card" style="width: 15rem;">
-                                    <div style="height: 18rem;background-color: #5CC8FF;" class="text-center">                                    
-                                        <i class="fas fa-dove mt-5" style="font-size: 12rem; color: #ffffff;"></i>
-                                    </div>
+                                   
                                     @{
                                         project z = m.projects.Find(item.project_Id);
 
                                     }
+                                    <div style="height: 18rem;background-color: #5CC8FF;" class="text-center"> 
+                                        @if (z.project_icon != null)
+                                        {
+                                            <img src="~/Content/projecticons/@z.project_icon" alt="projecticon" id="projecticon" height="300" width="250">
+                                        }
+                                        else
+                                        {
+                                            <img src="~/Content/projecticons/default.png" alt="projecticon" id="projecticon" height="300" width="230">
+ 
+                                        }
+                                        </div>
                                     <div class="card-body nunito">
                                         <p class="card-text">@z.project_title</p>
                                     </div>
@@ -188,3 +220,26 @@
         </div>
     </div>
 </div>
+
+<script>
+    $('#editicon').click(function () {
+        $('#picon').click();
+    });
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#ppreview').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#picon").change(function () {
+        readURL(this);
+    });
+
+
+</script>
