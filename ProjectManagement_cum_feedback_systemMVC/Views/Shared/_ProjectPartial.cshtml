@@ -2,9 +2,24 @@
 @model string    
 <div class="col-2 wrapper-rounded" style="background-color: #f8f9fa;">
     <!--Navigation wrapper-->
+    
+    @{
+        Model1 m = new Model1();
+        int pid = (int)Session["project_id"];
+
+        string picon=m.projects.Find(pid).project_icon;
+    }
     <div class="row">
         <div class="col-12">
-            <img src="~/Content/images/userpic.png" alt="project profile" class="img-fluid">
+            @if (picon != null)
+            {
+                <img src="~/Content/projecticons/@picon" alt="project profile" class="img-fluid">
+            }
+            else
+            {
+                <img src="~/Content/projecticons/default.png" alt="project profile" class="img-fluid">
+
+            }
         </div>
         <div class="col-12 text-center">
             <h6>@Session["project_title"]</h6>           

@@ -83,7 +83,7 @@
                     </h3>
                     @{
                         Model1 m = new Model1();
-                        int pid = Int32.Parse((string)(Session["project_id"]));
+                        int pid = (int)Session["project_id"];
                         project p=m.projects.Find(pid);
 
                     }

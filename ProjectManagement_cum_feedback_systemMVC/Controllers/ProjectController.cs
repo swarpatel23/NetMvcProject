@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure.Interception;
 using System.Data.Entity.Migrations;
 using System.IO;
 using System.Linq;
@@ -39,12 +40,25 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateProject(string title)
+        public ActionResult CreateProject(FormCollection form, HttpPostedFileBase picon)
         {
             
                 project p = new project();
-                p.project_title = title;
+                p.project_title = form["ptitle"];
                 p.user_Id = User.Identity.GetUserId();
+                if (picon != null)
+                {
+                    string filename = Path.GetFileNameWithoutExtension(picon.FileName);
+                    string extension = Path.GetExtension(picon.FileName);
+                    filename = filename + DateTime.Now.ToString("yymmssff") + extension;
+                    p.project_icon = filename;
+                    string filepath = Path.Combine(Server.MapPath("~/Content/projecticons"), filename);
+                    picon.SaveAs(filepath);
+                }
+                else
+                {
+                    p.project_icon = "default.png";
+                }
                 m.projects.Add(p);
                 m.SaveChanges();
                 int id = p.Project_Id;
@@ -312,7 +326,7 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
         public ActionResult createStory(string id)
         {
             ViewBag.projectid = id;
-            Session["project_id"] = id;
+            //Session["project_id"] = id;
             int pid = Int32.Parse(id);
             project p = m.projects.Find(pid);
             Session["project_story_status"] = p.story_status;
@@ -323,7 +337,7 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
         public ActionResult viewStory(string id)
         {
             ViewBag.projectid = id;
-            Session["project_id"] = id;
+            //Session["project_id"] = id;
             return View();
         }
 
@@ -454,6 +468,7 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
             return new EmptyResult();
         }
 
+        [ChildActionOnly]
         public EmptyResult changeStatus(string issueid, issue_stat statuschange, string pid, string role)
         {
             int projid = Int32.Parse(pid);
@@ -470,7 +485,7 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
             return new EmptyResult();
         }
 
-
+        [ChildActionOnly]
         public EmptyResult removeIssue(string issueid)
         {
             //int pid = Int32.Parse(projid);
@@ -486,7 +501,7 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
             return new EmptyResult();
         }
 
-        
+        [ChildActionOnly]
         public ActionResult issuesFilter(string pidf, string rolef,string issstatusf,string isstypef,string priorityf,string datef)
         {
             ViewBag.project_id = pidf;
@@ -909,6 +924,7 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
             return PartialView("_issueresult");
         }
 
+        [ChildActionOnly]
         public EmptyResult assignIssue(string tmail,DateTime sdate,DateTime edate,string issueid1)
         {
             ApplicationUserManager au = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
@@ -999,7 +1015,7 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
         public ActionResult createSrs(string id)
         {
             ViewBag.projectid = id;
-            Session["project_id"] = id;
+            //Session["project_id"] = id;
             int pid = Int32.Parse(id);
             project p = m.projects.Find(pid);
             Session["project_srs_status"] = p.srs_status;
@@ -1015,10 +1031,11 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
         }
 
         [HttpGet]
+        
         public ActionResult viewSrs(string id)
         {
             ViewBag.projectid = id;
-            Session["project_id"] = id;
+            //Session["project_id"] = id;
             project p = m.projects.Find(Int32.Parse((id)));
             if (p.srs_acceptance_status == "accepted")
             {
@@ -1035,7 +1052,7 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
         public ActionResult viewSrs(FormCollection form)
         {
             ViewBag.projectid = form["projectid"];
-            Session["project_id"] = form["projectid"];
+            //Session["project_id"] = form["projectid"];
             srs_comment sc = new srs_comment();
             sc.project_id = Int32.Parse(form["projectid"]);
             if (form["comment_desc"] != "")

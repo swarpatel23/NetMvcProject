@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using Microsoft.Owin.Security;
 
 namespace ProjectManagement_cum_feedback_systemMVC.Models
 {
@@ -17,6 +18,8 @@ namespace ProjectManagement_cum_feedback_systemMVC.Models
         [Required]
         [Display(Name = "Project Title")]
         public string project_title { get; set; }
+
+        public string project_icon { get; set; }
 
         public string story_title { get; set; }
 
