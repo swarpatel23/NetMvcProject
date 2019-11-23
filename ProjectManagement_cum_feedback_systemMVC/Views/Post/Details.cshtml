@@ -108,9 +108,9 @@
 }
     </script>
     <div class="row m-1">
-        @Html.Partial("_ProjectPartial")
+        @Html.Partial("_ProjectPartial","question")
         <div class="col-10 ">
-            <div class="container-flex p-4 bg-white wrapper-rounded" style="min-height: 450px;">
+            <div class="container-flex p-4 bg-white wrapper-rounded" style="min-height: 650px;">
                 <h3 class="mb-5">Question Detail</h3>
                 @if (Session["user_project_role"].Equals("admin")) { 
                 <button type="button" class="btn btn-primary" onclick="loadissues(@Session["project_id"])">
