@@ -3,7 +3,18 @@
         <link rel="stylesheet" href="../../Content/css/style.css">
         <link rel="stylesheet" href="../../Content/css/post.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+ <script>
+     $('a[href^="#"]').on('click', function(event) {
+    var target = $(this.getAttribute('href'));
+    if( target.length ) {
+        event.preventDefault();
+        $('html, body').stop().animate({
+            scrollTop: target.offset().top
+        }, 1000);
     }
+});
+    </script>
+        }
 
 
     <style scoped>
@@ -141,28 +152,62 @@
         </div>
     </div>
 </div>
-<div class="container" id="content">
-    <div class="row">
-        <div class="col-12">
-            <h1>hello there</h1>
-            <h1>hello there</h1>
-            <h1>hello there</h1>
-            <h1>hello there</h1>
-            <h1>hello there</h1>
-            <h1>hello there</h1>
-            <h1>hello there</h1>
-            <h1>hello there</h1>
-            <h1>hello there</h1>
-            <h1>hello there</h1>
-            <h1>hello there</h1>
-            <h1>hello there</h1>
-            <h1>hello there</h1>
-            <h1>hello there</h1>
-            <h1>hello there</h1>
-            <h1>hello there</h1>
-            <h1>hello there</h1>
-            <h1>hello there</h1>
-            <h1>hello there</h1>
+<div class="container-flex" id="content" style="background-color:white;">
+    <div class="container mt-5 pt-4">
+        <div class="row mt-5">
+            <div class="col-3">
+                <h2 class="nunito">Canny features</h2>
+                <p class="text-muted nunito">
+                    Everything you need to navigate the customer feedback loop
+                </p>
+            </div>
+            <div class="col-9">
+                <img class="img-fluid" src="~/Content/images/feedback-loop.png" />
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-8">
+                <img src="~/Content/images/issue.svg" class="img-fluid" />
+            </div>
+            <div class="col-4 align-self-center">
+                <h2 class="nunito ">Easy to Track User FeedBack</h2>
+                <p class="text-muted">
+                    Canny provides simple management for feedback.
+                </p>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-4 align-self-center">
+                <h2 class="nunito ">Plan the task resolution</h2>
+                <p class="text-muted">
+                    Define deadlines, plan when a topic needs to be solve. Visualize the most urgent task to handle.
+                </p>
+            </div>
+            <div class="col-8">
+                <img src="~/Content/images/chart.svg" class="img-fluid" />
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-8">
+                <img src="~/Content/images/board.svg" class="img-fluid" />
+            </div>
+            <div class="col-4 align-self-center">
+                <h2 class="nunito ">Issue management</h2>
+                <p class="text-muted">
+                    Agile methods like Scrum, Kanban or Scrumban are used by thousand of companies and startups around the world and revolutionized the way to build software. The good news is that they can be used in architecture and construction too and integrated in your BIM workflow!
+                </p>
+            </div>
+        </div>
+        <div class="row mt-5 pt-5">
+            <div class="col-3 align-self-center">
+                <h2 class="nunito ">Define who is responsible of what</h2>
+                <p class="text-muted">
+                    Assign a responsible for a task. He will be notified and could easily find the topics he needs to move forward to keep in sync with the team.
+                </p>
+            </div>
+            <div class="col-8">
+                <img src="~/Content/images/work.svg" class="img-fluid" />
+            </div>
         </div>
     </div>
 </div>

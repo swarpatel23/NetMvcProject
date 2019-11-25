@@ -1177,14 +1177,18 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
             }
 
             ViewBag.todo_model = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.todo);
+            ViewBag.todo_model_count = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.todo).Count();
             ViewBag.progress_model = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.inprogress);
+            ViewBag.progress_model_count = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.inprogress).Count();
             ViewBag.done_model = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.done);
+            ViewBag.done_model_count = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.done).Count();
             return View();
         }
         public ActionResult question(string id)
         {
             int projectid = Int32.Parse(id);
             ViewBag.projectid = projectid;
+            Session["user_id"] = User.Identity.GetUserId();
             ViewBag.post_model = m.user_posts.Where(x => x.project_Id == projectid);
             return View();
         }
@@ -1202,7 +1206,7 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
             */
             var results = (from p in m.user_posts
                            join upi in m.User_Post_Issues on p.post_Id equals upi.post_Id into upis
-                           from upi in upis.DefaultIfEmpty()
+                           from upi in upis.DefaultIfEmpty()                           
                            join i in m.project_issue on upi.issue_Id equals i.issue_Id into _is
                            from i in _is.DefaultIfEmpty()
                            where p.project_Id == id
@@ -1212,6 +1216,7 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
                                title = p.post_title,
                                desc = p.post_desc,
                                vote = p.vote,
+                               user_Id = p.user_Id,
                                status = (m.User_Post_Issues.Where(x => x.post_Id == p.post_Id).FirstOrDefault() != null) ? i.issue_status.ToString() : "notreviwed"
                            })
                            .ToList();
@@ -1258,6 +1263,12 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
             ViewBag.todo_model = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.todo);
             ViewBag.progress_model = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.inprogress);
             ViewBag.done_model = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.done);
+
+
+
+            ViewBag.todo_model_count = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.todo).Count();
+            ViewBag.progress_model_count = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.inprogress).Count();
+            ViewBag.done_model_count = m.project_issue.Where(x => x.project_Id == projectid && x.issue_status == issue_stat.done).Count();
             return View();
         }
     }

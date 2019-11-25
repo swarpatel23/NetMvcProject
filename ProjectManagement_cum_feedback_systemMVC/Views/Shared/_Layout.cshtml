@@ -38,10 +38,7 @@
         </button>
 
         <div class="collapse navbar-collapse nunito" id="mainnavbar">
-            <ul class="navbar-nav  ml-auto" style="font-size: 1.1em;">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#"  style="color:white;">Features</a>
-                </li>
+            <ul class="navbar-nav  ml-auto" style="font-size: 1.1em;">                
                 <li class="nav-item">
                     <a class="nav-link" href="#"  style="color:white;">Contact Us</a>
                 </li>
@@ -80,10 +77,9 @@
 </div>*@
 <div class="body-content">
     @RenderBody()
-    <hr/>
-    <footer>
-        <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-    </footer>
+    <footer class="p-3" style="color: white">
+            <p>&copy; @DateTime.Now.Year -Canny</p>
+        </footer>
 </div>
 
 @*@Scripts.Render("~/bundles/jquery")

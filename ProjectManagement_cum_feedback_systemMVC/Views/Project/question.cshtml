@@ -4,7 +4,8 @@
 @section Scripts {
     <link rel="stylesheet" href="../../Content/css/style.css">
     <link rel="stylesheet" href="../../Content/css/post.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>   
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.js"></script>
     <script src="~/Content/js/JavaScript.js"></script>
     @{
@@ -63,7 +64,10 @@
         </style>
     }
 }
+<input type="hidden" name="uid" id="uid" value='@Session["user_id"]' />
 <script>
+    var logeduser = $("#uid").val();
+    console.log(logeduser);
     var nopost = "<h1 class=\"nunito mt-3 mb-3 \">No Post</h1>";
     var order = -1;
     var sortby = "id";
@@ -129,7 +133,20 @@
             }
         });
     }
+    function editpost(id,title,desc) {
+        console.log("editpost" + id);        
+        $("#post_id_edit").val(id);
+        $("#post_title_edit").val(title);
+        $("#post_desc_edit").val(desc);
+        $("#editpostmodal").modal();
 
+    }
+    function deletepost(id,title) {
+        console.log("deletepost" + id);               
+        $("#post_id_delete").val(id);
+        $("#post_title_delete").val(title);        
+        $("#deletepostmodal").modal();
+    }
     function displaypost(arr) {
         $("#post_list").html("");
         for (let i = 0; i < arr.length; i+=1) {
@@ -141,6 +158,13 @@
                         else {
                             vote = arr[i].vote;
                         }
+            var options = "";
+            if (arr[i].user_Id == logeduser) {
+                options = '<div class="col-12">' +                    
+                    '<button onclick="deletepost('+arr[i].id+','+'\''+arr[i].title+'\''+')" class="float-right pr-3"> Delete</button>' +
+                    '<button onclick="editpost('+arr[i].id+','+'\''+arr[i].title+'\''+','+'\''+arr[i].desc+'\''+')" class="float-right pr-3"> Edit</button>' +
+                    '</div>';
+            }
                         temp = '<div id="searchpost"><div class="row pb-3 wrapper-rounded m-3 ">' +
                             '<div class="col-1">' +
                             '<div onclick="like(' + arr[i].id + ')">' +
@@ -153,8 +177,8 @@
                             vote +
                             '</h6>' +
                             '</div>' +
-                            '<div class="col-11 nunito pt-3">' +
-                            '<a href="#" >' +
+                            '<div class="col-11 nunito pt-3">' +                            
+                            '<a href="#" >' +                            
                                 '<div style="width:20px;height:20px;clip-path: circle(50% at 50% 50%);" class="float-right" data-toggle="tooltip" data-placement="top" title="" id="' + arr[i].id + '_circle">'+
                                     ' '+
                                 '</div>'+
@@ -168,7 +192,9 @@
                             '</p>' +
                             '</a>' +
                             '</div>' +
-                            '</div></div>';
+                            options + 
+                            '</div>' +                            
+                            '</div>';
                         $("#post_list").append(temp);
                         $("#post_list").append("<script>getstatusofpost(" + arr[i].id + ",'" + arr[i].status + "');<\/script>");                                                
                     }
@@ -180,6 +206,12 @@
         <div class="col-10 ">
             <div class="container-flex p-4 bg-white wrapper-rounded" style="min-height: 650px;">
                 <h1>Questions </h1>
+                <div class="float-right">
+                    <input id="myInput" type="text" placeholder="Search post.." style="margin: 15px 0;">
+                    <span class="input-group-addon">
+                        <i class="fa fa-search"></i>
+                    </span>
+                </div>
                 @if (!Session["user_project_role"].ToString().Equals("customer"))
                 {
                     <div class="btn-wrap mt-3">
@@ -188,10 +220,7 @@
                         </button>
                     </div>
                 }
-                <input id="myInput" type="text" placeholder="Search post.." style="margin: 15px 0;"><span class="input-group-addon">
-                    <i class="fa fa-search"></i>
-                </span>
-                <div class="mt-3">
+                <div class="mt-5">
                     <span>Showing </span>
                     <select name="type" style="padding:0px" id="type">
                         <option value="new">New</option>
@@ -209,7 +238,7 @@
                         </select>
                     </span>
                 </div>
-                
+
 
                 <div class="container mt-2 ml-2 p-2" id="post_list">
 
@@ -248,7 +277,66 @@
                         </div>
                     </div>
                 </form>
+                <form method="POST" action="@Url.Action("Edit", "Post")">
+                    <div class="modal fade" id="editpostmodal" tabindex="-1" role="dialog" aria-labelledby="editpostmodal" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="projectModel">Edit Post</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body m-3">
+                                    <div class="input-fields">
+                                        <label for="post_title_edit">Title</label>
+                                        <input type="text" name="post_title_edit" id="post_title_edit"
+                                               placeholder="Enter" />
+                                    </div>
+                                    <div class="input-fields">
+                                        <label for="post_desc_edit">Description</label>
+                                        <textarea rows="4" cols="50" name="post_desc_edit" id="post_desc_edit" placeholder="Enter"></textarea>
+                                    </div>
+                                    <input type="hidden" name="project_Id" value="@ViewBag.projectid" />
+                                    <input type="hidden" name="post_id_edit" id="post_id_edit" value="" />
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Edit</button>
+                                </div>
 
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <form method="POST" action="@Url.Action("Delete", "Post")">
+                    <div class="modal fade" id="deletepostmodal" tabindex="-1" role="dialog" aria-labelledby="editpostmodal" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="projectModel">Confirm to Delete Post</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body m-3">
+                                    <div class="input-fields">
+                                        <label for="post_title_delete">Title</label>
+                                        <input type="text" name="post_title_delete" id="post_title_delete"
+                                               placeholder="Enter" disabled />
+                                    </div>                                    
+                                    <input type="hidden" name="project_Id" value="@ViewBag.projectid" />
+                                    <input type="hidden" name="post_id_delete" id="post_id_delete" value="" />
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

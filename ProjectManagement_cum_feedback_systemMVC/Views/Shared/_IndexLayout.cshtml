@@ -39,7 +39,7 @@
             <div class="collapse navbar-collapse nunito" id="mainnavbar">
                 <ul class="navbar-nav  ml-auto" style="font-size: 1.1em;">
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">Features</a>
+                        <a class="nav-link" href="#content">Features</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Contact Us</a>
@@ -78,10 +78,9 @@
             </div>
         </div>*@
     <div class="body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        @RenderBody()        
+        <footer class="bg-white p-3">
+            <p>&copy; @DateTime.Now.Year -Canny</p>
         </footer>
     </div>
 

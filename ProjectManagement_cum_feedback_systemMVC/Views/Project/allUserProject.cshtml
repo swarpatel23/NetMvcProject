@@ -33,7 +33,7 @@
 @section Scripts {
     <link rel="stylesheet" href="../../Content/css/style.css">
     <link rel="stylesheet" href="../../Content/css/post.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.js"></script>
 
@@ -41,16 +41,16 @@
 
 @{
     <style scoped>
-        body > div > div > div > div.col-12.col-lg-9 > div > div > div > a{
+        body > div > div > div > div.col-12.col-lg-9 > div > div > div > a {
             color: black;
-            text-decoration:none;
+            text-decoration: none;
         }
 
-            body > div > div > div > div.col-12.col-lg-9 > div > div > div.card-deck > a > div:hover {
-                transition: 1s ease-in-out forwards;
-                transform: scale(1.02);
-                box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-            }
+        body > div > div > div > div.col-12.col-lg-9 > div > div > div.card-deck > a > div:hover {
+            transition: 1s ease-in-out forwards;
+            transform: scale(1.02);
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        }
     </style>
 }
 
@@ -66,11 +66,11 @@
                         <div class="col-12 circle-profile">
                             @if (userphoto != null)
                             {
-                                <img src="~/Content/userphotos/@userphoto" alt="profile" id="preview" class="img-fluid text-center" style="width: 239px; height: 191px;">
+                                <img src="~/Content/userphotos/@userphoto" alt="profile" id="preview" class="img-fluid text-center">
                             }
                             else
                             {
-                                <img src="~/Content/images/userpic.png" alt="profile" id="preview" class="img-fluid text-center" style="width: 239px; height: 191px;">
+                                <img src="~/Content/images/userpic.png" alt="profile" id="preview" class="img-fluid text-center" style="width: 239px;transform: translateX(25px) translateY(0px);">
 
                             }
                         </div>
@@ -88,10 +88,10 @@
 
                         <div class="col-12 mt-3">
                             <nav class="nav flex-column">
-                                @Html.ActionLink("Profile", "profile", "Project", null, new {@class = "navbar-link text-muted", @style = "padding-left:15px;"})
+                                @Html.ActionLink("Profile", "profile", "Project", null, new { @class = "navbar-link text-muted", @style = "padding-left:15px;" })
 
-                                @Html.ActionLink("Projects", "allUserProject", "Project", null, new {@class = "navbar-link active", @style = "padding-left:15px;"})
-                                <a class="nav-link text-muted" id="feedback" href="#">Feedbacks</a>
+                                @Html.ActionLink("Projects", "allUserProject", "Project", null, new { @class = "navbar-link active", @style = "padding-left:15px;" })
+
                             </nav>
                         </div>
                     </div>
@@ -108,13 +108,13 @@
                                     <a href="#">Create Project</a>
                                 </button>
                             </div>
-                            
+
                             <div class="modal fade" id="projectModel" tabindex="-1" role="dialog" aria-labelledby="projectModel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="projectModel">Create Project</h5>
-                                            <input type="file" name="picon" id="picon" accept=".jpg,.jpeg,.png"  style="visibility: hidden; width: 10px; height: 10px;">
+                                            <input type="file" name="picon" id="picon" accept=".jpg,.jpeg,.png" style="visibility: hidden; width: 10px; height: 10px;">
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
@@ -122,24 +122,24 @@
                                         <div class="modal-body m-3">
                                             <div class="input-fields" style="display: inline;">
                                                 <label for="picon">Select Icon</label>
-                                             
-                                                
-                                                    <img src="~/Content/projecticons/default.png" alt="profile" id="ppreview" class="img-circle" style="width: 50px; height: 50px; border-radius: 50%;">
 
-                                               
-                                                
-                                                <button  id="editicon" style="width: 50px; border-radius: 50%; height: auto; vertical-align: central; background-color: #ffffff;display: inline" class="mt-2">
-                                                    <img src="https://cdn2.iconfinder.com/data/icons/education-2-45/48/71-512.png" alt=".svg, edit, editorial, pen, pencil, write, writing icon" class="d-block mx-auto" height="40" width="40">
+
+                                                <img src="~/Content/projecticons/default.png" alt="profile" id="ppreview" class="img-circle" style="width: 50px; height: 50px; border-radius: 50%;">
+
+
+
+                                                <button id="editicon" style="width: 50px; border-radius: 50%; height: auto; vertical-align: center; background-color: #ffffff;display: inline" class="mt-2">
+                                                    <img src="https://cdn2.iconfinder.com/data/icons/education-2-45/48/71-512.png" alt=".svg, edit, editorial, pen, pencil, write, writing icon" class="d-block mx-auto" height="40px" width="40px">
                                                 </button>
-                                                   
-                                                   
+
+
                                             </div>
                                         </div>
                                         <div class="modal-body m-3">
                                             <div class="input-fields">
                                                 <label for="projectname">Project Name</label>
                                                 <input type="text" name="projectname1" id="projectname1"
-                                                       placeholder="Enter Project Title"/>
+                                                       placeholder="Enter Project Title" />
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -149,7 +149,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <script>
                                 function myfunction() {
                                     var formData = new FormData();
@@ -172,7 +172,7 @@
                                     });
 
 
-                                    
+
 
                                 }
                             </script>
@@ -183,27 +183,27 @@
                         @{
                             Model1 m = new Model1();
                         }
-                        
+
                         @foreach (project_user item in ViewBag.userproject)
                         {
                             <a href="@Url.Action("addMember","Project",new {id=item.project_Id,role=item.role})" class="mb-2">
                                 <div class="card" style="width: 15rem;">
-                                   
+
                                     @{
                                         project z = m.projects.Find(item.project_Id);
 
                                     }
-                                    <div style="height: 18rem;background-color: #5CC8FF;" class="text-center"> 
+                                    <div style="height: 15rem;background-color: #5CC8FF;" class="text-center overflow-hidden">
                                         @if (z.project_icon != null)
                                         {
-                                            <img src="~/Content/projecticons/@z.project_icon" alt="projecticon" id="projecticon" height="300" width="250">
+                                            <img src="~/Content/projecticons/@z.project_icon" alt="projecticon" id="projecticon" height="250" width="250">
                                         }
                                         else
                                         {
                                             <img src="~/Content/projecticons/default.png" alt="projecticon" id="projecticon" height="300" width="230">
- 
+
                                         }
-                                        </div>
+                                    </div>
                                     <div class="card-body nunito">
                                         <p class="card-text">@z.project_title</p>
                                     </div>

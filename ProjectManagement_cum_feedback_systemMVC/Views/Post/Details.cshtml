@@ -64,89 +64,94 @@
             text-decoration: none;
             color: black;
         }
+
+        body > div > div > div > div.col-2.wrapper-rounded > div:nth-child(2) > div > a {
+            text-decoration: none;
+            color: #868e96;
+        }
     </style>
 }
 
 <div class="container-fluid">
     <script>
-        function getstatus(id)
-{
-    $.ajax('/Post/getstatus/' + id, {
-        type: 'GET',  // http method       
-        success: function (data, status, xhr) {
-            console.log(data);
-            var color;
-            var title;
-            switch (data) {
-                case "todo":
-                    color = "#FCFF4B";  //yellow
-                    title = "Started Working";
-                    break;
-                case "done":
-                    color = "#3772FF";  //blue
-                    title = "Completed";
-                    break;
-                case "progress":
-                    color = "#06D6A0";  //green
-                    title = "Work is in progress";
-                    break;                         
-                default:       
-                    color = "#CCDDD3";
-                    title = "Not Reviwed";
-                    break;                
-            }
-            $("#" + id + "_circle").css("background-color", color);
-            $("#" + id + "_circle").attr("title", title);
-            console.log(id + "_circle");
-            console.log(color);
-        },
-        
-        error: function (jqXhr, textStatus, errorMessage) {
-            alert(errorMessage);
+        function getstatus(id) {
+            $.ajax('/Post/getstatus/' + id, {
+                type: 'GET',  // http method
+                success: function (data, status, xhr) {
+                    console.log(data);
+                    var color;
+                    var title;
+                    switch (data) {
+                        case "todo":
+                            color = "#FCFF4B";  //yellow
+                            title = "Started Working";
+                            break;
+                        case "done":
+                            color = "#3772FF";  //blue
+                            title = "Completed";
+                            break;
+                        case "progress":
+                            color = "#06D6A0";  //green
+                            title = "Work is in progress";
+                            break;
+                        default:
+                            color = "#CCDDD3";
+                            title = "Not Reviwed";
+                            break;
+                    }
+                    $("#" + id + "_circle").css("background-color", color);
+                    $("#" + id + "_circle").attr("title", title);
+                    console.log(id + "_circle");
+                    console.log(color);
+                },
+
+                error: function (jqXhr, textStatus, errorMessage) {
+                    alert(errorMessage);
+                }
+            });
         }
-    });
-}
     </script>
     <div class="row m-1">
-        @Html.Partial("_ProjectPartial","question")
+        @Html.Partial("_ProjectPartial", "question")
         <div class="col-10 ">
             <div class="container-flex p-4 bg-white wrapper-rounded" style="min-height: 650px;">
                 <h3 class="mb-5">Question Detail</h3>
-                @if (Session["user_project_role"].Equals("admin")) { 
-                <button type="button" class="btn btn-primary" onclick="loadissues(@Session["project_id"])">
-                    Map Issue
-                </button>
+                @if (Session["user_project_role"].Equals("admin"))
+                {
+                    <button type="button" class="btn btn-primary" onclick="loadissues(@Session["project_id"])">
+                        Map Issue
+                    </button>
 
-                <!-- The Modal -->
-                <div class="modal" id="myModal">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
+                    <!-- The Modal -->
+                    <div class="modal" id="myModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
 
-                            <!-- Modal Header -->
-                            <div class="modal-header">
-                                <h4 class="modal-title">Map Issue</h4>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Map Issue</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+
+                                <!-- Modal body -->
+                                <div class="modal-body" id="body">
+                                    <form method="POST" action="@Url.Action("linkissuepost", "Post" )">
+                                        <input type="hidden" name="post_Id" value="@Session["post_Id"]" />
+                                        <select id="issus_list" name="issue_Id">
+                                        </select>
+                                        <input type="submit" />
+                                    </form>
+                                </div>
+
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                </div>
+
                             </div>
-
-                            <!-- Modal body -->
-                            <div class="modal-body" id="body">
-                                <form method="POST" action="@Url.Action("linkissuepost", "Post" )">
-                                    <input type="hidden" name="post_Id" value="@Session["post_Id"]" />
-                                    <select id="issus_list" name="issue_Id">
-                                    </select>
-                                    <input type="submit" />
-                                </form>
-                            </div>
-
-                            <!-- Modal footer -->
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                            </div>
-
                         </div>
                     </div>
-                </div>
-               }
+                }
                 <div class="row pb-3 wrapper-rounded m-3 ">
                     <div class="col-1">
                         <div onclick=like(@Session["post_Id"])>
@@ -168,8 +173,8 @@
                         </h6>
                     </div>
                     <div class="col-11 nunito pt-3">
-                        <a href="#" >
-                            <div style="width:20px;height:20px;clip-path: circle(50% at 50% 50%);" class="float-right" data-toggle="tooltip" data-placement="top" title="" id="@(Session["post_Id"])_circle">
+                        <a href="#">
+                            <div style="width:20px;height:20px;clip-path: circle(50% at 50% 50%);" class="float-right" data-toggle="tooltip" data-placement="top" title="" id="@(Session[" post_Id"])_circle">
 
                             </div>
                         </a>
@@ -187,9 +192,9 @@
                     </div>
                     <div class="col-1"> &nbsp;</div>
                     <div class="col-11">
-                        <form method="POST" action="@Url.Action("Create", "Comment" )">
-                            <input type="hidden" name="project_Id" value="@Session["project_id"]" />
-                            <input type="hidden" name="post_Id" value="@Session["post_Id"]" />
+                        <form method="POST" action="@Url.Action(" Create", "Comment" )">
+                            <input type="hidden" name="project_Id" value="@Session[" project_id"]" />
+                            <input type="hidden" name="post_Id" value="@Session[" post_Id"]" />
                             <input type="text" name="comment_desc" id="comment_desc" placeholder="Leave a comment" class="w-50" />
                             <input type="submit" />
                         </form>

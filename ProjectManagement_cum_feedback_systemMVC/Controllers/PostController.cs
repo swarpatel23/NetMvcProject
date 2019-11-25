@@ -34,9 +34,53 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
 
                 return new HttpStatusCodeResult(HttpStatusCode.NotAcceptable);
             }
-            return RedirectToAction("roadmap"+"/"+form["project_Id"], "Project", new { area = "" });
+            return RedirectToAction("question"+"/"+form["project_Id"], "Project", new { area = "" });
         }
-        
+        [HttpPost, ValidateInput(false)]
+        public ActionResult Edit(FormCollection form)
+        {
+            string post_title = form["post_title_edit"];
+            string post_desc = form["post_desc_edit"];
+            int post_id = Int32.Parse(form["post_id_edit"]);                        
+            try
+            {                
+                var up = db.user_posts.Where(post => post.post_Id == post_id).FirstOrDefault();                
+                if(up!=null)
+                {
+                    up.post_title = post_title;
+                    up.post_desc = post_desc;
+                }
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+
+                return new HttpStatusCodeResult(HttpStatusCode.NotAcceptable);
+            }
+            return RedirectToAction("question" + "/" + form["project_Id"], "Project", new { area = "" });
+        }
+
+
+        [HttpPost, ValidateInput(false)]
+        public ActionResult Delete(FormCollection form)
+        {            
+            int post_id = Int32.Parse(form["post_id_delete"]);
+            try
+            {
+                var up = db.user_posts.Find(post_id);               
+               if (up != null)
+                {
+                    db.user_posts.Remove(up);
+                    db.SaveChanges();
+                }                                
+            }
+            catch (Exception ex)
+            {
+
+                return new HttpStatusCodeResult(HttpStatusCode.NotAcceptable);
+            }
+            return RedirectToAction("question" + "/" + form["project_Id"], "Project", new { area = "" });
+        }
 
         public ActionResult Details(int id)
         {
