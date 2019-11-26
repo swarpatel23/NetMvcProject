@@ -105,7 +105,7 @@
                     <div class="container-flex  bg-white wrapper-rounded">
                         <div class="row text-center pt-2">
                             <div class="col-12">
-                                <h3 class="nunito">Planned</h3>
+                                <h3 class="nunito">To Do</h3>
                             </div>
                         </div>
                         <div class="issue-wrapper m-3 pt-4" style="min-height: 530px;">
@@ -119,14 +119,26 @@
 
                                 foreach (project_issue pi in ViewBag.todo_model)
                                 {
-                                    <div class="row pb-3">
-                                        <div class="col-1">
-
-                                        </div>
-                                        <div class="col-11 nunito">
+                                    <div class="p-3 mb-1" style="border: #696969 1px solid; border-radius: 10px; box-shadow: 1px 1px;">
+                                        
+                                        <div class="nunito">
                                             <a href='javascript:detail("@pi.issue_Id","@pi.issue_title","@pi.issue_desc","@pi.assign_status","@pi.priority");'>
                                                 @pi.issue_title
+
                                             </a>
+                                            @if (@pi.issue_type == issue_type.bug)
+                                            {
+                                                <span class="label label-danger p-1" style="float: right; font-size: small; color:white;background-color: red;border-radius: 10px;">Bug</span>
+                                            }
+                                            else if (@pi.issue_type == issue_type.newfeature)
+                                            {
+                                                <span class="label label-danger p-1" style="float: right; font-size: small; color:white;background-color: blue;border-radius: 10px;">New</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="label label-success p-1" style="float: right; font-size: small; color: white; background-color: green; border-radius: 10px;">Improvement</span>
+
+                                            }
                                         </div>
                                     </div>
                                 }
@@ -152,14 +164,25 @@
 
                                 foreach (project_issue pi in ViewBag.progress_model)
                                 {
-                                    <div class="row pb-3">
-                                        <div class="col-1">
+                                    <div class="p-3 mb-1" style="border: #696969 1px solid; border-radius: 10px; box-shadow: 1px 1px;">
 
-                                        </div>
-                                        <div class="col-11 nunito">
+                                        <div class="nunito">
                                             <a href='javascript:detail("@pi.issue_Id","@pi.issue_title","@pi.issue_desc","@pi.assign_status","@pi.priority");'>
                                                 @pi.issue_title
                                             </a>
+                                            @if (@pi.issue_type == issue_type.bug)
+                                            {
+                                                <span class="label label-danger p-1" style="float: right; font-size: small; color:white;background-color: red;border-radius: 10px;">Bug</span>
+                                            }
+                                            else if (@pi.issue_type == issue_type.newfeature)
+                                            {
+                                                <span class="label label-danger p-1" style="float: right; font-size: small; color:white;background-color: blue;border-radius: 10px;">New</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="label label-success p-1" style="float: right; font-size: small; color: white; background-color: green; border-radius: 10px;">Improvement</span>
+
+                                            }
                                         </div>
                                     </div>
                                 }
@@ -185,14 +208,25 @@
 
                                 foreach (project_issue pi in ViewBag.done_model)
                                 {
-                                    <div class="row pb-3">
-                                        <div class="col-1">
-
-                                        </div>
-                                        <div class="col-11 nunito">
+                                    <div class="p-3 mb-1" style="border: #696969 1px solid; border-radius: 10px; box-shadow: 1px 1px;">
+                                        
+                                        <div class="nunito">
                                             <a href='javascript:detail("@pi.issue_Id","@pi.issue_title","@pi.issue_desc","@pi.assign_status","@pi.priority");'>
                                                 @pi.issue_title
                                             </a>
+                                            @if (@pi.issue_type == issue_type.bug)
+                                            {
+                                                <span class="label label-danger p-1" style="float: right; font-size: small; color:white;background-color: red;border-radius: 10px;">Bug</span>
+                                            }
+                                            else if (@pi.issue_type == issue_type.newfeature)
+                                            {
+                                                <span class="label label-danger p-1" style="float: right; font-size: small; color:white;background-color: blue;border-radius: 10px;">New</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="label label-success p-1" style="float: right; font-size: small; color: white; background-color: green; border-radius: 10px;">Improvement</span>
+
+                                            }
                                         </div>
                                     </div>
                                 }

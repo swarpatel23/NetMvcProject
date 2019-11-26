@@ -34,6 +34,48 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
         }
 
         [HttpGet]
+        [Authorize]
+        public ActionResult CreateProject()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult CreateProject(FormCollection form, HttpPostedFileBase picon)
+        {
+            
+                project p = new project();
+                p.project_title = form["ptitle"];
+                p.user_Id = User.Identity.GetUserId();
+                if (picon != null)
+                {
+                    string filename = Path.GetFileNameWithoutExtension(picon.FileName);
+                    string extension = Path.GetExtension(picon.FileName);
+                    filename = filename + DateTime.Now.ToString("yymmssff") + extension;
+                    p.project_icon = filename;
+                    string filepath = Path.Combine(Server.MapPath("~/Content/projecticons"), filename);
+                    picon.SaveAs(filepath);
+                }
+                else
+                {
+                    p.project_icon = "default.png";
+                }
+                m.projects.Add(p);
+                m.SaveChanges();
+                int id = p.Project_Id;
+
+                project_user pu = new project_user();
+                pu.user_Id = User.Identity.GetUserId();
+                pu.project_Id = id;
+                pu.role = Roles.admin;
+                m.project_users.Add(pu);
+                m.SaveChanges();
+            
+
+            return RedirectToAction("allUserProject");
+        }
+
+        [HttpGet]
         public ActionResult allUserProject()
         {
             string s = User.Identity.GetUserId();
@@ -53,6 +95,15 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
 
             var p = m.projects.First(x => x.Project_Id == projectid);
             ViewBag.project_title = p.project_title;
+            var temp=m.project_users.Find(projectid, User.Identity.GetUserId());
+            if (temp.role == Roles.admin)
+            {
+                Session["admin"] = "admin";
+            }
+            else
+            {
+                Session["admin"] = "not admin";
+            }
             Session["project_title"] = p.project_title;
             Session["project_story_status"] = p.story_status;
             Session["user_project_role"] = role;
@@ -214,6 +265,11 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
         public ActionResult removeProject(string id)
         {
             int projectid = Int32.Parse(id);
+            var posts=m.user_posts.Where(z => z.project_Id == projectid);
+            foreach(var p in posts)
+            {
+                m.user_posts.Remove(p);
+            }
             var x = m.projects.Find(projectid);
             m.projects.Remove(x);
             m.SaveChanges();
