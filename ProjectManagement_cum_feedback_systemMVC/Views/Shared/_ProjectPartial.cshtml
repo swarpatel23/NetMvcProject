@@ -4,10 +4,19 @@
     <!--Navigation wrapper-->
     
     @{
+        string picon = null;
+        int? pid = null;
         Model1 m = new Model1();
-        int pid = (int)Session["project_id"];
+        if (Session["project_id"] != null)
+        {
+            pid = (int) Session["project_id"];
+        }
+       
+        if (pid != null)
+        {
+            picon=m.projects.Find(pid).project_icon;
+        }
 
-        string picon=m.projects.Find(pid).project_icon;
     }
     <div class="row">
         <div class="col-12">

@@ -87,7 +87,7 @@
                         <input type="hidden" id="projname" value="@Session["project_id"]" />
                         <input type="hidden" id="userId" value="@Session["userId"]" />
                         <input type="hidden" id="userpic" value="@Session["userpic"]" />
-                        <p id="discussion">
+                        <p id="discussion">                       
                             @{
                                 DateTime d  = new DateTime();
                                 ApplicationUserManager au = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
@@ -104,15 +104,17 @@
                                     if (pm.userId == User.Identity.GetUserId())
                                     {
                                         <p style="color: blue; text-align: right;">
+                                            @pm.messages
                                             <strong>
-                                                @if (userphoto1 != null) { 
-                                                    <img width="50" height="50" style="border-radius: 50%;" src="../../Content/userphotos/@userphoto1" title="@pm.username">
+                                                @if (userphoto1 != null)
+                                                {
+                                                    <img width="50" height="50" style="border-radius: 50%; object-fit: cover;" src="../../Content/userphotos/@userphoto1" title="@pm.username">
                                                 }
                                                 else
                                                 {
-                                                    <img width="50" height="50" style="border-radius: 50%;" src="../../Content/images/userpic.png" title="@pm.username">
+                                                    <img width="50" height="50" style="border-radius: 50%; object-fit: cover;" src="../../Content/images/userpic.png" title="@pm.username">
                                                 }
-                                            </strong> @pm.messages
+                                            </strong>
                                         </p>
                                     }
                                     else
@@ -120,20 +122,21 @@
                                         <p style="color: green; text-align: left;">
                                             <strong>
                                                 @if (userphoto1 != null) { 
-                                                    <img width="50" height="50" style="border-radius: 50%;" src="../../Content/userphotos/@userphoto1" title="@pm.username">
+                                                    <img width="50" height="50" style="border-radius: 50%; object-fit: cover;" src="../../Content/userphotos/@userphoto1" title="@pm.username">
                                                 }
                                                 else
                                                 {
-                                                    <img width="50" height="50" style="border-radius: 50%;" src="../../Content/images/userpic.png" title="@pm.username">
+                                                    <img width="50" height="50" style="border-radius: 50%; object-fit: cover;" src="../../Content/images/userpic.png" title="@pm.username">
                                                 }
                                             </strong> @pm.messages
                                         </p>
                                     }
 
                                 }
+                               
                             }
                             <div id="endmsg"></div>
-                        </p>
+                            </p>
                         </div>
                         <br />
                         <!-- /.panel-body -->
@@ -157,54 +160,6 @@
             </div>
         </div>
     </div>
-    <!--
-    <form id="form1" method="post">
-
-
-        <div class="row mt-4 mb-4">
-
-            <div class="col-12 col-lg-6 mb-lg-5">
-                <div class="input-fields">
-                    <label for="userId">User ID</label>
-                    <input type="text" name="userId" id="userId"
-                           value="@Session["userId"]" />
-                </div>
-            </div>
-            <div class="col-12 col-lg-6 mb-lg-5">
-                <div class="input-fields">
-                    <label for="project_Id">ProjectId</label>
-                    <input type="text" name="project_Id" id="project_Id"
-                           value="@Session["project_id"]" />
-                </div>
-            </div>
-            <div class="col-12 col-lg-6 mb-lg-2">
-                <div class="input-fields">
-                    <label for="username">Username</label>
-                    <input type="text" name="username" id="username"
-                           value="@Session["username"]" />
-                </div>
-            </div>
-            <div class="col-12 col-lg-6 mb-lg-2">
-                <div class="input-fields">
-                    <label for="messages">messages</label>
-                    <input type="text" name="messages" id="messages" />
-                </div>
-            </div>
-
-
-            <div class="row mt-0">
-                <div class="col-12 pr-2">
-                    <div class="btn btn-wrap">
-                        <button class="btn nunito confirm-btn" id="chatsave" style="margin-left: 15px;">
-                            Confirm
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </form>
-     -->
 
     <script>
         $('#chat').scrollTop($('#chat')[0].scrollHeight);
@@ -247,9 +202,10 @@
         });
 
 
+       
 
 
-
+        
         function OnSuccess(response) {
             var message = "Person Id: " + response.PersonId;
             message += "\nName: " + response.Name;
@@ -288,14 +244,16 @@
                         // Add the message to the page.
                         $('#endmsg').before('<p style="color:green; text-align:left; width:500px"><strong><img width="50" height="50" style="border-radius: 50%;" src=' + pic + ' title=' + name + '>'
                             + ' </strong> ' + htmlEncode(message) + '</p>');
+                        
+
                     }
                     else {
                         // Add the message to the page.
-                        $('#endmsg').before('<p style="color:blue;text-align:right;"><strong><img width="50" height="50" style="border-radius: 50%;" src=' + pic + ' title=' + name + '>'
-                            + ' </strong> ' + htmlEncode(message) + '</p>');
+                        $('#endmsg').before('<p style="color:blue;text-align:right;"> ' + htmlEncode(message) + '<strong><img width="50" height="50" style="border-radius: 50%;" src=' + pic + ' title=' + name + '>'
+                            + ' </strong></p>');
                     }
+                    $('#chat').scrollTop($('#chat')[0].scrollHeight);
                 }
-                $('#chat').scrollTop($('#chat')[0].scrollHeight);
             };
 
             // console.log(typeof (k));
@@ -322,8 +280,10 @@
             var encodedValue = $('<div />').text(value).html();
             return encodedValue;
         }
+        $('#chat').scrollTop($('#chat')[0].scrollHeight);
+
     </script>
-    }
+    
 
 
 

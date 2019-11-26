@@ -95,22 +95,26 @@
                                 <!-- Modal body -->
                                 @using (Html.BeginForm())
                                 {
-                                    <h4 class="pl-3">Add Teammates</h4>
+                                    <h4 class="pl-3 mt-2">Teammates:</h4>
 
                                     <div class="text-center">
                                         <div class="team">
                                             <input type="text" style="margin-top: 4px;" name="mem0" id="mem0">
                                             <button style="margin-left: 1px;" class="remove btn btn-light">Remove</button>
                                         </div>
-                                        <button id="add" style="margin-top: 4px;" class="text-primary text-right btn btn-light">Add more..</button>
+                                        <button id="add" style="margin-top: 4px; border: #000000 1px solid;border-radius: 50%;background: #ffffff; position: relative; left: -45px;">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
                                     </div>
-                                    <h4 class="pl-3">Add Customers</h4>
+                                    <h4 class="pl-3">Customers</h4>
                                     <div class="text-center">
                                         <div class="cust">
                                             <input type="text" style="margin-top: 4px;" name="cust0" id="cust0">
                                             <button style="margin-left: 1px;" class="removecust btn btn-light">Remove</button>
                                         </div>
-                                        <button id="addcust" class="btn btn-light text-right text-primary" style="margin-top: 4px;">Add More..</button>
+                                        <button id="addcust" style="margin-top: 4px; border: #000000 1px solid;border-radius: 50%;background: #ffffff; position: relative; left: -45px;">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
                                     </div>
 
 

@@ -62,15 +62,15 @@
                     @{
                         string userphoto = Session["userpic"] as string;
                     }
-                    <div class="row mt-3" style="filter: drop-shadow(-1px 6px 3px rgba(50, 50, 0, 0.5));">
-                        <div class="col-12 circle-profile">
+                    <div class="row mt-3" style="filter: drop-shadow(-1px 6px 3px rgba(50, 50, 0, 0.5)); text-align: center;">
+                        <div class="col-12">
                             @if (userphoto != null)
                             {
-                                <img src="~/Content/userphotos/@userphoto" alt="profile" id="preview" class="img-fluid text-center">
+                                <img src="~/Content/userphotos/@userphoto" alt="profile" id="preview" class="img-circle" style="width: 191px; height: 191px; border-radius: 50%; object-fit: cover;">
                             }
                             else
                             {
-                                <img src="~/Content/images/userpic.png" alt="profile" id="preview" class="img-fluid text-center" style="width: 239px;transform: translateX(25px) translateY(0px);">
+                                <img src="~/Content/images/userpic.png" alt="profile" id="preview" class="img-circle" style="width: 191px; height: 191px; border-radius: 50%; object-fit: cover;">
 
                             }
                         </div>
@@ -120,16 +120,16 @@
                                             </button>
                                         </div>
                                         <div class="modal-body m-3">
-                                            <div class="input-fields" style="display: inline;">
-                                                <label for="picon">Select Icon</label>
+                                            <div class="input-fields" style="display: inline; position: relative;">
+                                                <label for="picon">Select Icon</label><br/>
 
 
-                                                <img src="~/Content/projecticons/default.png" alt="profile" id="ppreview" class="img-circle" style="width: 50px; height: 50px; border-radius: 50%;">
+                                                <img src="~/Content/projecticons/default.png" alt="profile" id="ppreview" class="img-circle" style="width: 150px; height: 150px; border-radius: 50%; object-fit: contain; border: black 2px solid;">
 
 
 
-                                                <button id="editicon" style="width: 50px; border-radius: 50%; height: auto; vertical-align: center; background-color: #ffffff;display: inline" class="mt-2">
-                                                    <img src="https://cdn2.iconfinder.com/data/icons/education-2-45/48/71-512.png" alt=".svg, edit, editorial, pen, pencil, write, writing icon" class="d-block mx-auto" height="40px" width="40px">
+                                                <button id="editicon" style="width: 50px; border-radius: 50%; height: 50px; background-color: #ffffff; position: absolute; left: 100px; top: 130px;">
+                                                    <img src="https://cdn2.iconfinder.com/data/icons/education-2-45/48/71-512.png" alt=".svg, edit, editorial, pen, pencil, write, writing icon" class="d-block mx-auto" height="35px" width="35px" style="object-fit: contain;">
                                                 </button>
 
 
@@ -193,14 +193,14 @@
                                         project z = m.projects.Find(item.project_Id);
 
                                     }
-                                    <div style="height: 15rem;background-color: #5CC8FF;" class="text-center overflow-hidden">
+                                    <div style="height: 15rem;background-color: #ffffff;" class="text-center overflow-hidden">
                                         @if (z.project_icon != null)
                                         {
-                                            <img src="~/Content/projecticons/@z.project_icon" alt="projecticon" id="projecticon" height="250" width="250">
+                                            <img src="~/Content/projecticons/@z.project_icon" alt="projecticon" id="projecticon" height="250" width="250" style="object-fit: contain;">
                                         }
                                         else
                                         {
-                                            <img src="~/Content/projecticons/default.png" alt="projecticon" id="projecticon" height="300" width="230">
+                                            <img src="~/Content/projecticons/default.png" alt="projecticon" id="projecticon" height="250" width="250" style="object-fit: contain;">
 
                                         }
                                     </div>

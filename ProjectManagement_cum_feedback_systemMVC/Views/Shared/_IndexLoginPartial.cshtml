@@ -10,8 +10,12 @@
             <li class="nav-item dropdown">
                 @{ ApplicationUserManager au = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
                     var x = au.FindById(User.Identity.GetUserId());
-                    Session["userpic"] = x.UserPhoto;
-                    string userphoto = Session["userpic"] as string;
+                    string userphoto = null;
+                    if (x != null)
+                    {
+                        Session["userpic"] = x.UserPhoto;
+                        userphoto = Session["userpic"] as string;
+                    }
                 }
 
                 <a class="nav-link dropdown-toggle" style="color:white;" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

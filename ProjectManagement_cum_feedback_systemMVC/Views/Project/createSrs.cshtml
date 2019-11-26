@@ -96,6 +96,10 @@
                 </h3>
                 @{
                     Model1 m = new Model1();
+                    if (Session["project_id"] == null)
+                    {
+                        Response.Redirect("~/Project/allUserProject");
+                    }
                     int pid = (int)Session["project_id"];
                     project p = m.projects.Find(pid);
                     ApplicationUserManager au = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
@@ -119,18 +123,40 @@
                                         @p.srs_desc
                                     }
                                 </textarea>
+                                <div id="message" style="margin: 10px 10px;">
+                                    @if (ViewBag.srs_updated == true)
+                                    {
+                                        if ((int)(Session["project_srs_status"]) != 1)
+                                        {
+                                            <div class="alert alert-success" style="margin-left: 40px;">
+                                                <strong>Success!</strong> SRS Created and mail is sent to all Team members and customers.<br />
+                                                If you want to do any changes in that you can do it using customers feedback.
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="alert alert-success" style="margin-left: 40px;">
+                                                <strong>Success!</strong> Software Requirement Specification is Updated.
+                                            </div>
+                                        }
+                                        <br />
+                                        <script>
+                                            $('#message').delay(5000).fadeOut(3000);
+                                        </script>
+                                    }
+                                </div>
+                                
                                 if ((int)(Session["project_srs_status"]) != 1)
                                 {
-                                    <input type="submit" value="Submit" class="btn btn-primary pull-right mt-2 mr-3 text-primary" />
+                                    <input type="submit" value="Submit" class="btn btn-primary pull-right mt-2 mr-3 text-primary" style="margin-left: 1000px;" />
                                 }
                                 else
                                 {
-                                    <input type="submit" value="Edit" style="margin-bottom: 10px;" class="btn btn-primary pull-right mt-2 mr-3 text-primary" />
+                                    <input type="submit" value="Edit" style="margin-left: 1000px;" class="btn btn-primary pull-right mt-2 mr-3 text-primary" />
                                 }
                                 
-                                <hr class="mb-3"/>
-                                
-                               <h3 class="mt-2"><span class="fas fa-caret-right" id="caretc">Comments:</span></h3>
+
+                               <h3 class="mt-2"><span><i id="caretc" class="fas fa-caret-right"></i>Comments:</span></h3>
                                     foreach (srs_comment x in ViewBag.comments)
                                     {
                                     @*<div style="background-color: rgb(220, 220, 220); padding:2px 2px";margin-left: 6px;" class="wrapper-rounded">
@@ -138,25 +164,25 @@
                         <p>@x.comment_desc</p>llo
                     </div>*@
 
-                                    <div class="card nested">
+                                    <div class="card nested" style="margin: 10px 0; border-radius: 10px;">
                                         <div class="card-body">
                                             <div class="row">
-                                                <div class="col-md-2">
+                                                <div class="col-md-2" style="text-align: center;">
                                                     @if (au.FindById(x.user_id).UserPhoto != null)
                                                     {
-                                                        <img src="~/Content/userphotos/@au.FindById(x.user_id).UserPhoto" class="img-circle ml-4" width='50' height='50' style="border-radius: 50%;">
+                                                        <img src="~/Content/userphotos/@au.FindById(x.user_id).UserPhoto" class="ml-2" width='50' height='50' style="border-radius: 50%;">
                                                     }
                                                     else
                                                     {
-                                                        <img src="~/Content/images/userpic.png" class="img-circle ml-4" width='50' height='50' style="border-radius: 50%;">
+                                                        <img src="~/Content/images/userpic.png" class="ml-2" width='50' height='50' style="border-radius: 50%;">
 
                                                     }
-                                                    <p class="text-secondary text-center">@x.cdate.Day @x.cdate.DayOfWeek @x.cdate.Year</p>
                                                 </div>
-                                                <div class="col-md-10">
+                                                <div class="col-md-10" style="display: inline-block; vertical-align: top;">
 
-                                                    <div class="clearfix"></div>
-                                                    <p>@au.FindById(x.user_id).UserName : @x.comment_desc</p>
+                                                   
+                                                    <p><b>@au.FindById(x.user_id).UserName</b> : @x.comment_desc</p>
+                                                    <p style="float: right">@x.cdate.Day @x.cdate.DayOfWeek @x.cdate.Year</p>
 
                                                 </div>
                                             </div>
@@ -176,27 +202,7 @@
                                     <h3 class="text-left">Customer hasn't created Story board yet.</h3>
                                     }
 </div>
-                    <div id="message" class="text-center">
-                        @if (ViewBag.srs_updated == true)
-                        {
-                            if ((int)(Session["project_srs_status"]) != 1)
-                            {
-                                <div class="alert alert-success" style="margin-left: 40px;">
-                                    <strong>Success!</strong> SRS Created and mail is sent to all Team members and customers.<br />
-                                    If you want to do any changes in that you can do it using customers feedback.
-                                </div>
-                            }
-                            else
-                            {
-                                <div class="alert alert-success" style="margin-left: 40px;">
-                                    <strong>Success!</strong> Software Requirement Specification is Updated.
-                                </div>
-                            }
-                            <script>
-                                $('#message').delay(5000).fadeOut(3000);
-                            </script>
-                        }
-                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -209,7 +215,11 @@
     $('#caretc').click(function () {
         console.log("hi");
         $(".nested").toggle();
-        $(this).addClass("fa-level-down").removeClass("fas fa-caret-right");
+        if ($(this).hasClass("fas fa-caret-right")){
+            $(this).removeClass("fas fa-caret-right").addClass("fas fa-caret-down");
+        } else {
+            $(this).removeClass("fas fa-caret-down").addClass("fas fa-caret-right");
+        }
     });
 
 </script>
