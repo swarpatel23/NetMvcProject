@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using ProjectManagement_cum_feedback_systemMVC.Models;
 namespace ProjectManagement_cum_feedback_systemMVC.Controllers
 {
+    [Authorize]
     public class PostController : Controller
     {
         private Model1 db = new Model1();

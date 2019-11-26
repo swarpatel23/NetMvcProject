@@ -10,6 +10,7 @@ using ProjectManagement_cum_feedback_systemMVC.Models;
 
 namespace ProjectManagement_cum_feedback_systemMVC.Controllers
 {
+    [Authorize]
     public class TaskController : Controller
     {
         // GET: Task1
