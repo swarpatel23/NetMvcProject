@@ -14,6 +14,7 @@ using ProjectManagement_cum_feedback_systemMVC.Models;
 
 namespace ProjectManagement_cum_feedback_systemMVC.Controllers
 {
+    [Authorize]
     public class ProjectController : Controller
     {
         private Model1 m = new Model1();
@@ -30,48 +31,6 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
         public ActionResult Index()
         {
             return View();
-        }
-
-        [HttpGet]
-        [Authorize]
-        public ActionResult CreateProject()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult CreateProject(FormCollection form, HttpPostedFileBase picon)
-        {
-            
-                project p = new project();
-                p.project_title = form["ptitle"];
-                p.user_Id = User.Identity.GetUserId();
-                if (picon != null)
-                {
-                    string filename = Path.GetFileNameWithoutExtension(picon.FileName);
-                    string extension = Path.GetExtension(picon.FileName);
-                    filename = filename + DateTime.Now.ToString("yymmssff") + extension;
-                    p.project_icon = filename;
-                    string filepath = Path.Combine(Server.MapPath("~/Content/projecticons"), filename);
-                    picon.SaveAs(filepath);
-                }
-                else
-                {
-                    p.project_icon = "default.png";
-                }
-                m.projects.Add(p);
-                m.SaveChanges();
-                int id = p.Project_Id;
-
-                project_user pu = new project_user();
-                pu.user_Id = User.Identity.GetUserId();
-                pu.project_Id = id;
-                pu.role = Roles.admin;
-                m.project_users.Add(pu);
-                m.SaveChanges();
-            
-
-            return RedirectToAction("allUserProject");
         }
 
         [HttpGet]

@@ -24,10 +24,11 @@
         ViewBag.roleb = "notadmin";
     }
 
-    <div class="border border-dark" id="searchissue">
-    <div class="wrapper p-3" id="story" style="background-color: rgb(220, 220, 220);overflow-y: auto">
-    <b id="issuetitle1">Title : @pi.issue_title</b> <br />
-    <b id="issuetitle2">Description: @Html.Raw(pi.issue_desc)</b><br />
+    <div class="pb-3 wrapper-rounded m-3" id="searchissue">
+    <div id="story">
+    <br/>
+    <b class="ml-3" id="issuetitle1">Title : @pi.issue_title</b> <br />
+    <b class="ml-3" id="issuetitle2">Description: @Html.Raw(pi.issue_desc)</b><br />
     <div class="row nunito">
 
     <div class="col-3">
@@ -263,59 +264,59 @@
         </div>
 
     </div>
-    <div>
-    @{
-        int issueid = pi.issue_Id;
-        var issueuser = m.project_issue_assigns.Where(x => x.issue_Id == issueid);
-        ApplicationUserManager au = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
-        int c = 0, p = 0, f = 0;
-        foreach (project_issue_assign pia in issueuser)
-        {
-            <div></div>
-            DateTime suserdate = pia.startdate;
-            DateTime euserdate = pia.enddate;
-            DateTime today = DateTime.Now;
-
-            int v1 = DateTime.Compare(today, suserdate);
-            int v2 = DateTime.Compare(euserdate, today);
-
-            if (v1 >= 0 && v2 >= 0)
-            {
-                if (c == 0)
+        <div class="col-3">
+            @{
+                int issueid = pi.issue_Id;
+                var issueuser = m.project_issue_assigns.Where(x => x.issue_Id == issueid);
+                ApplicationUserManager au = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                int c = 0, p = 0, f = 0;
+                foreach (project_issue_assign pia in issueuser)
                 {
-                    <p style="display: block">Currently Working Team Members:</p>
-                }
-                <p style="color: green">@au.FindById(pia.user_Id).Email</p>
-                c++;
-            }
+                    <div></div>
+                    DateTime suserdate = pia.startdate;
+                    DateTime euserdate = pia.enddate;
+                    DateTime today = DateTime.Now;
 
-            if (v2 < 0)
-            {
-                if (p == 0)
-                {
-                    <p>Previously Worked Team Members:</p>
-                }
-                <p style="color: brown">@au.FindById(pia.user_Id).Email</p>
-                p++;
-            }
+                    int v1 = DateTime.Compare(today, suserdate);
+                    int v2 = DateTime.Compare(euserdate, today);
 
-            if (v1 < 0)
-            {
-                if (f == 0)
-                {
-                    <p>Working in Upcoming Dates:</p>
+                    if (v1 >= 0 && v2 >= 0)
+                    {
+                        if (c == 0)
+                        {
+                            <b class="ml-3" style="display: block">Currently Working Team Members:</b>
+                        }
+                        <p style="color: green" class="ml-3">@au.FindById(pia.user_Id).Email</p>
+                        c++;
+                    }
+
+                    if (v2 < 0)
+                    {
+                        if (p == 0)
+                        {
+                            <b class="ml-2">Previously Worked Team Members:</b>
+                        }
+                        <p style="color: brown" class="ml-3">@au.FindById(pia.user_Id).Email</p>
+                        p++;
+                    }
+
+                    if (v1 < 0)
+                    {
+                        if (f == 0)
+                        {
+                            <b class="ml-2">Working in Upcoming Dates:</b>
+                        }
+                        <p style="color: blue" class="ml-3">@au.FindById(pia.user_Id).Email</p>
+                        f++;
+                    }
+
                 }
-                <p style="color: blue">@au.FindById(pia.user_Id).Email</p>
-                f++;
             }
-            
-        }
-    }
+        </div>
     </div>
     </div>
     </div>
-    </div>
-    <br/>
+    @*<br/>*@
                                     }
 </div>
 
