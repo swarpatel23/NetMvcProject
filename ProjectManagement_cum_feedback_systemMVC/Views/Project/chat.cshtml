@@ -4,7 +4,7 @@
 @using ProjectManagement_cum_feedback_systemMVC.Models
 @model ProjectManagement_cum_feedback_systemMVC.Models.project_message
 @{
-    ViewBag.Title = "chat";
+    ViewBag.Title = "Chat";
 }
 @{
     <link rel="stylesheet" href="../../Content/css/style.css">
@@ -20,7 +20,9 @@
 
         div.panel-body {
             overflow: scroll;
-            background: url('https://subtlepatterns.com/patterns/geometry2.png');
+            background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);
+
+
         }
 
         body > div.container-fluid > div > div.col-9 > div > div > div > a {
@@ -38,9 +40,9 @@
             color: #868e96;
         }
 
-            body > div.container-fluid > div > div.col-2 > div:nth-child(2) > div > a:hover {
-                color: black;
-            }
+        body > div.container-fluid > div > div.col-2 > div:nth-child(2) > div > a:hover {
+            color: black;
+        }
 
         .my-active {
             color: black;
@@ -65,75 +67,73 @@
 
 <div class="container-fluid">
     <div class="row m-1">
-        @Html.Partial("_ProjectPartial","chat")
+        @Html.Partial("_ProjectPartial", "chat")
 
 
 
         <div class="col-10">
             <div class="container-flex p-4 bg-white wrapper-rounded" style="min-height: 650px;">
                 <h3 class="nunito mb-3">
-                    ChatBox
+                    ChatBox <i class="fa fa-paper-plane fa-fw"></i>
                 </h3>
 
                 <div class="chat-panel panel panel-default">
-                    <div class="panel-heading">
-                        Chats
-                        <i class="fa fa-paper-plane fa-fw"></i>
-                    </div>
                     <br />
                     <!-- /.panel-heading -->
-                    <div class="panel-body" id="chat" style="height:350px;">
+                    <div class="panel-body wrapper-rounded" id="chat" style="height:350px;">
                         <input type="hidden" id="displayname" value="@Session["username"]" />
                         <input type="hidden" id="projname" value="@Session["project_id"]" />
                         <input type="hidden" id="userId" value="@Session["userId"]" />
                         <input type="hidden" id="userpic" value="@Session["userpic"]" />
-                        <p id="discussion">                       
+                        <p id="discussion">
                             @{
-                                DateTime d  = new DateTime();
+                                DateTime d = new DateTime();
                                 ApplicationUserManager au = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
                                 foreach (project_message pm in ViewBag.previousmsgs)
                                 {
 
                                     if (pm.msgtime.ToString("dd/M/yyyy", CultureInfo.InvariantCulture) != d.ToString("dd/M/yyyy", CultureInfo.InvariantCulture))
                                     {
-                                        <p class="text-center">@pm.msgtime.Day,@pm.msgtime.ToString("MMMM") @pm.msgtime.Year</p>
+                                    <p class="text-center"><span  class="wrapper-rounded  m-1 pt-1 pb-1 pl-3 pr-3" style="background-color: #59D2FE;">@pm.msgtime.Day,@pm.msgtime.ToString("MMMM") @pm.msgtime.Year</span></p>
                                         d = pm.msgtime;
                                     }
 
                                     string userphoto1 = au.FindById(pm.userId).UserPhoto;
                                     if (pm.userId == User.Identity.GetUserId())
                                     {
-                                        <p style="color: blue; text-align: right;">
-                                            @pm.messages
+                                        <p style="color: black; text-align: right;">
+                                            <span class="wrapper-rounded bg-white m-1 pt-1 pb-1 pl-3 pr-3">@pm.messages</span>
                                             <strong>
                                                 @if (userphoto1 != null)
                                                 {
-                                                    <img width="50" height="50" style="border-radius: 50%; object-fit: cover;" src="../../Content/userphotos/@userphoto1" title="@pm.username">
+                                                    <img width="50" height="50" style="border-radius: 50%; object-fit: cover;" src="../../Content/userphotos/@userphoto1" title="@pm.username" class="mr-3">
                                                 }
                                                 else
                                                 {
-                                                    <img width="50" height="50" style="border-radius: 50%; object-fit: cover;" src="../../Content/images/userpic.png" title="@pm.username">
+                                                    <img width="50" height="50" style="border-radius: 50%; object-fit: cover;" src="../../Content/images/userpic.png" title="@pm.username" class="mr-3">
                                                 }
                                             </strong>
                                         </p>
                                     }
                                     else
                                     {
-                                        <p style="color: green; text-align: left;">
+                                        <p style="color: black; text-align: left;">
                                             <strong>
-                                                @if (userphoto1 != null) { 
-                                                    <img width="50" height="50" style="border-radius: 50%; object-fit: cover;" src="../../Content/userphotos/@userphoto1" title="@pm.username">
+                                                @if (userphoto1 != null)
+                                                {
+                                                    <img width="50" height="50" style="border-radius: 50%; object-fit: cover;" src="../../Content/userphotos/@userphoto1" title="@pm.username" class="ml-3">
                                                 }
                                                 else
                                                 {
-                                                    <img width="50" height="50" style="border-radius: 50%; object-fit: cover;" src="../../Content/images/userpic.png" title="@pm.username">
+                                                    <img width="50" height="50" style="border-radius: 50%; object-fit: cover;" src="../../Content/images/userpic.png" title="@pm.username" class="ml-3">
                                                 }
-                                            </strong> @pm.messages
+                                            </strong>
+                                            <span class="wrapper-rounded bg-white m-1 pt-1 pb-1 pl-3 pr-3">@pm.messages</span>
                                         </p>
                                     }
 
                                 }
-                               
+
                             }
                             <div id="endmsg"></div>
                             </p>
@@ -162,8 +162,9 @@
     </div>
 
     <script>
-        $('#chat').scrollTop($('#chat')[0].scrollHeight);
+
         $(document).ready(function () {
+            $('#chat').scrollTop($('#chat')[0].scrollHeight);
             $('#sendmessage').click(function () {
 
                 var mes = $("#message").val();
@@ -202,10 +203,10 @@
         });
 
 
-       
 
 
-        
+
+
         function OnSuccess(response) {
             var message = "Person Id: " + response.PersonId;
             message += "\nName: " + response.Name;
@@ -224,32 +225,32 @@
     <script src="~/Scripts/jquery.signalR-2.4.1.min.js"></script>
     <!--Reference the autogenerated SignalR hub script. -->
     <script src="~/signalr/hubs"></script>
-<!--SignalR script to update the chat page and send messages.-->
+    <!--SignalR script to update the chat page and send messages.-->
 
 
     <script>
         $(function () {
             // Reference the auto-generated proxy for the hub.
             var chat = $.connection.chatHub;
-            
+
             // Create a function that the hub can call back to display messages.
-            chat.client.addNewMessageToPage = function (name, projname, message,pix) {
-                var pic = "../../Content/userphotos/"+pix;
+            chat.client.addNewMessageToPage = function (name, projname, message, pix) {
+                var pic = "../../Content/userphotos/" + pix;
                 if (pix == "")
                     pic = "../../Content/images/userpic";
-                
+
 
                 if (projname == $("#projname").val().toString()) {
                     if (name != $("#displayname").val().toString()) {
                         // Add the message to the page.
-                        $('#endmsg').before('<p style="color:green; text-align:left; width:500px"><strong><img width="50" height="50" style="border-radius: 50%;" src=' + pic + ' title=' + name + '>'
-                            + ' </strong> ' + htmlEncode(message) + '</p>');
-                        
+                        $('#endmsg').before('<p style="text-align:left; width:500px"><strong><img class="ml-3" width="50" height="50" style="border-radius: 50%;" src=' + pic + ' title=' + name + '>'
+                            + ' </strong><span class="wrapper-rounded bg-white m-1 pt-1 pb-1 pl-3 pr-3"> ' + htmlEncode(message) + '</span></p>');
+
 
                     }
                     else {
                         // Add the message to the page.
-                        $('#endmsg').before('<p style="color:blue;text-align:right;"> ' + htmlEncode(message) + '<strong><img width="50" height="50" style="border-radius: 50%;" src=' + pic + ' title=' + name + '>'
+                        $('#endmsg').before('<p style="text-align:right;"><span class="wrapper-rounded bg-white m-1 pt-1 pb-1 pl-3 pr-3"> ' + htmlEncode(message) + '</span><strong><img class="mr-3" width="50" height="50" style="border-radius: 50%;" src=' + pic + ' title=' + name + '>'
                             + ' </strong></p>');
                     }
                     $('#chat').scrollTop($('#chat')[0].scrollHeight);
@@ -264,11 +265,11 @@
             // Set initial focus to message input box.
             $('#message').focus();
             // Start the connection.
-           
+
             $.connection.hub.start().done(function () {
                 $('#sendmessage').click(function () {
                     // Call the Send method on the hub.
-                   
+
                     chat.server.send($('#displayname').val(), $('#projname').val(), $('#message').val(), $('#userpic').val());
                     // Clear text box and reset focus for next comment.
                     $('#message').val('').focus();
@@ -283,7 +284,7 @@
         $('#chat').scrollTop($('#chat')[0].scrollHeight);
 
     </script>
-    
+
 
 
 

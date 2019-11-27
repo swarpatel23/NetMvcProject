@@ -5,7 +5,7 @@
 @using ProjectManagement_cum_feedback_systemMVC.Models
 @model ProjectManagement_cum_feedback_systemMVC.Models.project_user
 @{
-    ViewBag.Title = "CreateProject";
+    ViewBag.Title = "Team Members";
 }
 
 
@@ -204,7 +204,7 @@
                                 <div class="col-3">
                                     <div class="profile-item">
                                         <div class="d-flex align-items-center pt-1">
-                                            @x.Email
+                                            <a href="mailto:@x.Email">@x.Email</a>
                                         </div>
                                     </div>
                                 </div>
@@ -286,7 +286,7 @@
                                 <div class="col-3">
                                     <div class="profile-item">
                                         <div class="d-flex align-items-center pt-1">
-                                            @x.Email
+                                            <a href="mailto:@x.Email">@x.Email</a>
                                         </div>
                                     </div>
                                 </div>

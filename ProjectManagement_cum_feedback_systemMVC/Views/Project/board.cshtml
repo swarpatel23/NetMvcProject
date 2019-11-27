@@ -78,24 +78,28 @@
             $("#modal-status").html("<h4>Work</h4> Not Assigned");
         }
         switch (priority) {
-            case "0":
-                pri_html = "<h4>Priority</h4> Very Low";
-                break;
-            case "1":
-                pri_html = "<h4>Priority</h4> Low ";
-                break;
-            case "2":
-                pri_html = "<h4>Priority</h4> High ";
-                break;
-            case "3":
-                pri_html = "<h4>Priority</h4> Very high ";
-                break;
+        case "0":
+            pri_html = "<h4>Priority</h4> Very Low";
+            break;
+        case "1":
+            pri_html = "<h4>Priority</h4> Low ";
+            break;
+        case "2":
+            pri_html = "<h4>Priority</h4> High ";
+            break;
+        case "3":
+            pri_html = "<h4>Priority</h4> Very high ";
+            break;
         }
         $("#modal-priority").html(pri_html);
         $("#modal-heading").html(title);
         $("#myModal").modal();
     }
 </script>
+@{
+    ViewBag.title = "Board";
+}
+
 <div class="container-fluid">
     <div class="row m-1">
         @Html.Partial("_ProjectPartial", "board")

@@ -64,6 +64,10 @@
         </style>
     }
 }
+@{
+    ViewBag.title = "Questions";
+}
+
 <input type="hidden" name="uid" id="uid" value='@Session["user_id"]' />
 <script>
     var logeduser = $("#uid").val();

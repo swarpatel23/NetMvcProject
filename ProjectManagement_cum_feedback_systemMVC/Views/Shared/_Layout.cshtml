@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title</title>
     @*@Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")*@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -40,7 +40,7 @@
         <div class="collapse navbar-collapse nunito" id="mainnavbar">
             <ul class="navbar-nav  ml-auto" style="font-size: 1.1em;">                
                 <li class="nav-item">
-                    <a class="nav-link" href="#"  style="color:white;">Contact Us</a>
+                    @Html.ActionLink("Contact Us", "Contact", "Home", routeValues: null, htmlAttributes: new { title = "contact us", @class = "nav-link",@style="color:white;" })
                 </li>
 
 
