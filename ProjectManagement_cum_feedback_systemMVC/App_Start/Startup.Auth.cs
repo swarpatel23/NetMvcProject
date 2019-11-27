@@ -54,9 +54,9 @@ namespace ProjectManagement_cum_feedback_systemMVC
             //   consumerKey: "",
             //   consumerSecret: "");
 
-             app.UseFacebookAuthentication(
-                 appId: "533378617456614",
-                 appSecret: "9f024f13e2b1c10a9ee3102ac3bf214e");
+             //app.UseFacebookAuthentication(
+             //    appId: "533378617456614",
+             //    appSecret: "9f024f13e2b1c10a9ee3102ac3bf214e");
 
             app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             {
