@@ -216,10 +216,19 @@
                         <i class="fa fa-search"></i>
                     </span>
                 </div>
+                
                 @if (!Session["user_project_role"].ToString().Equals("customer"))
                 {
                     <div class="btn-wrap mt-3">
                         <button class="btn nunito edit-btn" data-toggle="modal" data-target="#addpostmodal">
+                            Create Post
+                        </button>
+                    </div>
+                }
+                else
+                {
+                    <div class="btn-wrap mt-3">
+                        <button class="btn nunito edit-btn" data-toggle="modal" data-target="#addpostmodal" style="visibility:hidden">
                             Create Post
                         </button>
                     </div>

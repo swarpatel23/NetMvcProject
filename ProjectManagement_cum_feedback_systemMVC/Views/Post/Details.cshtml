@@ -1,5 +1,8 @@
 ﻿@using ProjectManagement_cum_feedback_systemMVC.Models
 @using System;
+@using System.Globalization
+@using Microsoft.AspNet.Identity
+@using Microsoft.AspNet.Identity.Owin
 
 @section Scripts {
     <link rel="stylesheet" href="../../Content/css/style.css">
@@ -206,10 +209,25 @@
                     <div class="row p-3 wrapper-rounded m-3 nunito">
                         <div class="col-1">
 
+                            @{ 
+
+                                ApplicationUserManager au = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                                string userphoto1 = au.FindById(comment.user_Id).UserPhoto;
+
+                            }
                             <div class="d-flex align-items-center"
                                  style="font-size: 1.1rem; font-weight: 600;">
-                                <img src="~/Content/images/userpic.png" alt="profile" style="width: 80px;"
-                                     class="circle-profile">
+                                
+                                @if (userphoto1 != null)
+                                {
+                                    <img src="../../Content/userphotos/@userphoto1" alt="profile" style="width: 80px;"
+                                         class="circle-profile" title="@au.FindById(comment.user_Id).UserName">
+                                }
+                                else
+                                {
+                                    <img src="../../Content/userphotos/userpic.png" alt="profile" style="width: 80px;"
+                                         class="circle-profile" title="@au.FindById(comment.user_Id).UserName">
+                                }
                             </div>
 
                         </div>
