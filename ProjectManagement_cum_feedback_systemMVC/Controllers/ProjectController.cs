@@ -165,7 +165,7 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
                 mail.Subject = "Notification From Canny";
                 mail.Body = "You added as team member in project- " + ViewBag.project_title +
                             " .In future admin will assign you work. get ready for work.";
-                smtp.Send(mail);
+                //smtp.Send(mail);
             }
 
             MailMessage umail = new MailMessage();
@@ -191,7 +191,7 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
                     }
                 }
             }
-
+            /*
             if (umail.To.Count != 0)
             {
                 umail.From = new MailAddress("ddumvc@gmail.com");
@@ -201,6 +201,7 @@ namespace ProjectManagement_cum_feedback_systemMVC.Controllers
                 smtp.Send(umail);
 
             }
+            */
 
             var teammodel = m.project_users.Where(x => x.project_Id == projectid && x.role==Roles.teammember);
 

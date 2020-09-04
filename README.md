@@ -5,18 +5,19 @@ board for their requirements and according to that story board team members and 
 
 ## Prerequisite
 
-* **ASP.NET MVC** and **Visual Studio 2015**
-* **MS SQL Server** as database back-end.
-  * **Entity Framework 6** to access your database.
-  * Perform all the **migrations** to create tables in Visual Studio.
+- **ASP.NET MVC** and **Visual Studio 2015**
+- **MS SQL Server** as database back-end.
+  - **Entity Framework 6** to access your database.
+  - Perform all the **migrations** to create tables in Visual Studio.
 
 ### Steps to execute project
 
 3. Create an empty project in Visual Studio and copy all the files listed in the **.gitignore** file.
 
-2. Go to nuGet package Manager Console and add/update following dependencies :
- * Signal R
- * Owin
+4. Go to nuGet package Manager Console and add/update following dependencies :
+
+- Signal R
+- Owin
 
 3. Go to PM Console and type following command:
 
@@ -26,20 +27,44 @@ board for their requirements and according to that story board team members and 
 > Update Database
 ```
 
-4. Buid the project using ``` Ctrl+Shift+B```
+4. Buid the project using ` Ctrl+Shift+B`
 
-5. Run the project using ```Ctrl+F5```
+5. Run the project using `Ctrl+F5`
 
 6. The Project will start in the browser on the following link
+
 ```
 http://localhost:44300
 ```
 
+## Screenshots
+
+</br>
+
+![](screenshot/frontpage.png)
+![](screenshot/frontpage2.png)
+![](screenshot/login.png)
+![](screenshot/register.png)
+![](screenshot/profile.png)
+![](screenshot/createProject.png)
+![](screenshot/projects.png)
+![](screenshot/addteam_cust.png)
+![](screenshot/addedsuccess.png)
+![](screenshot/chatbox.png)
+![](screenshot/createStoryBoard.png)
+![](screenshot/createSRS.png)
+![](screenshot/addissue.png)
+![](screenshot/addissue1.png)
+![](screenshot/assignIssue.png)
+![](screenshot/Questions.png)
+![](screenshot/Task.png)
+![](screenshot/gantt.png)
+
 ## Authors
 
-* **Swar Patel** - 
-    *Profile Management,Error Handling,Issue Assign Management,Team Member Management,SRS and Story Board Management,Project Creation Handling* - [Swar Patel](https://github.com/swarpatel23)
-* **Vyom Pathak** - 
-    *Authenticaltion and Autorization Handling,External Login,Chat Functionality,Issue Management* - [Vyom Pathak](https://github.com/01-vyom)
-* **Priyank Chaudhari** - 
-    *Whole Project CSS and Javascript,Board management,Posts and Task Management,Roadmap Management* - [Priyank Chaudhari](https://github.com/pc810)
+- **Swar Patel** -
+  _Profile Management,Error Handling,Issue Assign Management,Team Member Management,SRS and Story Board Management,Project Creation Handling_ - [Swar Patel](https://github.com/swarpatel23)
+- **Vyom Pathak** -
+  _Authenticaltion and Autorization Handling,External Login,Chat Functionality,Issue Management_ - [Vyom Pathak](https://github.com/01-vyom)
+- **Priyank Chaudhari** -
+  _Whole Project CSS and Javascript,Board management,Posts and Task Management,Roadmap Management_ - [Priyank Chaudhari](https://github.com/pc810)

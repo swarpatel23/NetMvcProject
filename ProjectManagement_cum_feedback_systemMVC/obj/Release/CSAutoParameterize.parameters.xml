@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="DefaultConnection-Web.config Connection String" description="DefaultConnection Connection String used in web.config by the application to access the database." defaultValue="Data Source=(LocalDb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\aspnet-ProjectManagement_cum_feedback_systemMVC-20191031102604.mdf;Initial Catalog=aspnet-ProjectManagement_cum_feedback_systemMVC-20191031102604;Integrated Security=True" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="E:\\DOTNET\ Project\\NetMvcProject\\ProjectManagement_cum_feedback_systemMVC\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DefaultConnection']/@connectionString" />
+  </parameter>
+  <parameter name="Model11-Web.config Connection String" description="Model11 Connection String used in web.config by the application to access the database." defaultValue="Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=&quot;E:\DOTNET Project\NetMvcProject\ProjectManagement_cum_feedback_systemMVC\App_Data\Model1.mdf&quot;;Integrated Security=True" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="E:\\DOTNET\ Project\\NetMvcProject\\ProjectManagement_cum_feedback_systemMVC\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='Model11']/@connectionString" />
+  </parameter>
+  <parameter name="Model11_DatabasePublish-Web.config Connection String" description="Model11_DatabasePublish Connection String used in web.config by the application to access the database." defaultValue="Model11_DatabasePublish.ConnetionString" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="E:\\DOTNET\ Project\\NetMvcProject\\ProjectManagement_cum_feedback_systemMVC\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='Model11_DatabasePublish']/@connectionString" />
+  </parameter>
+</parameters>

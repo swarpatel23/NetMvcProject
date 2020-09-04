@@ -1,5 +1,5 @@
 {
-  "FilePath": "c:\\Users\\HP WORLD\\Desktop\\CANNY\\mvcmain\\NetMvcProject\\ProjectManagement_cum_feedback_systemMVC\\ProjectManagement_cum_feedback_systemMVC.csproj",
+  "FilePath": "c:\\Users\\HP WORLD\\Desktop\\github\\canny\\WDDN_1920_Canny_CE97_CE100_CE105\\NetMvcProject\\ProjectManagement_cum_feedback_systemMVC\\ProjectManagement_cum_feedback_systemMVC.csproj",
   "Configuration": {
     "ConfigurationName": "UnsupportedRazor",
     "LanguageVersion": "1.0",
@@ -11,7 +11,7 @@
   },
   "ProjectWorkspaceState": {
     "TagHelpers": [],
-    "CSharpLanguageVersion": 800
+    "CSharpLanguageVersion": 703
   },
   "RootNamespace": null,
   "Documents": [],
