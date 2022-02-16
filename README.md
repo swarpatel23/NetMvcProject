@@ -1,4 +1,4 @@
-# Project Management Website [ Canny ]
+# Project Management Website
 
 This website includes the tools and techniques required to deliver your projects successfully. It gives customers to create Story
 board for their requirements and according to that story board team members and admin create SRS and finalize the SRS which customer can see. Customer can also comment on SRS so that it can be tweaked. Also all the users can chat with each other using chat functionality. Customers can also create posts and all the users can comment and upvote on those posts. according to the posts admin creates the issues of the project and assign the issues to the team members. Admin also creates the gant chart so that all the team members can see the timeline of the project. All users can change their profiles acording to their needs.
